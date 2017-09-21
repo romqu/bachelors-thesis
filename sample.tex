@@ -1,14 +1,15 @@
 \documentclass[11pt]{scrartcl}
 
-% font, language
+
+
+%\usepackage{ucs}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 \usepackage{csquotes}
 
-% graphics
+
 \usepackage{graphicx}
-\graphicspath{ {images/} }
 
 % code highlighting
 \usepackage{listings}
@@ -17,35 +18,67 @@
 	language=Java
 }
 
-% bib
 \usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
-\bibliography{references/references}
+\bibliography{bibsample}
 
 \title{Exposè zur Bachelor-Thesis}
 \author{Roman Quistler}
 
+
 \begin{document}
 	
-	\include{titlepage}
-	
+	\maketitle
 	\pagenumbering{gobble}
 	\newpage
 	\tableofcontents
 	\newpage
-	\pagenumbering{arabic}	
+	\pagenumbering{arabic}
+	
 	
 	\section{Section}
 	\label{sec:einleitende-worte}
-		
-	Random citation \autocite[1]{DUMMY:1} embeddeed in text.This is some example text\footnote{\label{myfootnote}Hello footnote}.
+	
+	A picture!
+
+	\begin{figure}[h!]
+		\includegraphics[width=\linewidth]{images/rxjava.png}
+		\caption{Picture}
+		\label{pic:pic1}
+	\end{figure}
+	
+	Picture \ref{pic:pic1} shows a boat.
+
+	\subsection{Subsection}
+	
+	Random citation \autocite[1]{DUMMY:1} embeddeed in text.
+	
+	\subsubsection{Subsubsection}
+	
+	More text.
+	
+	This is some example text\footnote{\label{myfootnote}Hello footnote}.
 	I'm referring to footnote \ref{myfootnote}.
 	
+	\paragraph{Paragraph}
+	
+	Some more text.
+	
+	\begin{lstlisting}
+		public class A {}
+	\end{lstlisting}
+	
+	\subparagraph{Subparagraph}
+	
+	Even more text.
+	
+	\section{Another section}
+	
 	\newpage
-		
+	
 	\begin{appendix}
 		\listoffigures
 	\end{appendix}
 	
 	\printbibliography
-		
+	
 \end{document}
