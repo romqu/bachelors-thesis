@@ -1,10 +1,10 @@
-\documentclass[11pt]{scrartcl}
+\documentclass[a4paper, 11pt]{scrartcl}
 
 % font, language
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
-\usepackage{csquotes}
+\usepackage[autostyle]{csquotes}
 
 % graphics
 \usepackage{graphicx}
@@ -18,9 +18,10 @@
 }
 
 % bib
-\usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
-\bibliography{references/references}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
 
+% title, author
 \title{Exposè zur Bachelor-Thesis}
 \author{Roman Quistler}
 
@@ -36,16 +37,16 @@
 	
 	\section{Section}
 	\label{sec:einleitende-worte}
-		
-	Random citation \autocite[1]{DUMMY:1} embeddeed in text.This is some example text\footnote{\label{myfootnote}Hello footnote}.
-	I'm referring to footnote \ref{myfootnote}.
+
+	
+	Lorem ipsum dolor sit amet \cite{chomsky1957}.
 	
 	\newpage
-		
+	
 	\begin{appendix}
 		\listoffigures
 	\end{appendix}
 	
 	\printbibliography
-		
+	
 \end{document}
