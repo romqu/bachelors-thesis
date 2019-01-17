@@ -14,8 +14,12 @@
 \usepackage{listings}
 \usepackage{color}
 \lstset{ % General setup for the package
-	language=Java
+	language=java
 }
+
+% toc depth
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 % bib
 \usepackage[backend=biber]{biblatex}
@@ -27,19 +31,22 @@
 
 \begin{document}
 	
-	\include{titlepage}
+	\include{00-titelseite/titlepage}
 	
 	\pagenumbering{gobble}
 	\newpage
 	\tableofcontents
 	\newpage
-	\pagenumbering{arabic}	
+	\pagenumbering{arabic}
 	
-	\section{Section}
-	\label{sec:einleitende-worte}
-
+	\input{01-einleitung/einleitung}
 	
-	Lorem ipsum dolor sit amet \cite{chomsky1957}.
+	\section{Problemstellung und Lösungsansatz}
+	\label{sec:problemstellung-lösungsansatz}
+	
+	\subsection{Problemstellung}
+	
+	\subsection{Lösungsansatz}
 	
 	\newpage
 	
