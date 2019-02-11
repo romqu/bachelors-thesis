@@ -9,7 +9,8 @@
 \setmainfont{Latin Modern Roman}
 
 \usepackage{polyglossia}
-\setmainlanguage[babelshorthands=true]{german}
+%\setmainlanguage[babelshorthands=true]{german}
+\setmainlanguage{english}
 
 % \usepackage[ngerman]{babel}
 \usepackage[autostyle]{csquotes}
@@ -32,6 +33,14 @@
 % bib
 \usepackage[backend=biber]{biblatex}
 \addbibresource{references.bib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!0!black},
+	citecolor={blue!70!black},
+	urlcolor={blue!70!black}
+}
 
 % title, author
 \title{Exposè zur Bachelor-Thesis}
@@ -39,7 +48,7 @@
 
 \begin{document}
 	
-	\include{00-titelseite/titlepage}
+	\include{00-titlepage/titlepage}
 	
 	\pagenumbering{gobble}
 	\newpage
@@ -47,14 +56,14 @@
 	\newpage
 	\pagenumbering{arabic}
 	
-	\input{01-einleitung/einleitung}
+	\input{01-introduction/introduction}
 	
-	\section{Problemstellung und Lösungsansatz}
-	\label{sec:problemstellung-lösungsansatz}
+	\section{Problem and solution approach}
+	\label{sec:problem-solution-approach}
 	
-	\input{02-problemstellung/problemstellung}
+	\input{02-problem/problem}
 	
-	\subsection{Lösungsansatz}
+	\subsection{Solution approach}
 	
 	\newpage
 	
