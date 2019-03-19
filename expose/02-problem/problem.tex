@@ -3,21 +3,137 @@
 
 Today's applications seem to be increasing in complexity over the last few years. 
 Especially in the field of frontend development, the range of functions has increased \cite{kevin2018}.
-The web development has transitioned from server rendered, page-reloading websites to modern, so called single page applications.
+The web development has transitioned from server rendered, page-reloading websites, to modern so called single page applications or SPA's.
+The user 
 
-\begin{figure}[h]
-\includegraphics[width=0.97\textwidth]{google-trends-spa}
-\centering
-\caption{Google trends: single page application}
-\label{fig:google-trends-spa}
-\end{figure}
+But the same applies to the mobile world. Social networks, navigation, sharing and editing files together.
+The functionality that a application includes today
 
-In most cases, an application communicates with other interfaces, such as a back-end or local database.
-On mobile devices it's also often necessary to know the GPS status, whether mobile data is turned on off, and similar. 
+More functionality does thus in some sense translate into more conditions the application can be in. 
+
+Considering a simple login screen feature inside an android application. A user can provide authentication credentials
+in order to login. It's possible that a user enters wrong credentials, which in turn can be handled by the app by displaying
+a short description of what went wrong, like an error message.
+If the user then provides the wrong credentials more than three times, his user account could get locked. 
+This also in some way must be expressed by the application.
+He could also make use of the "Forgot Password" functionality. That could allow the user to navigate away from the application
+into a browser window instead in order to reset the password.
+
+%\fixme{correct tables for finite statemachine}
+% State Transition Table
+| State/Event | Logging in | Logging out |
+| Logged in | x | x |
+| Logged out | x | x |
+
+Immediately it becomes clear that there are already four possible states in which the application can be in.
+A developer thus ends up with states * events possible states which must be considered and handled appropriately.
+
+For example the application might be in the state of "logging in" and then a user tries to transition into
+the event of "logging in" again, which might not be desirable.
+ 
+The complexity for such a "simple" or at least standard feature grows linearly with the amount
+of states and events that are introduced into the application.
+
+With the increasing states and events it becomes harder and harder to have a general overview of all
+possible states.
+
+Given that a project grows and more and more functionality is added to the codebase, the more 
+important the state becomes and the harder it becomes to introduce state as an afterthought.
+
+In most cases \ref{unreferenced statement/claim}, an application communicates with other interfaces, such as a back-end or local database.
+On mobile devices it's also often necessary to know the GPS status, whether mobile data is enabled or not, etc. 
+
 A click of a user thus can cause many changes inside and outside of the application.
-A developer must be aware of all the possible outcomes, \todo{Talk about routing/user flow/navigation} react to them and save what has happened.
-The developer must manage the state. The problem is to find a good design pattern, which makes this task feasible. \todo{in such a way that it respects SOLID/DRY etc}
+A developer must be aware of all the possible outcomes, react to them and save what has happened.
+
+By increased application complexity the necessity to make sure the application behaves exactly
+as expected in all cases increases. This property in software development is referred to a deterministic system, 
+which states \ref{wiki-deterministic} that a deterministic model always produce the same output from a given starting
+condition or initial state. This is a desirable property because it makes it simpler to predict and reason about events and states
+in which the application can be within.
+
+The problem of opposite, nondeterministic software is thus that it makes the code less readable since
+it's impractical to gloss over the code to determine the potential output of a function call.
+
+Code readability becomes a vital part in codebases when they start growing in complexity and size. But also 
+when they are being worked on by more people than just the person who initially wrote it.
+
+~~productive in writing code instead of deciphering other peoples codes it becomes essential.~~
+
+A product of readability is another important property which is increased maintainability.
+Maintainability ties into the notion of not having to rewrite parts of the codebase
+that is not directly related to the functionality being added or modified.
+
+The arguably most well known remedy for this problem is the SOLID principle, first
+proposed by \ref{Robert C. Martin } in his paper \ref{Design Principles and Design Patterns}
+published in the year 2000.
+
+* Single responsibility principle
+* Open-closed principle
+* Liskov substitution principle
+* Interface segregation principle
+* Dependency inversion principle
+
+
+% Problem End -- Summary
+Thus far it can be summaries the problem to be that of maintainability, flexibility and readability.
+These are basic concepts that unless respected have a domino-like side-effects 
+
+And core to this problem is managing the applications state in a way that it can survive platform
+restrictions like for example unexpected process death or in android specifically a configuration change
+ie device rotation.
+
+~~Once this basic login feature is implemented another problem emerges which is to add more functionality
+like for example a 'protected view' which requires the user to be logged in 
+this view should not be reachable from the 'logged out' state without
+transition into 'logged in' state first.~~
+
+Side-problems solved by solution to main problem
+
+% Solution
+In the problem description it has been discussed a myriad of principles and design patterns
+to allow developers to reach maintainable, flexible and readable code in the context of the Android framework.
+
+But this becomes hard because there are so many, and context matters when it could be respected or ignored.
+
+These patterns and principles can sometimes not make sense in certain scenarios.
+
+Any pattern is only as good as how consistently it is implemented. 
+
+To try to help with this problem a helper library can be developed to remove the mundane
+and boring parts of this approach and let the developer focus on the application flow rather
+than implementation details needed just to achieve said desired flow.
+
+Since there are several ways to achieve this using different approaches this helper
+library will be opinionated.
+
+%* [x] Deterministic
+%* [x] Open for extension, closed for modification
+
+%* [x] Maintainability
+%    * [x] Code readability
+
+
+
+% # Problematic
+
+* Nondeterministic
+* Closed for extension, open for modification
+* Unreadable code
+* Unmaintainable code
+
+%\begin{figure}[h]
+%\includegraphics[width=0.97\textwidth]{google-trends-spa}
+%\centering
+%\caption{Google trends: single page application}
+%\label{fig:google-trends-spa}
+%\end{figure}
+
+The developer must thus manage the state. The problem is to find a good design pattern, which solves the state problem by not treating it as an afterthought. 
+
+\todo{in such a way that it respects SOLID/DRY etc}
 
 \todo{mention reactive programming}
 
 shared mutable state = bad
+% https://www3.nd.edu/~kogge/courses/cse30151-fa17/Public/other/tikz_tutorial.pdf

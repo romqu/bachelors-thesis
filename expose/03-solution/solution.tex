@@ -1,0 +1,54 @@
+\subsection{Solution}
+\label{subsec:solution}
+
+% ## Hypothesis
+A solution to the problem can lie in giving the developer a small and lightweight set of tools to help managing the state, 
+which also takes care of side effects caused by user interaction.
+
+\begin{enumerate}
+
+    \item State
+    \item Events
+    \item S.O.L.I.D
+    \item Functional 
+    \item Reactive
+    \item Clean code
+    \item DRY
+    \item MVI
+
+\end{enumerate}
+
+% #### Reactive
+Since user interactions are inherently asynchronous, in that a user clicks on the screen which trigger some action. 
+That being accessing a remote or local data source, or simply toggle between dark and light themes, one could leverage the concepts of reactive programming.
+To address the race-condition prone shared mutable state that plagues concurrent/reactive programming we want to use immutable state.
+
+% #### Functional programming
+Functional programming provides conecpts such as monads, pure functions (no side effects), and immutability and so referential transparenc.
+High-Order functions, declaritive.
+
+% #### Finite State Machine
+To be able to know which events and state the developer has to handle, a finite state machine \cite{fsmWikiPage} fits well into 
+this problem mainly because its possible to create a deterministic state machine.
+
+By writing a 'state transition table' the developer immediately knows all possible events and states that needs to be handled.
+This is useful because it makes it easier to plan the architecture of the application.
+
+% #### Immutability
+If we do not address mutable state while doing concurrent computing the application becomes non-deterministic
+which is bad since it will lead to unexpected behaivor and is defacto broken by design. 
+This is why the state must be immutable in a concurrent context.
+
+% ## Implementation
+This will be solved by writing a sort of helper library, which rather than advocating strict software design patterns
+guides the user into a type of workflow that is approporiate for a reactive environment with the concepts
+of Events, State and Side effects between those.
+
+\begin{enumerate}
+
+    \item code generation for shared.ofType
+    \item annotation @State, @Event, @SideEffect
+    \item Reactive kotlin helper library for finite state machine/workflow
+    \item 
+
+\end{enumerate}
