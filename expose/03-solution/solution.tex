@@ -1,10 +1,12 @@
 \subsection{Solution}
 \label{subsec:solution}
 
-% ## Hypothesis
+% Hypothesis
 In order to reduce the cognitive burden on the developer of managing the different conditions and 
 states the application can end up in, a small and lightweight (set of tools), yet opinionated library will be developed.
 
+% Intro, library core, functional 
+The library tries favouring a declaritive programming paradigm for its public api.
 The core of the library will consist of a "Mealy" machine. 
 The output of this finite state machine is determined by both its current state and inputs.
 The input reflects an "event" that took place in the user facing layer.
@@ -17,21 +19,24 @@ In addition to that immutability will play a significant role. It makes data str
 and thus removes possible and unwanted side effects. Thereby it also makes multi threading "safer".
 That "state" data structure will serve as the single source of truth.
 
-
 Antoher important part is to handle exceptions effecient. Often enough they are used to control the flow of
 the application. This can be seen as an anti pattern \cite{dontUseExceptionsForFlowControl}.
 Although it's up to the developer to decide what is considered a(n) exception/error/failur and what not, 
 the library can help to make it more convient.
 For this task, the library again uses a concept of functional programming called "monads".
-The exception handling will be facilitated by the use of the 'Either' monad.
+The exception handling is facilitated by the use of the 'Either' monad. 
 
+% talk about expression vs statements ?
+
+% Belongs to the end?
 The library must be deterministic and follow the principles of an unidirectional data flow. 
 It will force the developer to create something that comes close to a transition table and makes him 
 think about every state the application can possibly be in.
 
-
-
-To attack the problem of todays application being inherently asynchronous 
+% Reactive 
+To attack the problem of todays application being inherently asynchronous and developed with the use of multi threading,
+another abstraction layer is offered.
+That layer is build upon reactive (functional) programming. It 
 
 
 The state of the application should be observable and the library should provide
@@ -41,8 +46,7 @@ should work on streams, rather ...
 https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
 
-Declarative
-Imperative
+
 
 Due to the reasons discussed in the problem description, modern applications has 
 so many real-time UI events that there is really no 
