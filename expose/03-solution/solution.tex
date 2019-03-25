@@ -2,8 +2,83 @@
 \label{subsec:solution}
 
 % ## Hypothesis
-A solution to the problem can lie in giving the developer a small and lightweight set of tools to help managing the state, 
-which also takes care of side effects caused by user interaction.
+In order to reduce the cognitive burden on the developer of managing the different conditions and 
+states the application can end up in, a small and lightweight (set of tools), yet opinionated library will be developed.
+
+The core of the library will consist of a "Mealy" machine. 
+The output of this finite state machine is determined by both its current state and inputs.
+The input reflects an "event" that took place in the user facing layer.
+That "event" can be directly caused by the user (and his interactions) but is not mandatory to do so.
+Since a state machine is often defined purely in terms of mathematical functions with no reference to mutable state, 
+the library will heavily rely on concepts from functional programming that embodies these.
+
+Internally pure functions will be used whenever it's possible as a methodology to adhere a state machines functionality.
+In addition to that immutability will play a significant role. It makes data structures read only, limits them in their functionality 
+and thus removes possible and unwanted side effects. Thereby it also makes multi threading "safer".
+That "state" data structure will serve as the single source of truth.
+
+
+Antoher important part is to handle exceptions effecient. Often enough they are used to control the flow of
+the application. This can be seen as an anti pattern \cite{dontUseExceptionsForFlowControl}.
+Although it's up to the developer to decide what is considered a(n) exception/error/failur and what not, 
+the library can help to make it more convient.
+For this task, the library again uses a concept of functional programming called "monads".
+The exception handling will be facilitated by the use of the 'Either' monad.
+
+The library must be deterministic and follow the principles of an unidirectional data flow. 
+It will force the developer to create something that comes close to a transition table and makes him 
+think about every state the application can possibly be in.
+
+
+
+To attack the problem of todays application being inherently asynchronous 
+
+
+The state of the application should be observable and the library should provide
+a solution for asynchronous actions (side effects) out of the box. The developer
+should work on streams, rather ...
+
+https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
+
+
+Declarative
+Imperative
+
+Due to the reasons discussed in the problem description, modern applications has 
+so many real-time UI events that there is really no 
+other way to do it than reactively. Every single event might need to be immediately
+reflected into a type of persistant storage like a local or remote database.
+As said by Andreas Staltz \ref{https://gist.github.com/staltz/868e7e9bc2a7b8c1f754#why-should-i-consider-adopting-rp} on
+reactive programming:
+
+"Reactive Programming raises the level of abstraction of your code so you can 
+focus on the interdependence of events that define the business logic, 
+rather than having to constantly fiddle with a large amount of implementation details."
+
+Reactiveness also introduces the concept of streams or data streams, officially named 'Observable's in Rx libraries. On those we can apply operations
+like filter, sort or similiar.
+
+Reactivity gives us flexability, loosely coupled and scalable and it also makes it
+easier to deal with failures and they can also be handled gracefully.
+
+Reactiveness gives responsivness something that is of up most importance for a
+UI, even if a failure occurs.
+
+The reactiveness also provides the concept of 'dont call us, we call you' principle
+where streams or observables (as in source) will notify or emit data to the observer.
+ 
+This is a huge improvement compared to the counter which is polling-based approaches
+as in asking the source every so often if changes occurred.
+
+1. Core - Finite State Machine (Mealy)
+2. Functional programming
+3. Reactive
+4. Copy-on-write / immutability A technique that blends the advantages of mutable and immutable objects
+5.
+
+Moore machine only cares about its current state to achieve an output
+Mealy machine cares about its current state and the current inputs like events to reach
+a new output.
 
 \begin{enumerate}
 
@@ -52,3 +127,23 @@ of Events, State and Side effects between those.
     \item 
 
 \end{enumerate}
+
+In the problem description it has been discussed a myriad of principles and design patterns
+to allow developers to reach maintainable, flexible and readable code in the context of the Android framework.
+
+But this becomes hard since there are so many, and context matters when it could be respected or ignored.
+
+These patterns and principles can sometimes not make sense in certain scenarios.
+
+Any pattern is only as good as how consistently it is implemented. 
+
+To try to help with this problem a helper library can be developed to remove the mundane
+and boring parts of this approach and let the developer focus on the application flow rather
+than implementation details needed just to achieve said desired flow.
+
+Since there are several ways to achieve this using different approaches this helper
+library will be opinionated.
+
+It is essentially a library that facilitates a statemachine, but unlike most
+state machines it also encourages a certain type of workflow. It will thus be a opinionated
+library.
