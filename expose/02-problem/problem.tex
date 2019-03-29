@@ -19,7 +19,7 @@ This also in some way must be expressed by the application.
 He could also make use of the "Forgot Password" functionality. That could allow the user to navigate away from the application
 into a browser window instead in order to reset the password.
 
-%\fixme{correct tables for finite statemachine}
+% fixme{correct tables for finite statemachine}
 % State Transition Table
 | State/Event | Logging in | Logging out |
 | Logged in | x | x |
@@ -90,32 +90,11 @@ transition into 'logged in' state first.~~
 
 Side-problems solved by solution to main problem
 
-//begin rm
-% Solution
-In the problem description it has been discussed a myriad of principles and design patterns
-to allow developers to reach maintainable, flexible and readable code in the context of the Android framework.
-
-But this becomes hard because there are so many, and context matters when it could be respected or ignored.
-
-These patterns and principles can sometimes not make sense in certain scenarios.
-
-Any pattern is only as good as how consistently it is implemented. 
-
-To try to help with this problem a helper library can be developed to remove the mundane
-and boring parts of this approach and let the developer focus on the application flow rather
-than implementation details needed just to achieve said desired flow.
-
-Since there are several ways to achieve this using different approaches this helper
-library will be opinionated.
-//endrm
-
 %* [x] Deterministic
 %* [x] Open for extension, closed for modification
 
 %* [x] Maintainability
 %    * [x] Code readability
-
-
 
 % # Problematic
 
@@ -131,11 +110,12 @@ library will be opinionated.
 %\label{fig:google-trends-spa}
 %\end{figure}
 
-The developer must thus manage the state. The problem is to find a good design pattern, which solves the state problem by not treating it as an afterthought. 
+The developer must thus manage the state. The problem is to find a good design pattern, 
+which solves the state problem by not treating it as an afterthought. 
 
 \todo{in such a way that it respects SOLID/DRY etc}
 
 \todo{mention reactive programming}
 
-shared mutable state = bad
+% shared mutable state = bad
 % https://www3.nd.edu/~kogge/courses/cse30151-fa17/Public/other/tikz_tutorial.pdf
