@@ -9,11 +9,11 @@ Ein großer Teil der Applikationen steht somit auch im Austausch mit APIs, greif
 mit dem zugrundeliegenden System selbst (bswp. die periodische Erfassung des Standortes via GPS oder WiFi).
 Zusätzlich zu der Interaktion mit dem Nutzer und dessen Einfluss, muss die Anwendungen auf oben genannte Einflüsse reagieren können 
 und vorrausgegangene Ereignisse und deren Auswirkung speichern. Es muss bekannt sein, welche Zustände bei welchen Ereignissen eintreten
-können und welche nicht. Dies ist nötig, um eine zubeverlässige Funktionsweise einer Appliaktionen zu garantieren.
+können und welche nicht. Dies ist nötig, um eine zuverlässige Funktionsweise einer Appliaktionen zu garantieren.
 Folgendes Beispiel soll den Sachverhalt verdeutlichen:
 Der Nutzer befindet sich auf einem "Anmelden" Fenster. In diesem kann der Nutzer eine E-Mail-Adresse und ein Passwort eingeben.
 Darunter befindet sich ein herkömmlicher "Anmelden" Knopf. Des weiteren existiert die Möglichkeit auf "Passwort vergessen?" zu klicken.
-Folgende Zustände können hierbei eintreten:
+Die folgenden Zustände können hierbei eintreten:
 
 \begin{itemize}
     \item Die E-Mail-Adresse ist nicht zulässig und das Passwort Feld leer
@@ -59,10 +59,6 @@ Folgende Zustände können hierbei eintreten:
 \end{itemize}
 
 Anhand dessen wird sichtbar, wie viele Ereignisse und Zustände bereits aus einer simplen Funktion wie "Annmelden" hervorgehen.
-Die oben aufgezeigte Problematik ist ein Faktor, der dazu führen kann, dass die Implementierung einer Funktion (hier: Anmelden),
-nicht alle möglichen Zustände/Fälle abdeckt. Dies wiederum lässt etwas zu, das einem nichtdeterministisches Verhalten gleichkommt.
-Ein Ereignis, das nicht bedient wird, könnte unerwartete Komplikationen hervorrufen.
-Zusätzlich, wie in den meisten Systemen ohn Struktur, verleitet dies zu unleserlichem Quellcode.
 Die Schwiriegkeit die hierbei unter anderem entsteht, ist, die Fülle an möglichen Zuständen zu konkretisieren und 
 formal als auch inhaltlich "ansprechend" darzustellen/zu beschreiben.
 Wie sollte die Struktur eines Programmes aufgebaut/organisiert werden, wenn man Zustandsorientiert arbeitet?
@@ -70,13 +66,19 @@ Wirft der Entwickler einen Blick auf die Implementierung  einer Funktion (wie da
 ist oft nicht gleich ersichtlich, welche Zustände insgemein existieren.
 Überhaupt ist es oft kompliziert, den Ablauf eines Programmes ohne größen Aufwand nachzuvollziehen.
 Dazu gesellt sich zwangsläufig die Frage, auf welche Art und Weise ein Zustand ünberhaupt definiert wird. 
-Wird er dynamisch, anhand eines hinterlegten Regelwerks gebildet, oder ist er von Beginn an festgelegt? 
+Wird er dynamisch, anhand eines hinterlegten Regelwerks gebildet, oder ist er von Beginn an festgelegt?
+% --> mutable state -> bad
+% --> Zustände verstreut
 Nicht weniger unherheblich ist, wie der Übergang von einem Zustand in einen anderen Zustand erfolgt und was 
 genau der Initiator eines Übergang ist.
-Ein weitere, nicht zu unterschätzende Problematik ist die bereits erwähnte asynchrone Kommunikation,
-bzw. das oft angewendete "Multi Threading" in heutigen Appliaktionen.
-Dies führt zu sogenannten "Side effects" und erschwert es, den Ablauf eines Programmes nachzuvollziehen.
-(Callback Hell)
+Ein weitere, nicht zu unterschätzende Problematik ist die asynchrone Programmierung bzw. "Multi Threading",
+welches in heutigen Appliaktionen immer öfters Anwendung findet. Soll in einer Android Appliktionen bspw. auf das Internet
+zugegriffen werden, ist der Einsatz eines zusätzlichen "Thread" pflicht.
+Dies führt unter Umständen zu sogenannten "Side effects" und trägt dazu bei, das der Quellcode unleserlich wird.(Callback Hell)
+
+% Die oben aufgezeigte Problematik ist ein Faktor, der dazu führen kann, dass die Implementierung einer Funktion (hier: Anmelden),
+% nicht alle möglichen Zustände/Fälle abdeckt. Dies wiederum lässt etwas zu, das einem nichtdeterministisches Verhalten gleichkommt.
+% Ein Ereignis, das nicht bedient wird, könnte unerwartete Komplikationen hervorrufen.
 
 % Zustandsorientiert programmieren
 % formale Beschreibung
