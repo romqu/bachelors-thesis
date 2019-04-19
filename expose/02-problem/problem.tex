@@ -64,21 +64,22 @@ formal als auch inhaltlich "ansprechend" darzustellen/zu beschreiben.
 Wie sollte die Struktur eines Programmes aufgebaut/organisiert werden, wenn man Zustandsorientiert arbeitet?
 Wirft der Entwickler einen Blick auf die Implementierung  einer Funktion (wie das obige Beispiel des Vorgangs des Anmeldens), 
 ist oft nicht gleich ersichtlich, welche Zustände insgemein existieren.
+Dies kann mitunter daran liegen, dass Attribute die einen Zustand bestimmen, sich an unterschiedlichen Orten innerhalb
+einer Implementation befinden. (In Android bswp. im Fragment und im Presenter zugleich)
+Es ist sogar möglich, dass ein Zustand von anderen Eigenschaften (is der Knopf aktiviert?) bei jeder Anfrage abgeleitet wird,
+anstatt diesen zu hinterlegen.
 Überhaupt ist es oft kompliziert, den Ablauf eines Programmes ohne größen Aufwand nachzuvollziehen.
-Dazu gesellt sich zwangsläufig die Frage, auf welche Art und Weise ein Zustand ünberhaupt definiert wird. 
+Dazu gesellt sich zwangsläufig die Frage, auf welche Art und Weise ein Zustand überhaupt definiert wird. 
 Wird er dynamisch, anhand eines hinterlegten Regelwerks gebildet, oder ist er von Beginn an festgelegt?
-% --> mutable state -> bad
-% --> Zustände verstreut
 Nicht weniger unherheblich ist, wie der Übergang von einem Zustand in einen anderen Zustand erfolgt und was 
 genau der Initiator eines Übergang ist.
+Kommt dafür ausschließlich der Nutzer in Frage, oder auch das zugrundeliegende System? Und wird semantisch dabei unterschieden? 
 Ein weitere, nicht zu unterschätzende Problematik ist die asynchrone Programmierung bzw. "Multi Threading",
 welches in heutigen Appliaktionen immer öfters Anwendung findet. Soll in einer Android Appliktionen bspw. auf das Internet
-zugegriffen werden, ist der Einsatz eines zusätzlichen "Thread" pflicht.
-Dies führt unter Umständen zu sogenannten "Side effects" und trägt dazu bei, das der Quellcode unleserlich wird.(Callback Hell)
-
-% Die oben aufgezeigte Problematik ist ein Faktor, der dazu führen kann, dass die Implementierung einer Funktion (hier: Anmelden),
-% nicht alle möglichen Zustände/Fälle abdeckt. Dies wiederum lässt etwas zu, das einem nichtdeterministisches Verhalten gleichkommt.
-% Ein Ereignis, das nicht bedient wird, könnte unerwartete Komplikationen hervorrufen.
+zugegriffen werden, ist der Einsatz eines zusätzlichen "Thread" un­ab­ding­bar.
+In der Kombination mit veränderlichen Attributen kann dies zu sogenannten "Side effects" führen und trägt dazu bei, 
+dass der Quellcode unleserlich wird. Auch ensteht daraus gerne das sogenannte Callbackhell Problem.
+Es wird deutlich ...
 
 % Zustandsorientiert programmieren
 % formale Beschreibung
@@ -95,7 +96,3 @@ Dies führt unter Umständen zu sogenannten "Side effects" und trägt dazu bei, 
 % Z1 = alter > 0, email != ""
 
 % kernprobleme/abgrenzen
-
-% mvi
-
-% seqentiell 
