@@ -77,9 +77,11 @@ Kommt dafür ausschließlich der Nutzer in Frage, oder auch das zugrundeliegende
 Ein weitere, nicht zu unterschätzende Problematik ist die asynchrone Programmierung bzw. "Multi Threading",
 welches in heutigen Appliaktionen immer öfters Anwendung findet. Soll in einer Android Appliktionen bspw. auf das Internet
 zugegriffen werden, ist der Einsatz eines zusätzlichen "Thread" un­ab­ding­bar.
-In der Kombination mit veränderlichen Attributen kann dies zu sogenannten "Side effects" führen und trägt dazu bei, 
-dass der Quellcode unleserlich wird. Auch ensteht daraus gerne das sogenannte Callbackhell Problem.
-Es wird deutlich ...
+In der Kombination mit veränderlichen Attributen und "Global State" kann dies zu sogenannten Seiten Effekten führen und trägt dazu bei, 
+dass der Quellcode unleserlich und schwer vorherzusehen wird. 
+Auch ensteht daraus gerne das sogenannte Callbackhell Problem.
+
+% Reaktiv?
 
 % Zustandsorientiert programmieren
 % formale Beschreibung
