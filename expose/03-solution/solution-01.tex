@@ -1,0 +1,14 @@
+Um den genannten Problem entgegenzuwirken gilt es, ein Muster zu entwerfen,
+in welchem der "Zustand" das Hautaugenmerk bildet.
+Ein gute Methode um mit Zuständen zu arbeiten, bietet das Konzept der endlichen Automaten.
+Hierbei wird ein Startzustand festgelegt, sowie eine endliche Anzahl von Zuständen, die im System mit
+Zustandsübergängen erreicht werden können. Wichtig ist, dass sich das System immer nur in genau
+einem Zuständ befindet und dieser den SSOT (single source of truth) darstellt.
+Kurz um: Der Automat befähigt einen, alle Zustände in dem sich ein System befinden kann
+konsisten zu beschreiben. 
+Unter den unterschiedlichen endlichen Automaten fällt die Wahl auf den sogenannten Mealy-Automat.
+Bei diesem wird der nächste Zustand auf Basis des derzeitigen Zustands und Eingabe ermittelt.
+Die Eingabe spiegelt dabei ein Ereigniss wieder, welches durch den Nutzer selbst (und seinen Interaktionen) 
+oder durch Komponenten der Peripherie ausgelöst wurde. Zu nennen wäre bswp. 
+der Klick auf einen Knopf oder die Mitteilung des Betriebssystem, das der Standort sich verändert hat.
+Ein endlicher Automat wird meist durch mathematische Funktionen ausgedrückt, die 
