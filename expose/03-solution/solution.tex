@@ -19,11 +19,18 @@ der Klick auf einen Knopf oder die Mitteilung des Betriebssystem, das der Stando
 Die Beschreibung eines solchen endlichen Automaten lässt sich - unteranderem - mit
 mathematischen Funktionen umsetzen. Für dies und der o.g. Prämisse, bei der die Ausgabe (hier: der Zustand) bei wiederholter,
 gleicher Eingabe nicht abweichen darf, eignet sich ein Konzept welches auf Namen "Pure Functions" hört.
-Dieses entspringt der funktionalen Programmierung und aus eben jener finden \dots \\
+Dieses entspringt dem Programmierparadigma der funktionalen Programmierung und aus eben jener sollen mehrere Konzepte übernommen werden:
 Unveränderliche Daten Strukturen. \\
 Keine Seiteneffekte. \\
 Kein globalen Variablen. \\
 Pattern Matching + Expressions. \\
-Um der hohen interaktivität einer Applikation Herr zu werden, wird eine weitere Art der Programmierung und
+Unidirektional.\\
+Um der hohen interaktivität einer Applikation Herr zu werden, wird eine weiteres Programmierparadigma und
 Abstraktion herangezogen: Reaktive Programmierung.
+Sie baut auf der funktionalen Programmierung auf und berücksichtig die oben genannten Eigenschaften.
+Des weiteren erleichtert sie das arbeiten und koordinieren von "Threads". 
+\\
+Um das arbeiten mit einem endlichen Automaten zu vereinfachen und den Quellcode in seiner lesbarkeit zu stärken,
+wird eine DSL (Domain Specific Language) in Erwägung gezogen.
+
 
