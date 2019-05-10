@@ -1,19 +1,14 @@
-\subsection{Problem}
-\label{subsec:problem}
+
 
 Today's applications seem to be increasing in complexity over the last few years. 
 Especially in the field of frontend development, the range of functions has increased \cite{kevin2018}.
 The web development has transitioned from server rendered, page-reloading websites, to modern so called single page applications or SPA's.
 But the same applies to the mobile world: Social networks, navigation, sharing and editing files together is a common desire by the user.
 Ein großer Teil der Applikationen steht somit auch im Austausch mit APIs, greift auf lokale und externe Datenbanken zu oder interagiert 
-mit dem zugrundeliegenden System selbst (bswp. die periodische Erfassung des Standortes via GPS oder WiFi).
+mit dem zugrundeliegenden Betriebssystem selbst (bswp. die periodische Erfassung des Standortes via GPS oder WiFi).
 Zusätzlich zu der Interaktion mit dem Nutzer und dessen Einfluss, muss die Anwendungen auf oben genannte Einflüsse reagieren können 
-und vorrausgegangene Ereignisse und deren Auswirkung speichern. Es muss bekannt sein, welche Zustände bei welchen Ereignissen eintreten
-können und welche nicht. Dies ist nötig, um eine zuverlässige Funktionsweise einer Appliaktionen zu garantieren.
-Folgendes Beispiel soll den Sachverhalt verdeutlichen:
-Der Nutzer befindet sich auf einem "Anmelden" Fenster. In diesem kann der Nutzer eine E-Mail-Adresse und ein Passwort eingeben.
-Darunter befindet sich ein herkömmlicher "Anmelden" Knopf. Des weiteren existiert die Möglichkeit auf "Passwort vergessen?" zu klicken.
-Die folgenden Zustände können hierbei eintreten:
+und vorrausgegangene Ereignisse und deren Auswirkung in irgendeiner Art und Weise hinterlegen.
+
 
 \begin{itemize}
     \item Die E-Mail-Adresse ist nicht zulässig und das Passwort Feld leer
@@ -30,11 +25,10 @@ Die folgenden Zustände können hierbei eintreten:
     \end{itemize}
     \item Der Nutzer betätigt den "Anmelden" Knopf
     \begin{itemize}
-        \item Der "Anmelden" Knopf ist aktiviert
+        \item Die Email ist inkorrekt oder existiert nicht
+        \item Die Email ist korrekt und das Passwort falsch
+        \item Die Email ist korrekt und das Passwort richtig
     \end{itemize}
-    \item Die Email ist inkorrekt oder existiert nicht
-    \item Die Email ist korrekt und das Passwort falsch
-    \item Die Email ist korrekt und das Passwort richtig
     \begin{itemize}
         \item Der Nutzer gelangt zum nächsten Fenster
     \end{itemize}
@@ -47,15 +41,6 @@ Die folgenden Zustände können hierbei eintreten:
     \item Es besteht keine Verbindung zum Internet
     \begin{itemize}
         \item Es wird eine Meldung angezeigt
-    \end{itemize}
-    \item Der Nutzer dreht das Smartphone
-    \begin{itemize}
-        \item Der Zustand muss gespeichert werden
-    \end{itemize}
-    \item Die Appliaktionen wird vom System beendet
-    \begin{itemize}
-        \item Der Zustand muss gespeichert werden
-    \end{itemize}
 \end{itemize}
 
 Anhand dessen wird sichtbar, wie viele Ereignisse und Zustände bereits aus einer simplen Funktion wie "Annmelden" hervorgehen.
@@ -97,3 +82,6 @@ dass der Quellcode unleserlich, schwer vorherzusehen und schwer wartbar wird.
 % Z1 = alter > 0, email != ""
 
 % kernprobleme/abgrenzen
+
+% zustände ergeben sich aus eigenschaften
+    % - neue Eigenschaft -> neuer Zustand

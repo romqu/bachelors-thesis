@@ -1,0 +1,19 @@
+\subsection{Problem}
+\label{subsec:problem}
+
+Today's applications has been increasing in complexity over the last few years.
+Notably in the field of frontend development, the amount of functions has increased \cite{kevin2018}. The web development has transitioned from server rendered, 
+page-reloading websites, to modern so called single page applications or SPA's.
+The same applies to the mobile world: social networks, navigation, sharing and editing files together is a commonly demanded by the user.
+A large part of applications are thus in exchange with APIs, interacting with local or external databases
+and communicating with the underlying operating system itself (eg the periodic recording of the location via GPS or WiFi).
+The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees, the source code
+and the outside world - mainly: How to structure the source code. Ähnlich wie bei vielen Problemen die in der Softwareentwicklungen bestehen, existiert 
+auch dieses seit geraumer Zeit und betrifft einen Großteil der Entwickler. Es is somit eine immer wiederkehrendes Problem. Daraus ensteht häufig das Bestreben, 
+allgemeingültige Konzepte zu entwickeln, die dieser Problematik entgegenwirken und einen möglichen Lösungsweg aufzeigen. Die hier gesuchten Konzepte werden
+als sogenannte "Entwurfsmuster" deklariert. Ihr zielt es, den Aufbau bzw. die Architektur von Quellcode so zu gestalten, dass er modular, flexibel und
+wiederverwendbar ist. Zeitgleich wird der Entwickler dazu gewzungen einem Schema zu folgen und konistent zu arbeiten. Dies fördert die Qualität und
+Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für die Strukturierung von Code innerhalb der Präsentationsschicht entwickelt. 
+Dazu gehören unteranderem, nach "Erscheinungsjahr" sortiert: Model-View-Controller (MVC), Model-View-Presenter (MVP) Model-View-ViewModel (MVVM) und - relativ 
+neu im Bunde - Model-View-Intent (MVI). Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
+zugrundeliegenden Logik. Die Idee 
