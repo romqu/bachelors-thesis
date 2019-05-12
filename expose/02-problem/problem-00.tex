@@ -17,4 +17,12 @@ Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für
 Dazu gehören unteranderem, nach "Erscheinungsjahr" sortiert: Model-View-Controller (MVC), Model-View-Presenter (MVP) Model-View-ViewModel (MVVM) und - relativ 
 neu im Bunde - Model-View-Intent (MVI). Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
 zugrundeliegenden (Geschäfts) Logik.
-Auch MVI bedient sicher dieser Idee. In das Leben gerufen von André (Medeiros) Staltz, sieht es den Nutzer als Funktion.
+Auch MVI bedient sicher dieser Idee.
+Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle, where the data flows unidirectionally.
+The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
+which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a)) or view(model(intent())).
+When the user performs an action its translated into a objective, this action is the input of the intent function.
+
+becomes the input for the next part which is the Model.
+
+// immutability, reactivity, what is view, intent, model. asking obvious questions how do i do x when y and what if b happens
