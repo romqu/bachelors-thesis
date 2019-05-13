@@ -16,13 +16,16 @@ wiederverwendbar ist. Zeitgleich wird der Entwickler dazu gewzungen einem Schema
 Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für die Strukturierung von Code innerhalb der Präsentationsschicht entwickelt. 
 Dazu gehören unteranderem, nach "Erscheinungsjahr" sortiert: Model-View-Controller (MVC), Model-View-Presenter (MVP) Model-View-ViewModel (MVVM) und - relativ 
 neu im Bunde - Model-View-Intent (MVI). Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
-zugrundeliegenden (Geschäfts) Logik.
-Auch MVI bedient sicher dieser Idee.
+zugrundeliegenden (Geschäfts) Logik. Auch MVI bedient sicher dieser Idee.
 Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle, where the data flows unidirectionally.
+It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 and the often used javascript libraries redux and react. 
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
-which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a)) or view(model(intent())).
-When the user performs an action its translated into a objective, this action is the input of the intent function.
+which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
+When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
+to translate the user generated event, as in what the user intended to do into something the application can understand and work with. 
+The model function then uses the output as its input. 
 
-becomes the input for the next part which is the Model.
 
-// immutability, reactivity, what is view, intent, model. asking obvious questions how do i do x when y and what if b happens
+
+
+% immutability, reactivity, what is view, intent, model. asking obvious questions how do i do x when y and what if b happens
