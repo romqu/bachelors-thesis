@@ -22,10 +22,12 @@ It takes its inspiration from two conecepts: The original MVC as introduced by T
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
 which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
 When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
-to translate the user generated event, as in what the user intended to do into something the application can understand and work with. 
-The model function then uses the output as its input. 
-
-
-
-
-% immutability, reactivity, what is view, intent, model. asking obvious questions how do i do x when y and what if b happens
+to translate the user generated event, as in what the user intended to do into something the application can understand and work with.
+The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is called immutability.
+Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
+In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming and the underlying "Observer Pattern".
+\todo{why reactive, what does reactive solve for MVI?}
+\todo{mention non-blocking UI?}
+Given the description of MVI, the questions that arises are: What does an event look like? How is immutability achieved?
+Since MVI does not have a Controller, Presenter or ViewModel: Where does the logic belong? And how is separation of concerns possible?
+To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
