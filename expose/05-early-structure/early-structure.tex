@@ -19,8 +19,9 @@
     \end{enumerate}
     \item Grundlagen und verwandte Arbeiten
     \begin{enumerate}
+        \item MVI
         \item Endliche Automaten
-        \item Bidirektionalität
+        \item Unidrektionalität
         \item Funkionale Programmierung
         \begin{enumerate}
             \item Pure Functions
@@ -28,7 +29,6 @@
             \item Function Composition
             \item Monads
             \item Immutability
-            \item Persistent Data Strucures
         \end{enumerate}
         \item Reaktive Programmierung
         \begin{enumerate}
@@ -38,11 +38,12 @@
         \end{enumerate}
         \item Vergleich mit bestehenden Design Patterns
         \begin{enumerate}
-            \item MVVM (Model-View-View Model)
-            \item MVI (Model-View-Intent)
+            \item MVC (Model-View-View Model)
+            \item MVP (Model-View-Intent)
+            \item MVVM (Model-View-Intent)
             \item Zusammenfassung
         \end{enumerate}
-        \item Untersuchung von Bibliotheken
+        \item Untersuchung von bestehenden Bibliotheken
         \begin{enumerate}
             \item Workflow
             \item RxMVI
@@ -52,14 +53,14 @@
     \end{enumerate}
     \item Konzeption
     \begin{enumerate}
-        \item Entwurf eines Design Patterns/ eines Workflow
+        \item Entwurf eines eines Workflow
         \item Entwurf der Komponenten
         \begin{enumerate}
-            \item Endlicher Automat
-            \item Events/Intents
+            \item Event/Intent/Action
+            \item Reducer
             \item State/Store
         \end{enumerate}
-        \item Entwurf einer DSL
+        \item Entwurf einer DSL?
         \item Zusammenfassung
     \end{enumerate}
     \item Prototypische Realisierung/Implementierung
@@ -67,13 +68,12 @@
             \item Wahl der Realisierungsplattform
             \item Ausgewählte Realisierungsaspekte
             \item Qualitätssicherung
+            \begin{enumerate}
+                \item Unit-Tets
+                \item Integrationstest
+            \end{enumerate}
             \item Zusammenfassung
         \end{enumerate}
-    \item Validierung und Verifikation
-    \begin{enumerate}
-        \item Unit-Tets
-        \item Integrationstest
-    \end{enumerate}
     \item Evaluation
     \begin{enumerate}
         \item Überprüfung funktionaler Anforderungen
