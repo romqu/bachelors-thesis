@@ -26,8 +26,11 @@ to translate the user generated event, as in what the user intended to do into s
 The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is called immutability.
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
 In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming and the underlying "Observer Pattern".
-\todo{why reactive, what does reactive solve for MVI?}
+\todo{why reactive, what does reactive solve for MVI? Streams?}
 \todo{mention non-blocking UI?}
+\todo{talk about the functional part?}
+\todo{side effects?}
+\todo{state?}
 Given the description of MVI, the questions that arises are: What does an event look like? How is immutability achieved?
 Since MVI does not have a Controller, Presenter or ViewModel: Where does the logic belong? And how is separation of concerns possible?
 To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?

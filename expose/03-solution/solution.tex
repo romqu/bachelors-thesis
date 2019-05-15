@@ -2,6 +2,20 @@
 \label{subsec:solution}
 
 
+In order to reduce the cognitive burden on the developer when implementing the various components of MVI, the aim 
+is to create a small, but opinionated library.
+Hierfür müssen im ersten Schritt die Ereignisse die von einer Aktion des Nutzer ausgehen eindeutig identifiziert und beschrieben werden.
+Über eine "intent"-Funktion die bereitgestellt wird, wird das Ereignisse in etwas übersetzt, dass die Intention im Kontext der Applikation
+deutlich macht. So kann ein langer Klick auf ein Item innerhalb einer Liste bswp. als die Intention der Löschung interpertiert werden.
+Im nächsten Schritt erfolgt die Ausführung dieser Intention in der "model"-Funktion. Dabei kann es unteranderem Vorkommen, dass der 
+Entwickler auf die Geschäftslogik zugreifen muss und somit Seiteneffekte entstehen. Dazu wird seitens der Bibliothek mittels
+reaktiver Programmierung Abhilfe geschaffen. Zusätzlich wird an diesem Punkt dem Entwickler das Model zur Verfügung gestellt.
+Es handelt sich dabei um eine unveränderliche Datenstruktur
+
+
+
+The core of the library will be centered around a mealy state machine leveraging pattern matching
+and reducer functions to create a new state from a prior state and event.
 
 
 Um den genannten Problem entgegenzuwirken gilt es, ein Muster zu entwerfen,
