@@ -1,87 +1,39 @@
+\subsection{Problem}
+\label{subsec:problem}
 
+Today's applications has been increasing in complexity over the last few years.
+Notably in the field of frontend development, the amount of functions has increased \cite{kevin2018}. The web development has transitioned from server rendered, 
+page-reloading websites, to modern so called single page applications or SPA's.
+The same applies to the mobile world: social networks, navigation, sharing and editing files together is a commonly demanded by the user.
+A large part of applications are thus in exchange with APIs, interacting with local or external databases
+and communicating with the underlying operating system itself (eg the periodic recording of the location via GPS or WiFi).
+The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees and the source code of 
+the application - mainly: How to structure the user facing layer or presentation layer in a layered architecture. \cite{guru99ntier,softwareArchitecturePatternsMark2015}. \\
+Ähnlich wie bei vielen Problemen die in der Softwareentwicklungen bestehen, existiert auch dieses seit geraumer Zeit und betrifft einen Großteil der Entwickler. 
+Es is somit eine immer wiederkehrendes Problem. Daraus ensteht häufig das Bestreben, allgemeingültige Konzepte zu entwickeln, die dieser Problematik entgegenwirken 
+und einen möglichen Lösungsweg aufzeigen. Die hier gesuchten Konzepte werden als sogenannte "Entwurfsmuster" \cite{techterms2016design-pattern} deklariert. Ihr zielt es, den Aufbau bzw. 
+die Architektur von Quellcode so zu gestalten, dass er modular, flexibel und
+wiederverwendbar ist. Zeitgleich wird der Entwickler dazu gewzungen einem Schema zu folgen und konistent zu arbeiten. Dies fördert die Qualität und
+Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für die Strukturierung von Code innerhalb der Präsentationsschicht entwickelt. 
+Dazu gehören unteranderem, nach Erscheinungsjahr aufsteigend sortiert: Model-View-Controller (MVC - 1979) \cite{wikipediaMvc}, 
+Model-View-Presenter (MVP - 1990) \cite{wikipediaMvp } Model-View-ViewModel (MVVM) \cite{blogMsdnMvvm} und - relativ 
+neu im Bunde - Model-View-Intent (MVI). Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
+zugrundeliegenden (Geschäfts) Logik. Auch MVI bedient sicher dieser Idee.
+Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle, where the data flows unidirectionally.
+It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 and the often used javascript libraries redux and react. 
+The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
+which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
+When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
+to translate the user generated event, as in what the user intended to do into something the application can understand and work with.
+The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is called immutability.
+Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
+In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming and the underlying "Observer Pattern".
+\todo{why reactive, what does reactive solve for MVI? Streams?}
+\todo{mention non-blocking UI?}
+\todo{talk about the functional part?}
+\todo{side effects?}
+\todo{state?}
+Given the description of MVI, the questions that arises are: What does an event look like? How is immutability achieved?
+Since MVI does not have a Controller, Presenter or ViewModel: Where does the logic belong? And how is separation of concerns possible?
+To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
 
-Today's applications seem to be increasing in complexity over the last few years. 
-Especially in the field of frontend development, the range of functions has increased \cite{kevin2018}.
-The web development has transitioned from server rendered, page-reloading websites, to modern so called single page applications or SPA's.
-But the same applies to the mobile world: Social networks, navigation, sharing and editing files together is a common desire by the user.
-Ein großer Teil der Applikationen steht somit auch im Austausch mit APIs, greift auf lokale und externe Datenbanken zu oder interagiert 
-mit dem zugrundeliegenden Betriebssystem selbst (bswp. die periodische Erfassung des Standortes via GPS oder WiFi).
-Zusätzlich zu der Interaktion mit dem Nutzer und dessen Einfluss, muss die Anwendungen auf oben genannte Einflüsse reagieren können 
-und vorrausgegangene Ereignisse und deren Auswirkung in irgendeiner Art und Weise hinterlegen.
-
-
-\begin{itemize}
-    \item Die E-Mail-Adresse ist nicht zulässig und das Passwort Feld leer
-    \begin{itemize}
-        \item Der "Anmelden" Knopf ist deaktiviert
-     \end{itemize}
-    \item Die E-Mail-Adresse ist zulässig und das Passwort Feld leer
-    \begin{itemize}
-        \item Der "Anmelden" Knopf ist deaktiviert
-    \end{itemize}
-    \item Die E-Mail-Adresse ist zulässig und das Passwort Feld nicht leer
-    \begin{itemize}
-        \item Der "Anmelden" Knopf ist aktiviert
-    \end{itemize}
-    \item Der Nutzer betätigt den "Anmelden" Knopf
-    \begin{itemize}
-        \item Die Email ist inkorrekt oder existiert nicht
-        \item Die Email ist korrekt und das Passwort falsch
-        \item Die Email ist korrekt und das Passwort richtig
-    \end{itemize}
-    \begin{itemize}
-        \item Der Nutzer gelangt zum nächsten Fenster
-    \end{itemize}
-    \item Eine dreimalige falsche Eingabe des Passworts führt zu einer temporären Sperrung
-    \item Der Nutzer klickt auf "Passwort vergessen"
-    \item Es gibt einen Netzwerkfehler
-    \begin{itemize}
-        \item Es wird eine Fehlermeldung angezeigt
-    \end{itemize}
-    \item Es besteht keine Verbindung zum Internet
-    \begin{itemize}
-        \item Es wird eine Meldung angezeigt
-\end{itemize}
-
-Anhand dessen wird sichtbar, wie viele Ereignisse und Zustände bereits aus einer simplen Funktion wie "Annmelden" hervorgehen.
-Die Schwiriegkeit die hierbei unter anderem entsteht, ist, die Fülle an möglichen Zuständen zu konkretisieren und 
-formal als auch inhaltlich "ansprechend" darzustellen/zu beschreiben.
-Wie sollte die Struktur eines Programmes aufgebaut/organisiert werden, wenn man Zustandsorientiert arbeitet?
-Wirft der Entwickler einen Blick auf die Implementierung  einer Funktion (wie das obige Beispiel des Vorgangs des Anmeldens), 
-ist oft nicht gleich ersichtlich, welche Zustände insgemein existieren.
-Dies kann mitunter daran liegen, dass Attribute die einen Zustand bestimmen, sich an unterschiedlichen Orten innerhalb
-einer Implementation befinden. (In Android bswp. im Fragment und im Presenter zugleich)
-Es ist sogar möglich, dass ein Zustand von anderen Eigenschaften (is der Knopf aktiviert?) bei jeder Anfrage abgeleitet wird,
-anstatt diesen zu hinterlegen.
-Überhaupt ist es oft kompliziert, den Ablauf eines Programmes ohne größen Aufwand nachzuvollziehen.
-Dazu gesellt sich zwangsläufig die Frage, auf welche Art und Weise ein Zustand überhaupt definiert wird. 
-Wird er dynamisch, anhand eines hinterlegten Regelwerks gebildet, oder ist er von Beginn an festgelegt?
-Nicht weniger unherheblich ist, wie der Übergang von einem Zustand in einen anderen Zustand erfolgt und was 
-genau der Initiator eines Übergang ist.
-Kommt dafür ausschließlich der Nutzer in Frage, oder auch das zugrundeliegende System? Und wird dabei semantisch  unterschieden? 
-Ein weitere, nicht zu unterschätzende Problematik ist die asynchrone Programmierung bzw. "Multi Threading",
-welches in heutigen Appliaktionen immer öfters Anwendung findet. Soll in einer Android Appliktionen bspw. auf das Internet
-zugegriffen werden, ist der Einsatz eines zusätzlichen "Thread" un­ab­ding­bar.
-In der Kombination mit veränderlichen Attributen und "Global State" kann dies zu sogenannten Seiten Effekten führen und trägt dazu bei, 
-dass der Quellcode unleserlich, schwer vorherzusehen und schwer wartbar wird.
-
-% Reaktiv?
-
-% Zustandsorientiert programmieren
-% formale Beschreibung
-
-% wie formuliere ich Zustände ?
-% wie organisiere Zustandsorientiert ?
-
-% deklaritive Beschreibung / pattern matcher ?
-% 
-% session 
-
-% kotlin dsl
-
-% Z1 = alter > 0, email != ""
-
-% kernprobleme/abgrenzen
-
-% zustände ergeben sich aus eigenschaften
-    % - neue Eigenschaft -> neuer Zustand
