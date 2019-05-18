@@ -16,11 +16,11 @@ die Architektur von Quellcode so zu gestalten, dass er modular, flexibel und
 wiederverwendbar ist. Zeitgleich wird der Entwickler dazu gewzungen einem Schema zu folgen und konistent zu arbeiten. Dies fördert die Qualität und
 Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für die Strukturierung von Code innerhalb der Präsentationsschicht entwickelt. 
 Dazu gehören unteranderem, nach Erscheinungsjahr aufsteigend sortiert: Model-View-Controller (MVC - 1979) \cite{wikipediaMvc}, 
-Model-View-Presenter (MVP - 1990) \cite{wikipediaMvp } Model-View-ViewModel (MVVM) \cite{blogMsdnMvvm} und - relativ 
-neu im Bunde - Model-View-Intent (MVI). Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
+Model-View-Presenter (MVP - 1990) \cite{wikipediaMvp} Model-View-ViewModel (MVVM) \cite{blogMsdnMvvm} und - relativ 
+neu im Bunde - Model-View-Intent (MVI - 2015) \cite{youtubeAndreStaltzUserFunction}. Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
 zugrundeliegenden (Geschäfts) Logik. Auch MVI bedient sicher dieser Idee.
 Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle, where the data flows unidirectionally.
-It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 and the often used javascript libraries redux and react. 
+It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 \cite{wikipediaTrygveReenskaug} and the often used javascript libraries redux and react. 
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
 which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
 When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
