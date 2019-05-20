@@ -7,6 +7,7 @@ page-reloading websites, to modern so called single page applications or SPA's.
 The same applies to the mobile world: social networks, navigation, sharing and editing files together is a commonly demanded by the user.
 A large part of applications are thus in exchange with APIs, interacting with local or external databases
 and communicating with the underlying operating system itself (eg the periodic recording of the location via GPS or WiFi).
+\\
 The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees and the source code of 
 the application - mainly: How to structure the user facing layer or presentation layer in a layered architecture. \cite{guru99ntier,softwareArchitecturePatternsMark2015}. \\
 Ähnlich wie bei vielen Problemen die in der Softwareentwicklungen bestehen, existiert auch dieses seit geraumer Zeit und betrifft einen Großteil der Entwickler. 
@@ -18,10 +19,10 @@ Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für
 Dazu gehören unteranderem, nach Erscheinungsjahr aufsteigend sortiert: Model-View-Controller (MVC - 1979) \cite{wikipediaMvc}, 
 Model-View-Presenter (MVP - 1990) \cite{wikipediaMvp} Model-View-ViewModel (MVVM) \cite{blogMsdnMvvm} und - relativ 
 neu im Bunde - Model-View-Intent (MVI - 2015) \cite{youtubeAndreStaltzUserFunction}. Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
-zugrundeliegenden (Geschäfts) Logik. Auch MVI bedient sicher dieser Idee.
-Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle (as shown in figure \ref{fig:userComputerInputOutput}), 
-where the data flows unidirectionally \cite{unidirectionalDataFlowRedux}.
+zugrundeliegenden (Geschäfts) Logik. 
 \\
+Auch MVI bedient sicher dieser Idee.Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle 
+(as shown in figure \ref{fig:userComputerInputOutput}), where the data flows unidirectionally \cite{unidirectionalDataFlowRedux}.
 It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 \cite{wikipediaTrygveReenskaug} and the often used 
 javascript libraries redux \cite{redux} and react \cite{react}. 
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
@@ -39,13 +40,14 @@ to translate the user generated event, as in what the user intended to do into s
 The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is refered to as immutability. 
 \cite{immutableObjectsEffectiveJava}
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
-In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming \cite{reactiveProgrammingIntroAndreStaltz} and the underlying "Observer Pattern".
+In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming \cite{reactiveProgrammingIntroAndreStaltz} and 
+the underlying "Observer" pattern \cite{wikipediaObserverPattern}.
 \todo{why reactive, what does reactive solve for MVI? Streams?}
 \todo{mention non-blocking UI?}
 \todo{talk about the functional part?}
 \todo{side effects?}
 \todo{state?}
 Given the description of MVI, the questions that arises are: What does an event look like? How is immutability achieved?
-Since MVI does not have a Controller, Presenter or ViewModel: Where does the logic belong? And how is separation of concerns possible?
+Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the logic belong? And how is separation of concerns possible?
 To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
 
