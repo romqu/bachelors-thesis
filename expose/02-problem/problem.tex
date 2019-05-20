@@ -19,15 +19,27 @@ Dazu gehören unteranderem, nach Erscheinungsjahr aufsteigend sortiert: Model-Vi
 Model-View-Presenter (MVP - 1990) \cite{wikipediaMvp} Model-View-ViewModel (MVVM) \cite{blogMsdnMvvm} und - relativ 
 neu im Bunde - Model-View-Intent (MVI - 2015) \cite{youtubeAndreStaltzUserFunction}. Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr 
 zugrundeliegenden (Geschäfts) Logik. Auch MVI bedient sicher dieser Idee.
-Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle, where the data flows unidirectionally.
-It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 \cite{wikipediaTrygveReenskaug} and the often used javascript libraries redux and react. 
+Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle (as shown in figure \ref{fig:userComputerInputOutput}), 
+where the data flows unidirectionally \cite{unidirectionalDataFlowRedux}.
+\\
+It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 \cite{wikipediaTrygveReenskaug} and the often used 
+javascript libraries redux \cite{redux} and react \cite{react}. 
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
-which becomes the input for the user. This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
+which becomes the input for the user.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[height=0.5\textwidth]{./images/mvi-cycle}
+    \caption{User and Computer as Input and Output}
+    \caption*{Source: https://cycle.js.org/dialogue.html}
+    \label{fig:userComputerInputOutput}
+\end{figure}
+This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
 When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
 to translate the user generated event, as in what the user intended to do into something the application can understand and work with.
-The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is called immutability.
+The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is refered to as immutability. 
+\cite{immutableObjectsEffectiveJava}
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
-In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming and the underlying "Observer Pattern".
+In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming \cite{reactiveProgrammingIntroAndreStaltz} and the underlying "Observer Pattern".
 \todo{why reactive, what does reactive solve for MVI? Streams?}
 \todo{mention non-blocking UI?}
 \todo{talk about the functional part?}
