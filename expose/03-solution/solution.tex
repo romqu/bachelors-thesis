@@ -13,16 +13,13 @@ as parameter. An associated function is added to each intention or event. The li
 \\
 This automatically leads to compartmentalization of the logic and increases its readability. Among other things it can happen that the developer has to access the business 
 logic and thus side effects occur. The library provides a remedy for this by means of reactive programming. In addition, the model is made available to the developer
-at this point. This is an unchangeable data structure (object) that describes the state of the application. In the case of a login screen, for example, the mail 
-entered by the user is stored here. The immutability makes it impossible to unintentionally change the object elsewhere. In addition, the object can be accessed 
+at this point. This is an immutable data structure (object) that describes the state of the application. In the case of a login screen, for example, the e-mail 
+entered by the user is stored here. The immutability makes it impossible to unintentionally change the object from elsewhere. In addition, the object can be accessed 
 by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function expects a new state (or: a new model) 
 as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
 this prevents the developer from creating the state object as a global structure. The principle is similar to that of a finite (Mealy) automaton and is therefore 
 conceived as a possible implementation for the "model" function within the library. For the logic described above, a class similar to that of a ViewModel or Presenter 
-is given to the developer. This separates the user interface (view) from this logic. Finally, the view gets a single function in which the changed state is rendered.
+is provided to the developer. This separates the user interface (view) from this logic. Finally, the view gets a single function in which the changed state is rendered.
 \\
 The development of a DSL (Domain Specific Language) is being considered in order to simplify the handling of the library and to strengthen the readability 
 of the source code.
-
-
-
