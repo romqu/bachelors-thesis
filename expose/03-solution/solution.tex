@@ -4,27 +4,25 @@
 
 In order to reduce the cognitive burden on the developer when implementing the various components of MVI, the aim 
 is to create a small, but opinionated library.
-Hierfür müssen im ersten Schritt die Ereignisse die von einer Aktion des Nutzer ausgehen eindeutig identifiziert und beschrieben werden.
-Über eine "intent"-Funktion die bereitgestellt wird, wird das Ereignisse in etwas übersetzt, dass die Intention im Kontext der Applikation
-deutlich macht. Um die Unterscheidung der Ereignisse übersichtlich zu gestalten, wird das Verfahren des "Pattern Matching" herangezogen.
-So kann ein langer Klick auf ein Item innerhalb einer Liste bswp. als die Intention der Löschung interpertiert werden.
-Im nächsten Schritt erfolgt die Ausführung dieser Intention in der "model"-Funktion. Sie erhält das derzeitige Ereigniss und Model als Parameter.
-Zu jeder Intention/jedem Event gesellt sich eine zugehörige Funktion. Auch hierfür gibt die Bibliothek eine Struktur her, durch die diese Art von Mehtoden 
-sichtbar gekennzeichnet werden. Dies führt automatisch zu einer Aufteilung der Logik und erhöht deren lesbarkeit. \\
-Dabei kann es unteranderem vorkommen, dass der Entwickler auf die Geschäftslogik zugreifen muss und somit Seiteneffekte entstehen. Dazu wird seitens der 
-Bibliothek mittels reaktiver Programmierung Abhilfe geschaffen. Zusätzlich wird an diesem Punkt dem Entwickler das Model zur Verfügung gestellt.
-Es handelt sich dabei um eine unveränderliche Datenstruktur (Objekt), die den Zustand der Applikation beschreibt. Im Falle eines Anmelden Bildschirm wird z.B. 
-hier die vom Nutzer eingetragene Email hinterlegt. Die Unveränderlichkeit macht es unmöglich, das Objekt an andere Stelle ungewollt zu verändern. 
-Darüberhinaus kann auf das Objekt von mehreren "Threads" gleichzeitig zugergriffen werden und steht somit einer asynchronen Programmierung nicht im Wege.
-Die "model"-Funktion erwartet einen neuen Zustand (oder: ein neues Model) als Rückgabe Wert. Aufgrund der Unveränderlichkeit bleibt der vorherige Zustand
-unangetastet. Stattdessen wird er kopiert und zeitgleich mit neuen Werten versehen. Des weiteren wird der Entwicker dadurch davon abgehalten, das Zustands Objekt 
-als globale Struktur anzulegen. Das Prinzip ähnelt das eines endlichen (Mealy) Automaten und ist deshalb als mögliche Implementation für die "model"-Funktion 
-innerhalb der Bibliothek angedacht.
-Für die oben beschriebene Logik wird dem Entwickler ein Klasse, ähnlich dem eines ViewModel oder Presenter an die Hand gegeben. Diese trennt die Benutzerobefläche (View)
-von ebendieser Logik.
-Zuletzt erhalt die View eine einzige Funktion, in der der veränderte Zustand gerendert wird.
 \\
-Um den Umgang mit der Bibliothek zu vereinfachen und den Quellcode in seiner lesbarkeit zu stärken,
-wird die Entwicklung einer DSL (Domain Specific Language) in Erwägung gezogen.
+The first step will be to uniquely identify and describe the events that are caused by a user interaction.
+Via a provided intent function, the events are translated into something that makes the intention clear in the context of the application.
+In order to make the distinction between the events clear the procedure of "Pattern Matching" will be utilized. A long-press on an item within a list for example, 
+can be interpreted as the intention of deletion. In the next step, this intention is executed in the "model" function. It receives the current event and model 
+as parameter. An associated function is added to each intention or event. The library provides a structure that visibly identifies this type of method for the developer.
+\\
+This automatically leads to compartmentalization of the logic and increases its readability. Among other things it can happen that the developer has to access the business 
+logic and thus side effects occur. The library provides a remedy for this by means of reactive programming. In addition, the model is made available to the developer
+at this point. This is an unchangeable data structure (object) that describes the state of the application. In the case of a login screen, for example, the mail 
+entered by the user is stored here. The immutability makes it impossible to unintentionally change the object elsewhere. In addition, the object can be accessed 
+by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function expects a new state (or: a new model) 
+as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
+this prevents the developer from creating the state object as a global structure. The principle is similar to that of a finite (Mealy) automaton and is therefore 
+conceived as a possible implementation for the "model" function within the library. For the logic described above, a class similar to that of a ViewModel or Presenter 
+is given to the developer. This separates the user interface (view) from this logic. Finally, the view gets a single function in which the changed state is rendered.
+\\
+The development of a DSL (Domain Specific Language) is being considered in order to simplify the handling of the library and to strengthen the readability 
+of the source code.
+
 
 

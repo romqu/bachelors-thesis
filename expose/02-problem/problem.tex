@@ -1,24 +1,26 @@
 \subsection{Problem}
 \label{subsec:problem}
 
-Today's applications has been increasing in complexity over the last few years. Notably in the field of frontend development, the amount of functions has increased 
+\todo{rephrase Applications today has increased in complexity[..]}
+Applications today has increased in complexity compared to its counterpart just a few years ago. Especially in the field of frontend development the amount of 
+functions has increased.
 \cite{kevin2018}. 
 The web development has transitioned from server rendered, 
 page-reloading websites, to modern so called single page applications or SPA's.
-The same applies to the mobile world: social networks, navigation, sharing and editing files together is a commonly demanded by the user.
-A large part of applications are thus in exchange with APIs, interacting with local or external databases
+The same applies to the mobile world: social networks, navigation, sharing and editing files together is a common want by the user.
+A large part of applications are thus interacting with APIs, accessing local or external databases
 and communicating with the underlying operating system itself (eg the periodic recording of the location via GPS or Wi-Fi).
 \\
 The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees and the source code of 
-the application - mainly: How to structure the user facing layer or presentation layer in a layered architecture. 
+the application - mainly: How to structure the user facing parts of the codebase also known as the presentation layer in a layered architecture.
 \cite{guru99ntier,softwareArchitecturePatternsMark2015}. 
 \\
-Similar to many problems that exist in software development, this also exists for quite some time and affects a large part of the developers. 
-It is therefore a recurring problem. This often results in the endeavour to develop universally valid concepts that counteract this problem and point out a 
-possible solution. The concepts searched for here are declared as so-called "design patterns
+Like many other problems in software development, this one is a problem that has existed for quite some time and concerns a large part of the developers.
+It is therefore a common problem. This often results in the endeavour to develop a universally valid concepts that counteracts these problems and points out 
+possible solutions. The here searched concept is declared as a so-called "design pattern".\todo{fix}
 \cite{techterms2016design-pattern}
-Its goal is to design the structure and architecture of source code in such a way that it is modular, flexible and
-reusable. At the same time, the developer is urged to follow a scheme and work consistently. This promotes quality and
+Its goal is to lay out a structure and architecture of source code in such a way that it is modular, flexible and
+reusable. At the same time, the developer is invited to follow a pattern and produce consistent and readable code. This promotes quality and
 maintainability of the application. Over time, many design patterns have evolved for structuring code within the presentation layer. 
 These include, among others, the following, sorted in ascending order by year of publication: Model-View-Controller (MVC - 1979) 
 \cite{wikipediaMvc}, 
@@ -37,9 +39,9 @@ where the data flows unidirectionally
 \cite{unidirectionalDataFlowRedux}.
 It takes its inspiration from two concepts: The original MVC as introduced by Trygve Reenskaug in 1979 
 \cite{wikipediaTrygveReenskaug} 
-and the often used javascript libraries redux 
+and the Jhavascript libraries Redux 
 \cite{redux} 
-and react 
+and React 
 \cite{react}. 
 The idea of a cycle is based on the assumption that the output (e.g. a click) from a user resembles the input for the program. The program in turn produces an output 
 which becomes the input for the user.
@@ -51,16 +53,16 @@ which becomes the input for the user.
     \label{fig:userComputerInputOutput}
 \end{figure}
 This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
-When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
-to translate the user generated event, as in what the user intended to do into something the application can understand and work with.
-The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is referred to as immutability. 
+When the user interface registers an event (e.g. a click) it will be passed to the intent functions as a parameter. 
+The purpose of the intent-function is to translate the user generated event into something the application can understand and work with.
+The model function then consumes the output as its input. Its job is it to create a new model without changing the last one. That's what is referred to as immutability. 
 \cite{immutableObjectsEffectiveJava}
 It's a concept that belongs (but is not exclusive) to a programming paradigm called functional programming
 \cite{functionalProgrammingWikiHaskell,functionalProgrammingPractical,programmingInHaskellFunctionalProgrammingDefinition},
-where MVI adopts ideas from.
+where MVI adopts some of its ideas from.
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
 In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programming 
-\cite{reactiveProgrammingIntroAndreStaltz} 
+h\cite{reactiveProgrammingIntroAndreStaltz} 
 and the underlying "Observer" pattern 
 \cite{wikipediaObserverPattern}.
 \todo{why reactive, what does reactive solve for MVI? Streams?}
@@ -68,13 +70,12 @@ and the underlying "Observer" pattern
 \todo{side effects?}
 \todo{state?}
 \\
-To sum it up:
+To quote Andre Staltz:
 \begin{pquotation}{\href{https://cycle.js.org/model-view-intent.html#model-view-intent-what-mvc-is-really-about}{\nolinkurl{cycle.js.org}}, Andre Staltz}
     Model-View-Intent (MVI) is reactive, functional, and follows the core idea in MVC. It is reactive because Intent observes the User, Model observes the Intent, 
     View observes the Model, and the User observes the View. It is functional because each of these components is expressed as a referentially transparent function 
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction.
 \end{pquotation}
-Given the description of MVI, the questions that arises are: What does an event look like? How is immutability achieved?
+Given this description of MVI questions that arise are: What does an event look like? How is immutability achieved?
 Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the logic belong? And how is separation of concerns possible?
 To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
-
