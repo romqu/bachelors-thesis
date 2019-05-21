@@ -10,9 +10,10 @@ The same applies to the mobile world: social networks, navigation, sharing and e
 A large part of applications are thus interacting with APIs, accessing local or external databases
 and communicating with the underlying operating system itself (eg the periodic recording of the location via GPS or Wi-Fi).
 \\
+\\
 The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees and the source code of 
 the application - mainly: How to structure the user facing parts of the codebase also known as the presentation layer in a layered architecture.
-\cite{guru99ntier,softwareArchitecturePatternsMark2015}. 
+\cite{guru99ntier,softwareArchitecturePatternsMark2015}.
 \\
 Like many other problems in software development, this one is a problem that has existed for quite some time and concerns a large part of the developers.
 It is therefore a common problem. This often results in the endeavour to develop a universally valid concepts that counteracts these problems and points out 
@@ -58,12 +59,16 @@ The model function then consumes the output as its input. Its job is it to creat
 \cite{immutableObjectsEffectiveJava}
 It's a concept that belongs (but is not exclusive) to a programming paradigm called functional programming
 \cite{functionalProgrammingWikiHaskell,functionalProgrammingPractical,programmingInHaskellFunctionalProgrammingDefinition},
-where MVI adopts some of its ideas from.
+where MVI adopts some of its ideas from.\\
+
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
 In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programming 
-h\cite{reactiveProgrammingIntroAndreStaltz} 
-and the underlying "Observer" pattern 
-\cite{wikipediaObserverPattern}.
+h\cite{reactiveProgrammingIntroAndreStaltz} and the underlying "Observer" pattern \cite{wikipediaObserverPattern}.\\
+
+Another thing to keep in mind is that platforms like iOS and Android enforce developers to perform expensive operations like network calls or disk I/O must occur on a 
+non-blocking thread. This is mainly due to the importance of the user interface remaining fast and responsive otherwise the user experience will suffer. 
+The solution must thus take this into account.\\
+
 \todo{why reactive, what does reactive solve for MVI? Streams? mention non-blocking UI? side effects? state?}
 \\
 To quote Andre Staltz:
