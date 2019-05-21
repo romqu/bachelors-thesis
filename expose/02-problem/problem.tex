@@ -14,7 +14,7 @@ the application - mainly: How to structure the user facing layer or presentation
 \cite{guru99ntier,softwareArchitecturePatternsMark2015}. 
 \\
 Similar to many problems that exist in software development, this also exists for quite some time and affects a large part of the developers. 
-It is therefore a recurring problem. This often results in the endeavor to develop universally valid concepts that counteract this problem and point out a 
+It is therefore a recurring problem. This often results in the endeavour to develop universally valid concepts that counteract this problem and point out a 
 possible solution. The concepts searched for here are declared as so-called "design patterns
 \cite{techterms2016design-pattern}
 Its goal is to design the structure and architecture of source code in such a way that it is modular, flexible and
@@ -25,7 +25,7 @@ These include, among others, the following, sorted in ascending order by year of
 Model-View-Presenter (MVP - 1990) 
 \cite{wikipediaMvp} 
 Model-View-ViewModel (MVVM) 
-\cite{blogMsdnMvvm} und - relativly
+\cite{blogMsdnMvvm} und - relatively
 new to the group - Model-View-Intent (MVI - 2015) 
 \cite{youtubeAndreStaltzUserFunction}. 
 Each of the patterns listed here serves the same purpose: the strict separation of the user interface from the underlying (business) logic.
@@ -35,7 +35,7 @@ MVI also makes use of this idea. Brought to life by André (Medeiros) Staltz, MV
 \ref{fig:userComputerInputOutput}), 
 where the data flows unidirectionally 
 \cite{unidirectionalDataFlowRedux}.
-It takes its inspiration from two conecepts: The original MVC as introduced by Trygve Reenskaug in 1979 
+It takes its inspiration from two concepts: The original MVC as introduced by Trygve Reenskaug in 1979 
 \cite{wikipediaTrygveReenskaug} 
 and the often used javascript libraries redux 
 \cite{redux} 
@@ -53,13 +53,13 @@ which becomes the input for the user.
 This concept can be embodied as a chain of mathematical functions: f(g(a())) or view(model(intent(event))).
 When the UI registers an event (e.g. a click) it will be passed to the intent functions as a parameter. The purpose of the intent-function is 
 to translate the user generated event, as in what the user intended to do into something the application can understand and work with.
-The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is refered to as immutability. 
+The model function then uses the output as its input. Its job is it to create a new model without changing the last one. That's what is referred to as immutability. 
 \cite{immutableObjectsEffectiveJava}
-It's a concept that belongs (but is not exclusive) to a programming paradigm called functional programmming
+It's a concept that belongs (but is not exclusive) to a programming paradigm called functional programming
 \cite{functionalProgrammingWikiHaskell,functionalProgrammingPractical,programmingInHaskellFunctionalProgrammingDefinition},
 where MVI adopts ideas from.
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
-In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programmming 
+In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programming 
 \cite{reactiveProgrammingIntroAndreStaltz} 
 and the underlying "Observer" pattern 
 \cite{wikipediaObserverPattern}.
