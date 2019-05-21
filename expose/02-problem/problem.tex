@@ -1,8 +1,6 @@
 \subsection{Problem}
 \label{subsec:problem}
 
-
-
 Today's applications has been increasing in complexity over the last few years. Notably in the field of frontend development, the amount of functions has increased 
 \cite{kevin2018}. 
 The web development has transitioned from server rendered, 
@@ -15,24 +13,24 @@ The challenge a developer faces is to come up with a general approach that bridg
 the application - mainly: How to structure the user facing layer or presentation layer in a layered architecture. 
 \cite{guru99ntier,softwareArchitecturePatternsMark2015}. 
 \\
-Ähnlich wie bei vielen Problemen die in der Softwareentwicklungen bestehen, existiert auch dieses seit geraumer Zeit und betrifft einen Großteil der Entwickler.
-Es is somit ein immer wiederkehrendes Problem. Daraus ensteht häufig das Bestreben, allgemeingültige Konzepte zu entwickeln, die dieser Problematik entgegenwirken 
-und einen möglichen Lösungsweg aufzeigen. Die hier gesuchten Konzepte werden als sogenannte "Entwurfsmuster" 
-\cite{techterms2016design-pattern} 
-deklariert. Ihr zielt es, den Aufbau bzw. die Architektur von Quellcode so zu gestalten, dass er modular, flexibel und
-wiederverwendbar ist. Zeitgleich wird der Entwickler dazu gewzungen einem Schema zu folgen und konistent zu arbeiten. Dies fördert die Qualität und
-Wartbarkeit der Applikation. Über die Zeit haben sich viele Entwurfsmuster für die Strukturierung von Code innerhalb der Präsentationsschicht entwickelt. 
-Dazu gehören unteranderem, nach Erscheinungsjahr aufsteigend sortiert: Model-View-Controller (MVC - 1979) 
+Similar to many problems that exist in software development, this also exists for quite some time and affects a large part of the developers. 
+It is therefore a recurring problem. This often results in the endeavor to develop universally valid concepts that counteract this problem and point out a 
+possible solution. The concepts searched for here are declared as so-called "design patterns
+\cite{techterms2016design-pattern}
+Its goal is to design the structure and architecture of source code in such a way that it is modular, flexible and
+reusable. At the same time, the developer is urged to follow a scheme and work consistently. This promotes quality and
+maintainability of the application. Over time, many design patterns have evolved for structuring code within the presentation layer. 
+These include, among others, the following, sorted in ascending order by year of publication: Model-View-Controller (MVC - 1979) 
 \cite{wikipediaMvc}, 
 Model-View-Presenter (MVP - 1990) 
 \cite{wikipediaMvp} 
 Model-View-ViewModel (MVVM) 
-\cite{blogMsdnMvvm} und - relativ 
-neu im Bunde - Model-View-Intent (MVI - 2015) 
+\cite{blogMsdnMvvm} und - relativly
+new to the group - Model-View-Intent (MVI - 2015) 
 \cite{youtubeAndreStaltzUserFunction}. 
-Jedes der hier aufgezählten Muster dient dabei dem gleichen Zweck: Die strikte Trennung der Benutzeroberfläche von der ihr zugrundeliegenden (Geschäfts) Logik. 
+Each of the patterns listed here serves the same purpose: the strict separation of the user interface from the underlying (business) logic.
 \\
-Auch MVI bedient sicher dieser Idee. Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle 
+MVI also makes use of this idea. Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle 
 (as shown in figure 
 \ref{fig:userComputerInputOutput}), 
 where the data flows unidirectionally 
