@@ -21,8 +21,9 @@ by several "threads" at the same time and thus does not stand in the way of asyn
 as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
 this prevents the developer from creating the state object as a global structure. It serves as a "single source of truth".
 \\
-The principle is similar to that of a finite (Mealy) automaton and is therefore conceived as a possible implementation for the "model" function within the library. For the logic described above, a class similar to that of a ViewModel or Presenter 
-is provided to the developer. This separates the user interface (view) from this logic. Finally, the view gets a single function in which the changed state is rendered.
+The principle is similar to that of a finite (Mealy) automaton and is therefore conceived as a possible implementation for the "model" function within the library. 
+For the logic described above, a class similar to that of a ViewModel or Presenter is provided to the developer. This separates the user interface (view) from this logic.
+Finally, the view gets a single function in which the changed state is rendered.
 \\
 The development of a DSL (Domain Specific Language) is being considered in order to simplify the handling of the library and to strengthen the readability 
 of the source code.
