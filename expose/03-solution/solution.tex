@@ -6,12 +6,16 @@ is to create a small, but opinionated library.
 \\
 The first step will be to uniquely identify and describe the events that are caused by a user interaction.
 Via a provided intent function, the events are translated into something that makes the intention clear in the context of the application.
-In order to make the distinction between the events clear the procedure of "Pattern Matching" will be utilized. A long-press on an item within a list for example, 
-can be interpreted as the intention of deletion. In the next step, this intention is executed in the "model" function. It receives the current event and model 
-as parameter. An associated function is added to each intention or event. The library provides a structure that visibly identifies this type of method for the developer.
+In order to make the distinction between the events clear the procedure of "Pattern Matching" 
+\cite{wikiPatterMatching,scalaDocsPatterMatching}
+will be utilized. A long-press on an item within a list for example, can be interpreted as the intention of deletion. In the next step, this intention is executed in 
+the "model" function. It receives the current event and model as parameter. An associated function is added to each intention or event. The library provides a structure 
+that visibly identifies this type of method for the developer.
 \\
 This automatically leads to compartmentalization of the logic and increases its readability. Among other things it can happen that the developer has to access the business 
-logic and thus side effects occur. Since it's enforced on the developer on most mobile platforms to defer heavy operations onto background threads, this must be taken
+logic
+\cite{wikic2BusinessLogic} 
+and thus side effects occur. Since it's enforced on the developer on most mobile platforms to defer heavy operations onto background threads, this must be taken
 into account. The library can remedy this by using a reactive programming concepts.
 \\
 In addition, the model is made available to the developer

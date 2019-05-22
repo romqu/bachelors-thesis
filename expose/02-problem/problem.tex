@@ -65,15 +65,15 @@ where MVI adopts some of its ideas from.
 \\
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
 In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programming 
-h\cite{reactiveProgrammingIntroAndreStaltz} and the underlying "Observer" pattern \cite{wikipediaObserverPattern}.
+\cite{reactiveProgrammingIntroAndreStaltz} 
+and the underlying "Observer" pattern 
+\cite{wikipediaObserverPattern}.
 To quote Andre Staltz:
 \begin{pquotation}{\href{https://cycle.js.org/model-view-intent.html#model-view-intent-what-mvc-is-really-about}{\nolinkurl{cycle.js.org}}, Andre Staltz}
     Model-View-Intent (MVI) is reactive, functional, and follows the core idea in MVC. It is reactive because Intent observes the User, Model observes the Intent, 
     View observes the Model, and the User observes the View. It is functional because each of these components is expressed as a referentially transparent function 
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction.
 \end{pquotation}
-\\
-\\
 A thing to keep in mind is that platforms like iOS and Android enforce developers to perform expensive operations like network calls or disk I/O
 \cite{wikipediaIO}
 must occur on a non-blocking thread. This is mainly due to the importance of the user interface remaining fast and responsive otherwise the user experience will suffer.
