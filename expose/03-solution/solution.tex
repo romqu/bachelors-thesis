@@ -20,11 +20,10 @@ and thus side effects
 occur. Since it's enforced on the developer on most mobile platforms to defer heavy operations onto background threads, this must be taken
 into account. The library can remedy this by using a reactive programming concepts.
 \\
-In addition, the model is made available to the developer
-at this point. This is an immutable data structure (object) that describes the state of the application. In the case of a login screen, for example, the e-mail 
-entered by the user is stored here. The immutability makes it impossible to unintentionally change the object from elsewhere. In addition, the object can be accessed 
-by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function expects a new state (or: a new model) 
-as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
+In addition, the model is made available to the developer at this point. This is an immutable data structure (object) that describes the state of the application. 
+In the case of a login screen, for example, the e-mail entered by the user is stored here. The immutability makes it impossible to unintentionally change the object from elsewhere. 
+In addition, the object can be accessed by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function expects a new state 
+(or: a new model) as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
 this prevents the developer from creating the state object as a global structure. It serves as a "single source of truth".
 \\
 The principle is similar to that of a finite (Mealy) automaton and is therefore conceived as a possible implementation for the "model" function within the library. 
