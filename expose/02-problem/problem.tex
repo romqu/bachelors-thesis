@@ -26,13 +26,13 @@ Its goal is to lay out a structure and architecture of source code in such a way
 reusable. At the same time, the developer is invited to follow a pattern and produce consistent and readable code. This promotes quality and
 maintainability of the application. Over time, many "architectural" patterns have evolved for structuring code within the presentation layer. 
 These include, among others, the following, sorted in ascending order by year of publication: Model-View-Controller (MVC - 1979) 
-\cite{theModelViewEditorTrygveReenskaug1979, modelsViewsControllersTrygveReenskaug1979, aDescriptionOfTheModelViewControllerGlennE1988, professionalASP.NETMVC5}, 
-Model-View-Presenter (MVP - 1990) 
-\cite{wikipediaMvp} 
+\cite{theModelViewEditorTrygveReenskaug1979,modelsViewsControllersTrygveReenskaug1979,aDescriptionOfTheModelViewControllerGlennE1988,professionalASPNETMVC52014}, 
+Model-View-Presenter (MVP - 1996) 
+\cite{mVPModelViewPresenterTheTaligentMikePotel1996,modelViewPresenterMartinFowler2006,proAspNetMVC3FrameworkModelViewPresenter2011},
 Model-View-ViewModel (MVVM) 
-\cite{blogMsdnMvvm} und - relatively
-new to the group - Model-View-Intent (MVI - 2015) 
-\cite{youtubeAndreStaltzUserFunction}. 
+\cite{introductionToModelViewModelPatternJohnGossman2005, modelViewViewModelDesignPatternUsingWindowsErikSorenson2010,proAspNetMVC3FrameworkModelViewPresenter2011}
+und - relatively new to the group - Model-View-Intent (MVI - 2015) 
+\cite{whatIfTheUserWasAFunctionYoutubeAndreStaltzUserFunction2015,reactiveProgrammingWithRxJSMVISergiMansilla,modelViewIntentOnAndroidHannesDorfmann2016}. 
 Each of the patterns listed here serves the same purpose: the strict separation of the user interface from the underlying (business) logic.
 \\
 \\
@@ -41,9 +41,9 @@ MVI also makes use of this idea. Brought to life by André (Medeiros) Staltz, MV
 \ref{fig:userComputerInputOutput}), 
 where the data flows unidirectionally 
 \cite{unidirectionalDataFlowRedux}.
-It takes its inspiration from two concepts: The original MVC as introduced by Trygve Reenskaug in 1979 
-\cite{wikipediaTrygveReenskaug} 
-and the Jhavascript libraries Redux 
+It takes its inspiration from two concepts: The original MVC as introduced by Trygve Reenskaug in 1979
+\cite{theModelViewEditorTrygveReenskaug1979}
+and the Javascript libraries Redux 
 \cite{redux} 
 and React 
 \cite{react}. 
