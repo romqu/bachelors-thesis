@@ -9,6 +9,8 @@
 \usepackage{quoting, xparse}
 \usepackage[hyphens]{url}
 
+\usepackage[toc,page]{appendix}
+
 \NewDocumentCommand{\bywhom}{m}{% the Bourbaki trick
   {\nobreak\hfill\penalty50\hskip1em\null\nobreak
    \hfill\mbox{\normalfont(#1)}%
@@ -110,11 +112,11 @@
 	\begin{appendix}
 		\listoffigures
 	\end{appendix}
-	
-	\printbibliography[type=online,title={Online References}]
+
+	\printbibliography[type=book,title={Book References}]
 
 	\printbibliography[type=report,title={Report References}]
 	
-	\printbibliography[type=book,title={Book References}]
+	\printbibliography[type=online,title={Online References}]
 	
 \end{document}
