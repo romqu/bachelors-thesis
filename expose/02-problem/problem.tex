@@ -60,14 +60,14 @@ The purpose of the intent-function is to translate the user generated event into
 In addition, the event contains data that is necessary for further processing. This requires the event to be accurately described, unique and expressive.
 The model function then consumes the output (intent function) as its input. Its job is it to create a new model without changing the last one. 
 That's what is referred to as immutability. 
-\cite{immutableObjectsEffectiveJava}
+\cite{immutabilityEffectiveJavaJoshuaBloch2017,immutabilityImmutableObjectsInJavaChristianHaack2006}
 It's a concept that belongs (but is not exclusive) to a programming paradigm called functional programming
-\cite{functionalProgrammingWikiHaskell,functionalProgrammingPractical,programmingInHaskellFunctionalProgrammingDefinition},
+\cite{functionalProgrammingFunctionalProgrammingInJavaPierreYves2017},
 where MVI adopts some of its ideas from.
 \\
 Finally the view function receives the model as its input and takes care of rendering it (a visual representation of the model for the user). 
 In order to achieve the cycle effect and the unidirectional data flow, MVI makes use of reactive programming 
-\cite{reactiveProgrammingIntroAndreStaltz} 
+\cite{reactiveProgrammingReactiveProgrammingWithJavaBenChristensen,reactiveProgrammingTheIntroductionToReactiveAndreStaltz} 
 and the underlying "Observer" pattern 
 \cite{wikipediaObserverPattern}.
 To quote Andre Staltz:
