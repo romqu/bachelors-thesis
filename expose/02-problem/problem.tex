@@ -77,9 +77,9 @@ To quote Andre Staltz:
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction.
 \end{pquotation}
 Due to MVI being based on functional paradigms and hence using pure functions, it has to fight a common problem in applications called "side effects".
-As mentioned above, it is ofen a requirement to access APIs or a local database. Calling them inside of a pure function is technically not allowed.
+As mentioned above, it is ofen a requirement to access APIs or a local database, but calling them inside of a pure function is technically not allowed.
 \todo{why reactive, what does reactive solve for MVI? Streams? side effects? state?}
 \\
 Given this description of MVI and the mentioned problems, the questions that arise are: What does an event look like? How is immutability achieved?
-Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the logic belong? And how is separation of concerns possible?
-To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
+Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the user user-interface logic belong? And how is separation of concerns possible?
+To summarize, it becomes a question of implementation and design. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
