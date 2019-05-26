@@ -76,16 +76,10 @@ To quote Andre Staltz:
     View observes the Model, and the User observes the View. It is functional because each of these components is expressed as a referentially transparent function 
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction.
 \end{pquotation}
-Due to the nature of MVI being based on functional paradigms it has to fight a common problem in modern applications called "side effects".
-As mentioned above, it is ofen a requirement to access APIs.
-
-A thing to keep in mind is that platforms like iOS and Android enforce developers to perform expensive operations like network calls or disk I/O
-\cite{wikipediaIO}
-must occur on a non-blocking thread. This is mainly due to the importance of the user interface remaining fast and responsive otherwise the user experience will suffer.
-\cite{androidKeepingYourAppResponsive,androidNetworkOnMainThreadException}
-\\
+Due to MVI being based on functional paradigms and hence using pure functions, it has to fight a common problem in applications called "side effects".
+As mentioned above, it is ofen a requirement to access APIs or a local database. Calling them inside of a pure function is technically not allowed.
 \todo{why reactive, what does reactive solve for MVI? Streams? side effects? state?}
 \\
-Given this description of MVI questions that arise are: What does an event look like? How is immutability achieved?
+Given this description of MVI and the mentioned problems, the questions that arise are: What does an event look like? How is immutability achieved?
 Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the logic belong? And how is separation of concerns possible?
 To summarize, it becomes a question of implementation. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
