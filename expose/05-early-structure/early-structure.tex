@@ -1,88 +1,97 @@
 \section{Early Structure}
 \label{sec:early-structure}
 
-\quad Zusammenfassung/Abstract \\
-\quad Eigenständigkeitserklärung/Eidesstattliche Erklärung
+\quad Summary/Abstract
+\quad Statutory Affidavit/Declaration of Authorship
 \begin{enumerate}
-    \item Einleitung
+    \item Introduction
     \begin{enumerate}
-        \item Problemfeld/Motivation
-        \item Ziel(e) der Arbeit
-        \item Aufgabenstellung
-        \item Lösungsansatz
+        \item Problem area/Motivation
+        \item Objective(s) of the work
+        \item Task definition
+        \item Solution (approach)
     \end{enumerate}
-    \item Anforderungsanalyse
+    \item Requirements analysis
     \begin{enumerate}
-        \item Funktionale Anforderungen
-        \item Nicht-funktionale Anforderungen
-        \item Übersicht der Anforderungen/Zusammenfassung
+        \item Functional requirements
+        \item Non-Functional requirements
+        \item Overview of requirements/Summary
     \end{enumerate}
-    \item Grundlagen und verwandte Arbeiten
+    \item Fundamentals and related work
     \begin{enumerate}
-        \item MVI
-        \item Endliche Automaten
-        \item Unidrektionalität
-        \item Funkionale Programmierung
+        \item Flux
+        \begin{enumerate}
+            \item Unidirectional data flow
+        \end{enumerate}
+        \item Redux
+        \item Functional programming
         \begin{enumerate}
             \item Pure Functions
+            \item Immutability
             \item Expressions (vs Statements)
             \item Function Composition
-            \item Monads
-            \item Immutability
         \end{enumerate}
-        \item Reaktive Programmierung
+        \item Reactive Programming
         \begin{enumerate}
             \item Observer Pattern
             \item Iterator Pattern
             \item Streams
         \end{enumerate}
-        \item Vergleich mit bestehenden Design Patterns
+        \item MVI
         \begin{enumerate}
-            \item MVC (Model-View-View Model)
-            \item MVP (Model-View-Intent)
-            \item MVVM (Model-View-Intent)
-            \item Zusammenfassung
+            \item MVC (Model-View-Controller)
+            \item View
+            \item Intent and Action
+            \item Model and State
+            \item Middleware
+            \item Finite state machine
         \end{enumerate}
-        \item Untersuchung von bestehenden Bibliotheken
+        \item Comparison with other existing architecture patterns
         \begin{enumerate}
-            \item Workflow
-            \item RxMVI
-            \item Zusammenfassung
+            \item MVP (Model-View-Presenter)
+            \item MVVM (Model-View-ViewModel)
+            \item Summary
         \end{enumerate}
-        \item Verwandte Arbeiten
+        \item Examination of existing  MVI Frameworks/Libraries
+        \begin{enumerate}
+            \item MVICore
+            \item Mobius
+            \item Summary
+        \end{enumerate}
+        \item Related work
     \end{enumerate}
-    \item Konzeption
+    \item Design
     \begin{enumerate}
-        \item Entwurf eines eines Workflow
-        \item Entwurf der Komponenten
+        \item Design of a framework
+        \item Design of the components
         \begin{enumerate}
             \item Event/Intent/Action
+            \item Dispatcher
             \item Reducer
             \item State/Store
         \end{enumerate}
-        \item Entwurf einer DSL?
-        \item Zusammenfassung
+        \item Design of an DSL
+        \item Summary
     \end{enumerate}
-    \item Prototypische Realisierung/Implementierung
+    \item Prototypical realization/implementation
         \begin{enumerate}
-            \item Wahl der Realisierungsplattform
-            \item Ausgewählte Realisierungsaspekte
-            \item Qualitätssicherung
+            \item Selected aspects of implementation
+            \item Quality assurance
             \begin{enumerate}
-                \item Unit-Tets
-                \item Integrationstest
+                \item Unit-Tests
+                \item Integration-Tests
             \end{enumerate}
-            \item Zusammenfassung
+            \item Summary
         \end{enumerate}
     \item Evaluation
     \begin{enumerate}
-        \item Überprüfung funktionaler Anforderungen
-        \item Überprüfung nicht-funktionaler Anforderungen
-        \item Zusammenfassung
+        \item Review of functional requirements
+        \item Review of non-functional requirements
+        \item Summary
     \end{enumerate}
-    \item Zusammenfassung und Ausblick
+    \item Summary and outlook
     \begin{enumerate}
-        \item Zusammenfassung
-        \item Ausblick
+        \item Summary
+        \item Outlook
     \end{enumerate}
 \end{enumerate}
