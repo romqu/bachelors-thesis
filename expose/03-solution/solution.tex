@@ -2,27 +2,31 @@
 \label{subsec:solution}
 
 In order to reduce the cognitive burden on the developer when implementing the various components of MVI, the aim 
-is to create a small, but opinionated library.
+is to create a small, but opinionated framework.
 \\
 The first step will be to uniquely identify and describe the events that are caused by a user interaction.
 Via a provided intent function, the events are translated into something that makes the intention clear in the context of the application.
 In order to make the distinction between the events clear the procedure of "Pattern Matching" 
-\cite{wikiPatterMatching,scalaDocsPatterMatching}
+\cite{}
 will be utilized. A long-press on an item within a list for example, can be interpreted as the intention of deletion. In the next step, this intention is executed in 
-the "model" function. It receives the current event and model as parameter. An associated function is added to each intention or event. The library provides a structure 
-that visibly identifies this type of method for the developer.
+the "model" function. \hl{It receives the current event and model as parameter. An associated function is added to each intention or event} (
+\textcolor{red}{I didn't get that. Is that part of your solution? If so, which problem does it solve?}).
+The library provides a structure that visibly identifies this type of method for the developer.
 \\
 This automatically leads to compartmentalization of the logic and increases its readability. Among other things it can happen that the developer has to access the business 
 logic
-\cite{wikic2BusinessLogic} 
+\cite{} 
 and thus side effects 
-\cite{sideEffectsFunctionalLightJavaScript,sideEffectsCompilerDetection}
+\cite{}
 occur. Since it's enforced on the developer on most mobile platforms to defer heavy operations onto background threads, this must be taken
 into account. The library can remedy this by using a reactive programming concepts.
 \\
 In addition, the model is made available to the developer at this point. This is an immutable data structure (object) that describes the state of the application. 
 In the case of a login screen, for example, the e-mail entered by the user is stored here. The immutability makes it impossible to unintentionally change the object from elsewhere. 
-In addition, the object can be accessed by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function expects a new state 
+In addition, the object can be accessed by several "threads" at the same time and thus does not stand in the way of asynchronous programming. The "model" function 
+\hl{expects} (
+    \textcolor{red}{Expects? I don't understand anything right now. How about "generates / creates" or something? The model is transferring the old model into a new one, isn't it?}
+) a new state 
 (or: a new model) as return value. Due to the immutability, the previous state remains untouched. Instead, it is copied and provided with new values at the same time. Furthermore, 
 this prevents the developer from creating the state object as a global structure. It serves as a "single source of truth".
 \\
@@ -30,8 +34,13 @@ The principle is similar to that of a finite (Mealy) automaton and is therefore 
 For the logic described above, a class similar to that of a ViewModel or Presenter is provided to the developer. This separates the user interface (view) from this logic.
 Finally, the view gets a single function in which the changed state is rendered.
 \\
-The development of a DSL (Domain Specific Language) is being considered in order to simplify the handling of the library and to strengthen the readability 
-of the source code.
+The development of a 
+\hl{DSL (Domain Specific Language)} (
+    \textcolor{red}{Still very fuzzy, as to what such a DSL could look like and what it brings to the developer.}
+) is being considered in order to simplify the handling of the library and to strengthen the readability 
+of the source \hl{code} (
+    \textcolor{red}{All in all, it remains unclear to me what the result will be. In the first sentence, you write something about a library, followed by a few more details that don't really sharpen the "big picture". What does a developer gain from your library, to what extent does it make his life easier?}
+).
 
 
 % [x] single source of truth 
