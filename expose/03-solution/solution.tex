@@ -4,7 +4,14 @@
 In order to reduce the cognitive burden on the developer when implementing the various components of MVI, the aim 
 is to create a small, but opinionated framework.
 \\
+\\
 The first step will be to uniquely identify and describe the events that are caused by a user interaction.
+For this the framework will provide a structure that the developer uses to mark this kind of events.
+The events then must be passed as an argument into a predefined "intent" function, which only takes marked events as a valid input.
+Thus the developer is forced to name every event that can possibly happen. The "intent" function itself servers as an entrypoint sto the unidirectional flow 
+of the framework (and so MVI).
+\\
+\\
 Via a provided intent function, the events are translated into something that makes the intention clear in the context of the application.
 In order to make the distinction between the events clear the procedure of "Pattern Matching" 
 \cite{}
