@@ -71,14 +71,14 @@ In order to achieve the cycle effect and the unidirectional data flow, MVI makes
 and the underlying "Observer" pattern 
 \cite{}.
 To quote Andre Staltz:
-\begin{pquotation}{\href{https://cycle.js.org/model-view-intent.html#model-view-intent-what-mvc-is-really-about}{\nolinkurl{cycle.js.org}}, Andre Staltz}
+\begin{pquotation}{\cite{citationMVIAndreStaltz}, Andre Staltz}
     Model-View-Intent (MVI) is reactive, functional, and follows the core idea in MVC. It is reactive because Intent observes the User, Model observes the Intent, 
     View observes the Model, and the User observes the View. It is functional because each of these components is expressed as a referentially transparent function 
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction.
 \end{pquotation}
 Due to MVI being based on functional paradigms and hence using pure functions, it has to fight a common problem in applications called "side effects".
 As mentioned above, it is ofen a requirement to access APIs or a local database, but calling them inside of a pure function is technically not allowed.
-\todo{why reactive, what does reactive solve for MVI? Streams? side effects? state?}
+\todo{why reactive, what does reactive solve for MVI? Streams? state?}
 \\
 Given this description of MVI and the mentioned problems, the questions that arise are: What does an event look like? How is immutability achieved?
 Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the user user-interface logic belong? And how is separation of concerns possible?
