@@ -26,13 +26,20 @@ should be supported by the framework to keep up the unidirectional data flow. Th
 the task of the framework is then to execute the logic safely and return the result (if any) without the developer having to intervene.
 \\
 \\
-At this point the developer gets access to the model/state structure he has created before. It's the only point in the cycle (or unidirectional flow) where the 
-developer gets hold of his state. This and the immutable property of the state makes it impossible to unintentionally change the object from elsewhere. It leads 
+At this point the developer gets access to the model/state structure he has created beforehand/previously. It's the only point in the cycle (or unidirectional flow) 
+where the developer gets hold of his state. This and the immutable property of the state makes it impossible to unintentionally change the object from elsewhere. It leads 
 to code that is more predictable and less prone to errors. In other words: The model/state structure functions as the "single source of truth".
 \\
 \\
 The, by the framework provided, model function expects a (new) state as a return value. Due to the above listed properties, the developer can not change the state 
-in place, instead it has to be copied and provided with new values during the copy operation: The model is transferring the old model into a new one.
+in place, instead it has to be copied and provided with new values during the copy process: The model is transferring the old model into a new one.
+Since this operation always follows the same schema, the framework will offer a structure that encapsulate it and the developer has to use.
+This gives a better "separation of concerns", since it makes it clear as to which part of code is responsible for which operation.
+\\
+\\
+For the entire logic described here, the framwork will provide an object that allows access to the mentioned functionality. In addition, but no less important, 
+it serves as a "ViewModel", "Controller" or "Presenter" in that it will be the place to put in the user interface logic.
+
 
 \newpage
 In the next step, this intention is executed in 
@@ -68,10 +75,3 @@ The development of a
 of the source \hl{code} (
     \textcolor{red}{All in all, it remains unclear to me what the result will be. In the first sentence, you write something about a library, followed by a few more details that don't really sharpen the "big picture". What does a developer gain from your library, to what extent does it make his life easier?}
 ).
-
-
-% [x] single source of truth 
-% [x] asynchronous code -> reactive takes care of that
-% observer pattern -> reactive
-% try to push the developer into a functional direction
-% lowering the bar Of entry to write maintainable/readable code?
