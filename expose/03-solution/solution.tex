@@ -5,17 +5,29 @@ In order to reduce the cognitive burden on the developer when implementing the v
 is to create a small, but opinionated framework.
 \\
 \\
-The first step will be to uniquely identify and describe the events that are caused by a user interaction.
-For this the framework will provide a structure that the developer uses to mark this kind of events.
-The events then must be passed as an argument into a predefined "intent" function, which only takes marked events as a valid input.
-Thus the developer is forced to name every event that can possibly happen. The "intent" function itself servers as an entrypoint sto the unidirectional flow 
-of the framework (and so MVI).
+At the beginning, the developer is encouraged to define the model. It is suppose to describes the state of the application and is therefore expected to contain
+attributes
+\dots 
+\\
+The framework aims to checks whether the model and its variables are immutable to make sure the developer adheres to the principle of immutability,
+which MVI demands. This ensures that the developer does not forget it.
 \\
 \\
-Via a provided intent function, the events are translated into something that makes the intention clear in the context of the application.
-In order to make the distinction between the events clear the procedure of "Pattern Matching" 
-\cite{}
-will be utilized. A long-press on an item within a list for example, can be interpreted as the intention of deletion. In the next step, this intention is executed in 
+The next step will be to uniquely identify and describe the events that are caused by a user interaction.
+As an example, a long-press on an item within a list can be interpreted as the intention of deletion. 
+For this the framework should provide a structure that the developer uses to mark this kind of events.
+The events then should be passed as an argument into a predefined "intent" function, which only takes marked events as a valid input.
+Thus the developer will be forced to name every event that can possibly happen and to structure that part of code.
+The "intent" function itself can serve as an entrypoint to the unidirectional flow of the framework (and thus MVI). It will be realised 
+through the reactive programming style of the framework api.
+\\
+\\
+Based on the type of event the developer might want to execute parts of his business logic. This can lead to mentioned "side effects" and
+should be taken care of by the framework.
+
+
+\\
+In the next step, this intention is executed in 
 the "model" function. \hl{It receives the current event and model as parameter. An associated function is added to each intention or event} (
 \textcolor{red}{I didn't get that. Is that part of your solution? If so, which problem does it solve?}).
 The library provides a structure that visibly identifies this type of method for the developer.
