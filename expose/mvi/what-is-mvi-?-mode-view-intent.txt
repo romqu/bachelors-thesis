@@ -1,0 +1,16 @@
+https://fueled.com/blog/what-is-mvi-model-view-intent/
+----------------------------------------------------------
+
+- Model is state
+    - everything going on a screen as a container of states, 
+    isLoading, isChecked becomes model
+
+- State View Intention
+
+- State, View, Intention, User
+
+- user interacts with ui (pull to refresh)
+- user has Intention to refresh screen
+- changes occur via background logic
+- any change of State can only happen by firing an Intent
+- new state is rendered in View

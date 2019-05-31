@@ -1,6 +1,18 @@
 \subsection{Problem}
 \label{subsec:problem}
 
+- More general about architectural patterns in the presentation layer
+    - why?
+    - what exists?
+    - state managment in general?
+    - then mvi 
+        - short explanation
+        - relatively new
+        - existing solutions
+            - do they have problems?
+    - there is no standaized way to do it
+    - android specific problems?
+
 Applications today have increased in complexity compared to its counterpart just a few years ago. Especially in the field of frontend development the amount of 
 functions has increased
 \cite{increasingNatureOfFrontendKevinBall2018}. 
@@ -36,6 +48,34 @@ und - relatively new to the group - Model-View-Intent (MVI - 2015)
 Each of the patterns listed here serves the same purpose: the strict separation of the user interface from the underlying (business) logic.
 \\
 \\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 MVI also makes use of this idea. Brought to life by André (Medeiros) Staltz, MVI encapsulates the interaction between the user and the application as a cycle 
 (as shown in figure 
 \ref{fig:userComputerInputOutput}), 
@@ -83,3 +123,7 @@ As mentioned above, it is ofen a requirement to access APIs or a local database,
 Given this description of MVI and the mentioned problems, the questions that arise are: What does an event look like? How is immutability achieved?
 Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the user user-interface logic belong? And how is separation of concerns possible?
 To summarize, it becomes a question of implementation and design. What does a developer have to do in order to implement or reap the benefits from this concept of MVI?
+
+
+
+

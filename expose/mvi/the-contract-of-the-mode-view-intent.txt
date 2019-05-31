@@ -1,0 +1,57 @@
+https://proandroiddev.com/the-contract-of-the-model-view-intent-architecture-777f95706c1e
+-------------------------------------------------------------------
+
+- organizing the higher layers, i.e. close to the UI
+
+- User -> Intent -> Intenten Interpreter -> Action -> Processer (Business + Repo) -> Result -> Reducer -> State -> Render -> User (cycle)
+
+- UI or View: Listening and redering part
+    - listening part is to listen to the user and emit any user’s originated Intent
+    - rendering part is to render a state onto the screen
+
+- “listening” and the “rendering” cannot talk to each other
+    - listening only listens to the user
+    - rendering only listens to emitted states from ViewModel
+
+- “listening” cannot write anything to the UI
+    - clicks on a refresh button, code should not display a loading view
+    - only emit an intent which conveys refresh button has been clicked
+    - may read when extra information needed (which row was clicked)
+    - should never change anything
+
+- “rendering” cannot read anything from the UI
+    - only write
+    - self-sufficient state to render
+    - contains all necessary data
+
+- UI has one entry point, one exit point
+    - emits intents for the ViewModel
+    - listens and renders state
+
+- ViewModel
+    - UI independent logic
+    - one entry point, one exit point
+    - takes an observable of intents, execute corresponding business logic
+    - produce result, reduced with latest (cached) state, create new state, ViewModel emits
+
+- user(rendering(businessLogic(listening(user())))) -> cycle !!!
+    - listening = intent
+    - businessLogic = model
+    - rendering = View
+    - user = user
+    - each component listen to previous one, and is listened by the next
+    - component processes its input, its output becomes input of next component
+
+- Unidirectional Data Flow
+    - data goes only one way
+    - each component only knows what kind of data they are listening to and what to do with it
+    - only one way for components to communicate to each other: passing an object onto the data flow
+
+- all objects are immutable
+    - never change
+    - create new ones (copy-on-write)
+
+- side effects
+    - business logic: I/O, api
+    - rendering: may write UI
+    - listening: may read UI

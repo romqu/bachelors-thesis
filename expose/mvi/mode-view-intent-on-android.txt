@@ -1,0 +1,48 @@
+http://hannesdorfmann.com/android/model-view-intent
+----------------------------------------------------------
+
+- key principles from mvc
+    - model is observed by the View
+    - controller manipulates the model
+    - Reenskaug original idea every UI element has own model and controller
+        - CheckBox UI widget: observers his own model, i.e. boolean
+
+- inspired by redux, react
+
+- controller in mvc is incompatible
+    - proactive component (implying either passive Model or passive View)
+    - original idea: translating information between two worlds
+        - computer’s digital realm and user’s mental model
+    - controller may or may not manipulate view
+        - not unidirectional!
+
+- unidirectional data flow and immutability to establish predictable states
+
+- computer takes input, converts to output (view)
+- human sees output, takes it as input
+- human produces output 
+- computer takes it as input
+- mathematical funtion
+    - view( model( intent()))
+
+- intent():
+    - takes input from user
+    - translates it -> action (string)
+    - passed as paramter to model()
+
+- model()
+    - takes output from intent()
+    - manipulates model
+    - creates new model
+    - does not update existing model -> immutability
+    - copies it
+    - only piece of code allowed to change state (model)
+
+- view()
+    - takes model from model() as input
+    - renders it to ui
+
+- view generates "events" (observer pattern) -> intent
+
+- model holds state of view
+
