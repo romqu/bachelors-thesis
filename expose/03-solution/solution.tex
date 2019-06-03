@@ -11,16 +11,32 @@
 \newpage
 In order to overcome the mentioned problem, the aim will be to take a deeper look at what is important to understand and successfully implement MVI.
 For this it is essential to get a better overview over archhitectural patterns in general. Before this can be done meaningfully the first step must be 
-to analyze why they came to life in the first place and what the exact motivation was. Further the problem they try to solve should be layed out in more detail to 
+to analyze why they came to life in the first place and what the exact motivation was. Further the problem they try to solve shall be layed out in more detail to 
 get the bigger picture. In order to do justice to that, it is a necessity to review the history of architectural patterns and to work out how they have evolved over time.
 By doing that it will also be possible to track down the issues that each of this architectural patterns brings with it.
 \\
 \\
 After this is accomplished, the next step is to study the origins of Model-View-Intent. The beginning is made by the JavaScript library React and the application architecture
 Flux, which introduced the concept of the unidirectional flow for building user interfaces. It is necessary to clarify which idea is hidden behind it and what it does
-better than previous solutions. All components of this framework should be examined and shortly explained. Following on from this, a further improvement(?) of Flux will 
+better than previous solutions. The important components of this framework shall be examined and shortly explained. Following on from this, a further improvement(?) of Flux will 
 be discussed: Redux. Differences to the idea and terminology of Flux will be pointed out and evaluated.
 \\
 \\
 Since Mode-View-Intent takes some of its inspiration regarding its structure from Mode-View-Cotroller, it is imperative (crucial?) to dedicate a section to it as well.
-In this section, the similarities and differences will be identified and illustrated to get a better grasp, as to why it served as a source of inspiration.
+In this section, the similarities and differences will be identified and illustrated to get a better grasp as to why it served as a source of inspiration.
+\\
+\\
+It then will be set out how MVI functions in detail, what mechanism it employs/utilizes and which components it is made up of. In addition, it is examined which ideas it has 
+adopted from the topics discussed before, whey they were chosen and how they interoperate with each other.
+\\
+\\
+Thereafter, two other major building blocks of Model-View-Intent will be investigated. The first one being "functional" programming and the second one "reactive" programming.
+Since both are classified as more complex paradigms, they will be briefly explained and it will be outlined to what role they play in Model-View-Intent.
+\\
+\\
+The next task is then to use the acquired knowledge to develop a concept for a framwork that simplifies the implementation of Model-View-Intent in Android and thus to reduce
+the cognitive burden for a developer who is interested in deploying this very same pattern. In this part it is also important to address the peculiarities of the Android platform 
+in the considerations of the design. 
+\\
+\\
+At last an example application shall be developed to showcase and verfiy the intended behaviour of the framework.
