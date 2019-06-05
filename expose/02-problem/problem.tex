@@ -25,7 +25,7 @@ and communicating with the underlying operating system itself (eg the periodic r
 \\
 The challenge a developer faces is to come up with a general approach that bridges the gap between what the users sees and the source code of 
 the application - mainly: How to structure the user facing parts of the codebase also known as the presentation layer
-\cite{patternsOfEnterpriseApplicationArchitectureMartinFowlerPresentationLayer,softwareArchitecturePatternMarkRichards2015PresentationLayer} 
+\cite{patternsOfEnterpriseApplicationArchitectureMartinFowlerPresentationLayer} 
 in a layered architecture.
 \cite{threeTierArchitectureDonaldWolfe2013}.
 \\
@@ -33,18 +33,18 @@ in a layered architecture.
 Like many other problems in software development, this one is a problem that has existed for quite some time and concerns a large part of the developers.
 It is therefore a common problem. This often results in the endeavour to develop a universally valid concept that counteracts these problems and points out 
 possible solutions. The sought out concept here is defined as an "architectural" pattern.
-\cite{softwareArchitecturePatternMarkRichards2015, patternOrientedSoftwareArchitectureFrankBuschmann2007, designPatternElementsOfErichGamma2000}
+\cite{softwareArchitecturePatternMarkRichards2015}
 Its goal is to lay out a structure and architecture of source code in such a way that it is modular, flexible and
 reusable. At the same time, the developer is invited to follow a pattern and produce consistent and readable code. This promotes quality and
 maintainability of the application. Over time, many "architectural" patterns have evolved for structuring code within the presentation layer. 
 These include, among others, the following, sorted in ascending order by year of publication: Model-View-Controller (MVC - 1979) 
-\cite{theModelViewEditorTrygveReenskaug1979,modelsViewsControllersTrygveReenskaug1979,aDescriptionOfTheModelViewControllerGlennE1988,professionalASPNETMVC52014}, 
+\cite{theModelViewEditorTrygveReenskaug1979,modelsViewsControllersTrygveReenskaug1979}, 
 Model-View-Presenter (MVP - 1996) 
-\cite{mVPModelViewPresenterTheTaligentMikePotel1996,modelViewPresenterMartinFowler2006,proAspNetMVC3FrameworkModelViewPresenter2011},
+\cite{mVPModelViewPresenterTheTaligentMikePotel1996,modelViewPresenterMartinFowler2006},
 Model-View-ViewModel (MVVM) 
-\cite{introductionToModelViewModelPatternJohnGossman2005, modelViewViewModelDesignPatternUsingWindowsErikSorenson2010,proAspNetMVC3FrameworkModelViewPresenter2011}
+\cite{introductionToModelViewModelPatternJohnGossman2005, proAspNetMVC3FrameworkModelViewPresenter2011}
 und - relatively new to the group - Model-View-Intent (MVI - 2015) 
-\cite{whatIfTheUserWasAFunctionYoutubeAndreStaltzUserFunction2015,reactiveProgrammingWithRxJSMVISergiMansilla,modelViewIntentOnAndroidHannesDorfmann2016}. 
+\cite{reactiveProgrammingWithRxJSMVISergiMansilla}. 
 Each of the patterns listed here serves the same purpose: the strict separation of the user interface from the underlying (business) logic.
 \\
 \\
@@ -52,7 +52,7 @@ MVI also makes use of this idea. Brought to life by André (Medeiros) Staltz, MV
 (as shown in figure 
 \ref{fig:userComputerInputOutput}), 
 where the data flows unidirectionally 
-\cite{unidirectionalDataFlowFluxArchitectureIlyGelman2017,unidirectionalDataFlowTamingTheStateinReactRobinWieruch2018,unidirectionalDataFlowTheCompleteReduxBookIlyGelman2017}.
+\cite{unidirectionalDataFlowFluxArchitectureIlyGelman2017,unidirectionalDataFlowTamingTheStateinReactRobinWieruch2018}.
 It takes its inspiration from three concepts: The original MVC as introduced by Trygve Reenskaug in 1979, the JavaScript framework Redux 
 \cite{reduxReduxQuickStartGuidJamesLee2019} 
 and the JavaScript library React 
@@ -90,12 +90,11 @@ To quote Andre Staltz:
     View observes the Model, and the User observes the View. It is functional because each of these components is expressed as a referentially transparent function 
     over streams. It follows the original MVC purpose because View and Intent bridge the gap between the user and the digital model, each in one direction."
 \end{pquotation}
-Due to MVI being based on functional paradigms and hence using pure functions, it has to fight a common problem in applications called "side effects".
-As mentioned above, it is ofen a requirement to access APIs or a local database, but calling them inside of a pure function is technically not allowed.
+%Due to MVI being based on functional paradigms and hence using pure functions, it has to fight a common problem in applications called "side effects".
+%As mentioned above, it is ofen a requirement to access APIs or a local database, but calling them inside of a pure function is technically not allowed.
 % why reactive, what does reactive solve for MVI? Streams? state?
-\\
 Given this description of MVI and the mentioned problems, the questions that arise are: What does an event look like? How is immutability achieved?
-Since MVI does not have a "Controller", "Presenter" or a "ViewModel": Where does the user-interface logic belong? And how is separation of concerns possible?
+Since MVI does not have a "Controller", "Presenter" or a "View-Model": Where does the user-interface logic belong? And how is separation of concerns possible?
 \\
 Even if solutions for the implementation of MVI in Android already exist, they sometimes seem immature. The dont't provide out of the box solutions for dealing 
 with one-time effects (displaying a popup once) or changes that do not originate from the user but influence the user interface nonetheless. 
