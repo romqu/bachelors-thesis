@@ -1,10 +1,49 @@
-\documentclass[11pt]{scrartcl}
+\documentclass[a4paper, 11pt]{scrartcl}
 
 % font, language
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+
+\usepackage{float}
+\usepackage{longtable}
+
+% quoting
+\usepackage{quoting, xparse}
+\usepackage[hyphens]{url}
+
+\usepackage[toc,page]{appendix}
+
+% highliting
+\usepackage{color,soul}
+
+\NewDocumentCommand{\bywhom}{m}{% the Bourbaki trick
+  {\nobreak\hfill\penalty50\hskip1em\null\nobreak
+   \hfill\mbox{\normalfont(#1)}%
+   \parfillskip=0pt \finalhyphendemerits=0 \par}%
+}
+
+\NewDocumentEnvironment{pquotation}{m}
+  {\begin{quoting}[
+     indentfirst=true,
+     leftmargin=\parindent,
+     rightmargin=\parindent]\itshape}
+  {\bywhom{#1}\end{quoting}}
+
+\usepackage{todonotes}
+\usepackage{caption}
+\newcommand{\source}[1]{\caption*{\hfill Source: {#1}} }
+
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+
+\usepackage{polyglossia}
+\setmainlanguage[babelshorthands=true]{german}
+\setdefaultlanguage[spelling=new]{german}
 \usepackage[autostyle]{csquotes}
+\MakeAutoQuote{»}{«}
+
+
 
 % graphics
 \usepackage{graphicx}
@@ -14,38 +53,68 @@
 \usepackage{listings}
 \usepackage{color}
 \lstset{ % General setup for the package
-	language=Java
+	language=java
 }
 
+% toc depth
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
 % bib
-\usepackage[backend=biber]{biblatex}
+\usepackage[
+	backend=biber,
+	sorting=none
+]{biblatex}
+
 \addbibresource{references/references.bib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!0!black},
+	citecolor={blue!70!black},
+	urlcolor={blue!70!black}
+}
 
+\usepackage{enumitem}
+\setlist[enumerate]{label*=\arabic*.}
 
-\title{Exposè zur Bachelor-Thesis}
+% title, author
+\title{Bachelor-Thesis}
 \author{Roman Quistler}
 
 \begin{document}
 	
-	\include{titlepage}
+	% \include{00-titlepage/titlepage}
 	
 	\pagenumbering{gobble}
 	\newpage
 	\tableofcontents
 	\newpage
-	\pagenumbering{arabic}	
-	
-	\section{Section}
-	\label{sec:einleitende-worte}
-	
-	I'm referring to footnote \ref{myfootnote}.
+	\pagenumbering{arabic}
 	
 	\newpage
-		
+	
+	\input{kapitel/01-einleitung/einleitung}
+
+	\newpage
+	
+	\input{kapitel/02-grundlagen/grundlagen}
+	
+	\newpage
+	
 	\begin{appendix}
 		\listoffigures
 	\end{appendix}
+
+	\printbibliography[type=book,title={Book References}]
+
+	\printbibliography[type=report,title={Report References}]
 	
-	\printbibliography
-		
+	\printbibliography[type=article,title={Artikel Referenzen}]
+	
+	\printbibliography[type=thesis,title={Thesis References}]
+	
+	\printbibliography[type=online,title={Online References}]
+	
 \end{document}
