@@ -17,4 +17,16 @@ Architektur im Jahre 2015 von Facebook.
 \cite{fluxAnnouncementYoutube}
 
 \subsubsection{Flux}
-In der »Flux« Architektur bilden zwei fundamentale Konzepte die Grundbaustein: 
+Für die Einhaltung und Umsetzung eines unidirektionalen Datenfluss. Die bedient »Flux« bei zwei fundamentalen Konzepten: Der Zustand innerhalb einer Applikation wird als »single source of truth (SSOT)« angesehen und darf keine direkte Änderung erfahren. Um dies zu Gewährleisten finden sich mehrere Komponenten in »Flux« wieder:
+\\
+\\
+\textbf{Action}: Eine Aktion beschreibt ein Ereignis, welches zum Beispiel vom Nutzer ausgelöst werden kann. Jeder dieser Aktionen wird dabei ein Typ zugewiesen. Des weiteren können zusätzliche Attribute an eine Aktion gebunden werden.
+\begin{lstlisting}[frame=single, language=Java]
+{
+ type: ActionTypes.INCREMENT,
+ by: 2
+}
+\end{lstlisting}
+\space
+\textbf{Dispatcher}: Dieser ist für die Entgegennahme und Verteilung einer Aktion an sogenannte »Stores« zuständig. Er besitzt die wichtige Eigenschaft der sequentiellen Verarbeitung, d.h., dass er zu jedem Zeitpunkt nur je eine »Action« weiterreicht.
+ 
