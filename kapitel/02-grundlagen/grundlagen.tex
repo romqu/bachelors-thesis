@@ -88,5 +88,24 @@ Ein "Reducer" ist für sich genommen eine einfache Funktion, die bei gleicher Ei
 (previousState, action) => newState
 \end{lstlisting}
 \ \\
-Das Verbindungsstück zwischen einer Aktion und dem Reducer bildet der Store. Dieser existiert im Gegensatz zu Flux nur ein einziges Mal und ist für die Verwaltung des Zustands verantwortlich. Er übernimmt zugleich auch die Rolle des Dispatchers in Flux und verteilt die Akionen an alle Reducer weiter. Der aus dem 
+Das Verbindungsstück zwischen einer Aktion und dem Reducer bildet der Store. Dieser existiert im Gegensatz zu Flux nur ein einziges Mal (und mit auch der Zustand) und ist für die Verwaltung des Zustands verantwortlich. Er übernimmt zugleich auch die Rolle des Dispatchers, wie er in Flux vorkommt, und verteilt die Akionen an alle Reducer weiter. Der aus dem diesen Prozess hervorgehende, neue Zustand wird im Store hinterlegt. Dieses Ereignis wird ebenfalls seitens der View observiert, welche im Anschluss die nötigen Aktualisierungen an der Ansicht vornimmt.
+Am Ende lässt sich der gesamte Fluss wie folgt darstellen:
+\\
+\begin{lstlisting}[frame=single, language=Java]
+View -> Action -> Reducer(s) -> Store -> View
+\end{lstlisting}
+\bigskip
+Neben Redux existieren in der JavaScript Welt noch weitere Bibliotheken, die entweder eine Abwandlungen von Flux darstellen oder aber neue Konzepte implementieren. Jedoch verfolgen dabei alle eine ähnliches Ziel: Ein unidirektionaler Datenfluss und die (zentrierte) Verwaltung des Zustands einer Anwendung.
+
+\subsubsection{Elm}
+Bei Flux und Redux handelt es sich jeweils um Bibliotheken die innerhalb einer Anwendung verwendet werden können. Eine weitere Herangehensweise ist die Verankerung solcher Konzepte in der Programmiersprache selbst. Dies findet man z.B. in
+der Programmiersprache Elm
+\cite{elmIntroduction}
+wieder. Elm besitze eine in die Sprache integrierte Architektur die den einfach Namen "The Elm Architecture" 
+\cite{theElmArchitecture}
+trägt. Eine andere Variante lautet: Model-View-Update. Anhand dessen lassen sich bereits die Kern-Komponenten der Entwurfsmusters erahnen.
+\\
+
+\textbf{Model:} Das Model repräsentiert den Zustand der Applikation als eine simple Datenstruktur.
+\textbf{View:} Die View ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
 
