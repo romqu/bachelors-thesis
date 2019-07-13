@@ -3,7 +3,7 @@
 
 In diesem Kapitel gilt es zu klären, auf welchen Grundlagen, Ideen und Konzepten Model-View-Intent beruht, wie diese miteinander fungieren und weshalb sie als Inspiration dienten.
 
-\subsection{Unidirektionaler Datenfluss und der Zustand: Flux, Redux und React}
+\subsection{Unidirektionaler Datenfluss und der Zustand: Flux, Redux und Elm}
 
 In einer Applikation existieren grundsätzlich zwei Komponenten: Eine, die der Nutzer wahrnehmen kann und eine, die für ihn unsichtbar bleibt. Bei ersterer handelt es sich meist um das, was der Nutzer(auf dem Bildschirm) sieht - die sogenannte »View«. Die zweite Komponente beschreibt die Ebene, welche das Geschehen observiert, darauf reagiert und den weiteren Verlauft (zum größten Teil) kontrolliert. Sie kann unter anderem als »Controller« betitelt werden.
 \\
@@ -105,7 +105,9 @@ wieder. Elm besitze eine in die Sprache integrierte Architektur die den einfach 
 \cite{theElmArchitecture}
 trägt. Eine andere Variante lautet: Model-View-Update. Anhand dessen lassen sich bereits die Kern-Komponenten der Entwurfsmusters erahnen.
 \\
-
+\\
 \textbf{Model:} Das Model repräsentiert den Zustand der Applikation als eine simple Datenstruktur.
-\textbf{View:} Die View ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
-
+\\
+\textbf{View:} Die View ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie in Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
+\subsection{Funktionale Programmierung}
+Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion (pure functions) oder die Unveränderlichkeit (Immutibilty) einen Datenstruktur angesprochen. Diese Konzepte zählen zu der Funktionalen Programmierung und sind in dieser Kernelemente.
