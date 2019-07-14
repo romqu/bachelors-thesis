@@ -110,4 +110,22 @@ trägt. Eine andere Variante lautet: Model-View-Update. Anhand dessen lassen sic
 \\
 \textbf{View:} Die View ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie in Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
 \subsection{Funktionale Programmierung}
-Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion (pure functions) oder die Unveränderlichkeit (Immutibilty) einen Datenstruktur angesprochen. Diese Konzepte zählen zu der Funktionalen Programmierung und sind in dieser Kernelemente.
+Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion (pure functions) oder die Unveränderlichkeit (Immutibilty) einen Datenstruktur angesprochen. Diese Konzepte zählen zu einem Programmierparadigma, welches in den letzten Jahren auch an Bedeutung in Sprachen wie Java gewonnen hat
+\cite{javaFunctionalProgramming}
+: Funktionale Programmierung.
+\\
+\\
+In der häufig imperativen, Objektorientierte Programmierung wie sie in Java oder auch C\# anzutreffen ist, machen Klassen und
+die Mutation (in möglicher Abhängigkeit von gewissen Konditionen) solcher den Hauptbestandteil des Quellcodes aus. Dabei ist zu beachten, dass die funktionale Programmierung die Objektorientierte nicht zwingenden ausschließt, sondern lediglich in eingeschränkter Form nutzt.
+Eine Implementierung in Java welche Beispielweise den Name eines Nutzer Objekts ändert, könnte wie folgt aussehen:
+\begin{lstlisting}[frame=single, language=Java]
+public User changeUserName(String newUserName, User currentUser){
+ if(newUserName != null){
+  currentUser.name = newName
+		
+  System.out.println("Changed user name to: " + newUserName)	
+ }
+	
+ return currentUser
+}
+\end{lstlisting}
