@@ -27,8 +27,12 @@ Fast noch wichtiger als der reaktive Ansatz ist zu verstehen, wie der Kreislauf 
 \\
 \\
 \textbf{Intent}: Das I in MVI steht für Intent und stellt den Teil da, welches es von den anderen Entwurfsmustern unterscheidet. Das Ziel der Intent-Fuktion ist es, die Absicht des Nutzer im digitalen Kontext des Programms auszudrücken.
+Ein Ereignis (oder Event), z.B. die Eingabe eines Buchstaben, kann hier der Input sein.
 Der Output dieser Funktion (z.B. ein String) wird zum Input der nächsten:
 \\
 \\
-\textbf{Model}: Die Model-Funktion nimmt das entgegen, was die Intent-Funktion produziert. Aufgabe liegt in der Verwaltung des Zustands: Sie verfügt über das Model. Sie kann daher durchaus als das zentrale Element in MVI bezeichnet werden.
-In Anbetracht der Tatsache, dass 
+\textbf{Model}: Die Model-Funktion nimmt das entgegen, was die Intent-Funktion produziert. Ihre Aufgabe liegt in der Verwaltung des Zustands: Sie verfügt über das Model. Sie kann daher durchaus als das zentrale Element in MVI bezeichnet werden. In Anbetracht der Tatsache, dass MVI sich als auf funktionaler Programmierung basierendes Muster versteht, ist das Model unveränderlich. Daraus ergibt sich zwangsläufig, dass für einen Zustandswechsel das Model kopiert und somit ein neues erzeugt werden muss. 
+\\
+Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsveränderung hervorrufen kann und darf.
+\\
+\textbf{View}: Die View ist die letzte Funktion in der Kette, 
