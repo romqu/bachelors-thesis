@@ -4,10 +4,11 @@ Model-View-Intent (MVI) ist eine weiteres Entfursmuster, welches der Feder von A
 \cite{modelViewIntentIntroduction}. Es gehört damit zu den jüngsten seiner Art.
 Seine ursprüngliche Anwendung fand es in dem ebenfalls von André Staltz geschaffenen Framework CycleJs, hat seit der Artikelreihe von Hannes Dorfmann in 2016
 \cite{modelViewIntentOnAndroidHannesDorfmann2016}
-aber auch den Sprung in die Welt von Android vollbracht. MVI bezieht den Großteil seines Design aus den hier bereits vorstellten Ideen und Konzepten. Das Ziel ist, ähnlich wie bei MVC, Informationen zwischen zwei Welten zu übersetzten: der des digitalen Bereichs des Computers und des mentalen Modells des Benutzers. Oder anders formuliert: Das Programm muss verstehen, was der Nutzer im Sinn hat.
+aber auch den Sprung in die Welt von Android vollbracht. MVI bezieht den Großteil seines Design aus den hier bereits vorstellten Ideen und Konzepten. Das erste Ziel ist, ähnlich wie bei MVC, Informationen zwischen zwei Welten zu übersetzten: der des digitalen Bereichs des Computers und des mentalen Modells des Benutzers. Oder anders formuliert: Das Programm muss verstehen, was der Nutzer im Sinn hat.
+Der zweite, zentrale Punkt von MVI besteht in der Handhabung des Zustands der Anwendung. Hierfür ist zu klären, was genau der Zustand inne hat.
 \\
 \\
-MVI betrachtet dabei die Interaktion zwischen einem Nutzer und Programm als einen Kreis(lauf). Betätigt der Nutzer bswp. einen Knopf, sein Output, so gestaltet sich dieser als Input für das Programm. Dieses wiederum erzeugt einen Output (z.B. eine Meldung), welcher zum Input des Nutzers wird (hier: lesen).
+MVI betrachtet dafür die Interaktion zwischen einem Nutzer und Programm als einen Kreis(lauf). Betätigt der Nutzer bswp. einen Knopf, sein Output, so gestaltet sich dieser als Input für das Programm. Dieses wiederum erzeugt einen Output (z.B. eine Meldung), welcher zum Input des Nutzers wird (hier: lesen).
 \begin{figure}[ht]
 	\centering
 	\includegraphics[height=0.5\textwidth]{./images/mvi-cycle}
@@ -37,7 +38,14 @@ Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsverände
 \\
 \\
 \textbf{View}: Die View ist die letzte Funktion in der Kette, und ist zuständig für die visuelle Repräsentation des Models.
+\\
+\\
+Nimmt man alle drei Funktion zusammen, ergibt sich folgende Kette:
+\begin{lstlisting}[caption={funktion}, xleftmargin=.3\textwidth, frame=false, numbers=none]
+view(model(intent(input)))
+\end{lstlisting}
 \newpage
+Um den Sachverhalt zu verdeutlichten, kann dieses Beispiel in Form von pseudo-code herangezogen werden:
 \begin{lstlisting}[caption={pseudo mvi implementation}, label={lst:pseudo-mvi}, language=Kotlin]
 fun intent(text: String): Event {
 	return EnteredTextEvent(text)
@@ -59,5 +67,6 @@ fun view(model: Model){
 fun main(args : Array<String>) {
 	view(model(intent("Hello World")))
 }
-
 \end{lstlisting}
+Bei dieser Implementierung 
+
