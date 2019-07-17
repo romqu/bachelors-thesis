@@ -35,4 +35,29 @@ Der Output dieser Funktion (z.B. ein String) wird zum Input der nächsten:
 \\
 Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsveränderung hervorrufen kann und darf.
 \\
-\textbf{View}: Die View ist die letzte Funktion in der Kette, 
+\\
+\textbf{View}: Die View ist die letzte Funktion in der Kette, und ist zuständig für die visuelle Repräsentation des Models.
+\newpage
+\begin{lstlisting}[caption={pseudo mvi implementation}, label={lst:pseudo-mvi}, language=Kotlin]
+fun intent(text: String): Event {
+	return EnteredTextEvent(text)
+}
+
+fun model(event: Event): Model {
+	return when(event){
+		is EnteredTextEvent -> {
+			val newText = event.text.trim() // <-- business logic
+			model.copy(text = newText) // <-- immtuable data structure
+		}
+	}
+}
+
+fun view(model: Model){
+	textView.text = model.text 	
+}
+
+fun main(args : Array<String>) {
+	view(model(intent("Hello World")))
+}
+
+\end{lstlisting}
