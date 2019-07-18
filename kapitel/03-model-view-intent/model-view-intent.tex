@@ -35,6 +35,7 @@ Der Output dieser Funktion (z.B. ein String) wird zum Input der nächsten:
 \textbf{Model}: Die Model-Funktion nimmt das entgegen, was die Intent-Funktion produziert. Ihre Aufgabe liegt in der Verwaltung des Zustands: Sie verfügt über das Model. Sie kann daher durchaus als das zentrale Element in MVI bezeichnet werden. In Anbetracht der Tatsache, dass MVI sich als auf funktionaler Programmierung basierendes Muster versteht, ist das Model unveränderlich. Daraus ergibt sich zwangsläufig, dass für einen Zustandswechsel das Model kopiert und somit ein neues erzeugt werden muss. 
 \\
 Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsveränderung hervorrufen kann und darf.
+Zusätzlich ist es der Ort, an dem auf die Business Logik der Anwendung zugegriffen wird.
 \\
 \\
 \textbf{View}: Die View ist die letzte Funktion in der Kette, und ist zuständig für die visuelle Repräsentation des Models.
@@ -68,5 +69,38 @@ fun main(args : Array<String>) {
 	view(model(intent("Hello World")))
 }
 \end{lstlisting}
-Bei dieser Implementierung 
+Bei dieser Implementierung ist jedoch schnell ersichtlich, das es sich hierbei um keinen Kreis(lauf) handelt. Jede Funktion wird nur einmal aufgerufen. Es fehlt der reaktive Part, der MVI unter anderem ausmacht. Um diesen zu realisieren muss der Beispiel-Code wie folgt abgeändert werden:
+\begin{lstlisting}[caption={pseudo mvi implementation},label={lst:pseudo-reactive-mvi},language=Kotlin]
+// the obersvable from the textView gets passed as a parameter
+fun intent(text: Observabkle<String>): Observable<Event> {
+	text.map { text -> EnteredTextEvent(text) }
+}
 
+fun model(event:  Observable<Event>): Observable<Model> {
+	event.map { event ->
+		return when(event){
+			is EnteredTextEvent -> {
+			val newText = event.text.trim() // <-- business logic
+			model.copy(text = newText) // <-- immtuable data structure
+		}
+	}	
+}
+
+fun view(model: Observable<Model>){
+	// we subscribe to the model to listen for changes
+	model.subscribe { model ->
+		textView.text = model.text 	
+	}	
+}
+
+fun main(args : Array<String>) {
+
+	// this listens to arbitary text changes 
+	val textChanges: Observable<String> = textView.changes()
+
+	view(model(intent(textChanges))) 
+}
+\end{lstlisting}
+
+\subsection{Reducer}
+Schaut man sich die Model-Funktion in Beispiel \ref{lst:pseudo-reactive-mvi} und ihren Inhalt genau an, so wird ein bestimmtes Muster sichtbar.
