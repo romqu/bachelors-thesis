@@ -101,6 +101,25 @@ fun main(args : Array<String>) {
 	view(model(intent(textChanges))) 
 }
 \end{lstlisting}
+Ein Punkt der in dieser Implementation noch offen bleibt, ist woher das Model kommt wie es verwaltet wird.
 
 \subsection{Reducer}
-Schaut man sich die Model-Funktion in Beispiel \ref{lst:pseudo-reactive-mvi} und ihren Inhalt genau an, so wird ein bestimmtes Muster sichtbar.
+Schaut man sich die Model-Funktion in Beispiel \ref{lst:pseudo-reactive-mvi} und ihren Inhalt genau an, so wird ein bestimmtes Muster bzw. ein sich wiederholender Ablauf erkennbar:
+\\
+\begin{enumerate}
+	\item Die Funktion erhält ein Event 
+	\item Die Funktion evaluiert das Event
+	\item Die Funktion führt basierend auf dem Event (Business) Logik aus
+	\item Die Funktion erzeugt ein neues Model
+	\item Die Funktion gibt das neue Model zurück
+\end{enumerate}
+Der einzige Schritt der Fehlt, ist die Bereitstellung des derzeitigen oder des vorherigen Models. Hier kommt eine Komponente ins Spiel, die bereits in Kapitel \ref{subsec:redux} angesprochen wurde: der Reducer.
+\subsection{Endlicher Automat}
+Wenn der in der Model-Funktion ausgeführte Code eine neues Model hervorbringt, so bleibt der Zustand entweder der Gleiche oder er verändert sich. Unabhängig davon geht der Zustand in den selbigen oder in einen neuen Zustand über: es kommt zu einem sogenannten Zustandsübergang. Aber nicht nur das lässt sich aus dem gezeigten Beispiel ableiten; es sind noch weitere Schlussfolgerungen zulässig:
+\\
+\begin{itemize}
+	\item Es gibt immer einen Anfangszustand bzw. Startzustand
+	\item Es gibt eine endliche Anzahl von Zuständen
+	\item Es gibt eine beliebe Menge von Endzuständen
+	\item Es gibt immer nur einen Zustand, in dem sich das System befinden kann
+\end{itemize}
