@@ -121,5 +121,19 @@ Wenn der in der Model-Funktion ausgeführte Code eine neues Model hervorbringt, 
 	\item Es gibt immer einen Anfangszustand bzw. Startzustand
 	\item Es gibt eine endliche Anzahl von Zuständen
 	\item Es gibt eine beliebe Menge von Endzuständen
-	\item Es gibt immer nur einen Zustand, in dem sich das System befinden kann
+	\item Es gibt immer nur einen Zustand, in dem sich die Anwendung befinden kann
 \end{itemize}
+\bigskip
+Die oben genannten Punkte lassen sich anhand eines weiteren Beispiels besser erläutern: Man nehme an, dass sich auf einem Bildschirm ein Textfeld und ein dazugehöriger Knopf befindet. Das Textfeld ist anfänglich leer und der Knopf deaktiviert. Dieser kann nur aktiviert werden, wenn eine Eingabe im Textfeld erfolgt. Hiermit ist der Startzustand des Knopfs "deaktiviert" (z0). Gibt der Nutzer im Textfeld einen Text ein, so wird der Knopf aktiviert. Dieses Ereignis ist der bereits angeführte Zustandsübergang.
+Gleichzeitig wird ein Endzustand erreicht (z1) - weitere Eingaben führen zu keinem neuem Zustand.
+Die Beschreibungen z1 und z2 dienen hierbei als das Eingabealphabet und zeigen die Menge von potenziellen Ereignissen auf.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[height=0.35\textwidth]{./images/out}
+	\caption{Endlicher Automat}
+	\label{fig:endlicherAutomat}
+\end{figure}
+\\
+Dieses Konzept ist in der Informatik bekannt als "Endliche Automaten". Ihr Ziel ist es, ein bestimmtes Verhalten (wie das obige) zu Modellieren und unter anderem visuell in Form von Abbildung
+\ref{fig:endlicherAutomat} 
+zu präsentieren.
