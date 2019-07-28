@@ -5,10 +5,143 @@
 Die Funktionalen Anforderungen dienen dafür, um die genaue Funktionalität und das Verhalten eines Systems zu beschreiben. Es wird behandelt, was das System können soll und muss. Um dies besser abbilden zu können, werden die einzelnen Anforderungen einer Gewichtung unterzogen. Diese Gewichtung lässt sich in Form von "Muss","Soll" und "Kann" Anforderungen ausdrücken. Aufgrund des kleines Rahmens und Zeitfensters dieser Thesis wird sich im diesen Teil ausschließlich auf "Muss"-Anforderungen beschränkt, d.h. jene Funktionalität, welches das Framework erfüllen muss. Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel "FA" versehen.
 \\
 \\
-\textbf{[FA01] Identifizieren von "Intents"}
+\textbf{[A01] Identifizieren von "Intents"}
 \\
 Dem Nutzer des Frameworks muss es möglich sein, die "Intents" seiner Anwendung eindeutig zu markieren.
 \\
 \\
-
-
+\textbf{[A02] Trennung von Bussines und Ansicht Logik}
+\\
+Ähnlich wie in MVP oder MVC muss das Framework eine strikte Separierung von (Bussines) Logik und der Ansicht Logik fördern. 
+\\
+\\
+\textbf{[A03] Überprüfung des Models als unveränderliche Datenstruktur}
+\\
+Es ist zwingende erforderlich, dass die vom Nutzer gewählte Struktur für das Model nicht direkt verändert werden kann. Hierfür muss das Framework verifizieren, dass es sich um  eine  unveränderliche Datenstruktur
+handelt.
+\\
+\\
+\textbf{[A04] Bereitstellung eines "Reducers"}
+\\
+Für das erzeugen von einem neuem Model muss dem Entwickler eine Funktionen in Form eines Reducers bereitgestellt werden. Diese muss das derzeitige Model und Ereignis zur Verfügung stellen. 
+\\
+\\
+\textbf{[A05] Handhabung von Seiteneffekten}
+\\
+Auf Grund der Tatsache, dass in den meisten Anwendungen Seiteneffekte auftreten, muss dieses vom Framework abgedeckt sein.
+\\
+\\
+\textbf{[A06] Verwalten des Zustands}
+\\
+Ein zentraler Bestandteil des Framework ist es, das Model bzw. den Zustand der Anwendung zu Verwalten. 
+\\
+\\
+\textbf{[A07] Funktion für die Aktualisierung der Ansicht}
+\\
+Nachdem ein neues Model erzeugt wurde, muss dieses an die Ansicht weitergegeben werden, welches sich daraufhin aktualisiert. Hierfür muss das Framework eine dementsprechende Funktion bereitstellen.
+\\
+\\
+\textbf{[A08] Speichern des Zustands}
+\\
+Der Zustand muss im transienten und persistenten Speicher abgelegt werden.
+\\
+\\
+\textbf{[A09] Wiederherstellung des Zustands}
+\\
+Sollte es zu einem Verlust der Models kommen, muss dieses ordnungsgemäß und wiederhergestellt werden.
+Dies sollte ohne Eingriff des Entwicklers von statten gehen.
+\\
+\\
+\textbf{[A10] Asynchrone Ausführung}
+\\
+Viele der Zugriffe auf eine Datenbank oder einer Rest-Api finden auf unterschiedlichen Threads statt.
+Hierbei darf es zu keinen unerwarteten Problemen (z.B. Race.Conditions) kommen.
+\\
+\\
+\subsection{Nicht funktionale Anforderungen}
+Die nicht funktionale Anforderungen sind im Gegensatz zu den funktionalen unspezifisch für ein Produkt, d.h. sie haben meist nur einen indirekten Einfluss auf das System. So kann beispielsweise festgelegt werden, dass die Ausführung einen bestimmten Funktionalität nur ein gewisses Maß an Zeit in Anspruch nehmen darf. Dazu gehören auch Qualitätsmerkmale, die erfüllt werden müssen.Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel "NFA" versehen.
+\\
+\\
+\textbf{[A11] Dogmatisches Framework}
+\\
+Das Framework soll den Entwickler "and die Hand nehmen" und genaue Vorgaben für die Anwendung kommunizieren. Damit sind zielgenauere Funktionen möglich und die Komplexität kann unter Umständen niedriger gehalten werden. Dies birgt allerdings die Gefahr, dass bei eigenwilliger Anwendung - und der damit einhergehenden Abweichung der Instruktionen - des Entwicklers es zu Komplikationen kommen kann.
+\\
+\\
+\textbf{[A12] Unidirektional}
+\\
+Der in MVI geforderte unidirektionale Datenfluss muss eingehalten werden.
+\\
+\\
+\textbf{[A13] Kotlin spezifische Implementierung}
+\\
+Für die Umsetzung wird Kotlin als Programmiersprache herangezogen. Sie bietet einige syntaktische Vorteile gegenüber Java.
+\\
+\\
+\textbf{[A14] Reaktiv}
+\\
+Reaktiv
+\\
+\\
+\textbf{[A15] Funktional}
+\\
+Funtkional
+\\
+\\
+\subsection{Ubersicht der Anforderungen}
+Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) Anforderungen werden diese im Folgenden in einer Tabelle zusammengefasst. Zusätzlich wird ein Verweis auf das Design bzw. Konzept und die jeweilige Implementierung angefügt.
+\\
+\\
+\setlength{\tabcolsep}{0.5em} % for the horizontal padding
+{\renewcommand{\arraystretch}{1.5}% for the vertical padding
+\begin{tabularx}{\textwidth}{ | l | l | c | l | l | }
+	\hline	
+	ID & Anforderung & Typ & Konzept & Impl.
+	\\
+	\specialrule{.1em}{.1em}{.1em}
+	01 & Identifizieren von "Intents" & fa & 5.1 & 6.1
+	\\
+	\hline	
+	02 & Trennung von Bussines und Ansicht Logik & fa & 5.2 & 6.2
+	\\
+	\hline
+	03 & Überprüfung des Models als unveränderliche Datenstruktur & fa & 5.3 & 6.3
+	\\
+	\hline
+	04 & Bereitstellung eines "Reducers" & fa & 5.4 & 6.4
+	\\
+	\hline
+	05 & Handhabung von Seiteneffekten & fa & 5.5 & 6.5
+	\\
+	\hline
+	06 & Verwalten des Zustands & fa & 5.6 & 6.6
+	\\
+	\hline
+	07 & Funktion für die Aktualisierung der Ansicht & fa & 5.6 & 6.6
+	\\
+	\hline
+	08 & Speichern des Zustands & fa & 5.6 & 6.6
+	\\
+	\hline
+	09 & Wiederherstellung des Zustands & fa & 5.6 & 6.6
+	\\
+	\hline
+	10 & Asynchrone Ausführung & fa & 5.6 & 6.6
+	\\
+	\hline
+	11 & Dogmatisches Framework & fa & 5.6 & 6.6
+	\\
+	\hline
+	12 & Unidirektional & fa & 5.6 & 6.6
+	\\
+	\hline
+	13 & Kotlin spezifische Implementierung & fa & 5.6 & 6.6
+	\\
+	\hline
+	14 & Reaktiv & fa & 5.6 & 6.6
+	\\
+	\hline
+	15 & Funktional & fa & 5.6 & 6.6
+	\\
+	\hline
+\end{tabularx}
+}

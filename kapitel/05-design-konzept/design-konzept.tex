@@ -1,0 +1,26 @@
+\section{Design \& Konzept}
+\label{sec:design-und-konzept}
+In diesem Kapitel ...
+
+\subsection{Grundlegende Designentscheidungen}
+
+\subsubsection{Android als Plattform}
+Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
+
+\subsubsection{Kotlin als Programmiersprache}
+Die Applikationen in Android und das Android-SDK selbst sind bis vor wenigen Jahren fast ausschließlich in der Sprache Java entwickelt wurden. Seit der Google I/0 2017 gehört jedoch eine weitere Sprache zu den offiziell unterstützen:  Kotlin. Sie wird von dem Unternehmen Jetbrains entwickelt, die untere anderem die Entwicklungsumgebung Intellij für Java produzieren. Dieses bildet auch die Grundlage für Android Studio.
+Kotlin hat in den letzten Jahren an Bodenhaftung gewonnen und findet auch intern bei Google Verwendung.
+\\
+Die Sprache wird als statisch typisierte, objektorientierte Programmiersprache bezeichnet und verfügt über eine hohe Interoperabilität zu Java. Dies bedeutet, dass innerhalb eines in Java geschriebenen Programms ohne viel Aufwand Kotlin genutzt werden kann. Dies ist ein wichtiger Faktor für die immer weiter ansteigende Beliebtheit, da es eine einfache Integration und bisherige Projekte gestattet. 
+Kotlin bringt ein verbesserte Syntax mit und macht beispielsweise die Verwendung von "null" explizit.
+Zu den Verbesserungen gehören dabei auch:
+\begin{itemize}
+	\item Ableitung von Typen
+	\item Alles ist eine Expression 
+	\item Funktionen sind "First-Class-Funktionen" und bilden eine Funktionale Grundlage
+	\item Datenklassen machen den Umgang mit unveränderliche Datenstrukturen einfach
+	\item Erweiterungsfunktionen
+	\item Kovarianz und Kontravarianz werden explizit anwendet
+	\item Standardwerte für Parameter
+\end{itemize}
+
