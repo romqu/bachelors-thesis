@@ -3,6 +3,7 @@
 In diesem Kapitel ...
 
 \subsection{Grundlegende Designentscheidungen}
+Bevor auf Entscheidungen eingegangen wird ...
 
 \subsubsection{Android als Plattform}
 Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
@@ -14,6 +15,7 @@ Kotlin hat in den letzten Jahren an Bodenhaftung gewonnen und findet auch intern
 Die Sprache wird als statisch typisierte, objektorientierte Programmiersprache bezeichnet und verfügt über eine hohe Interoperabilität zu Java. Dies bedeutet, dass innerhalb eines in Java geschriebenen Programms ohne viel Aufwand Kotlin genutzt werden kann. Dies ist ein wichtiger Faktor für die immer weiter ansteigende Beliebtheit, da es eine einfache Integration und bisherige Projekte gestattet. 
 Kotlin bringt ein verbesserte Syntax mit und macht beispielsweise die Verwendung von "null" explizit.
 Zu den Verbesserungen gehören dabei auch:
+\\
 \begin{itemize}
 	\item Ableitung von Typen
 	\item Alles ist eine Expression 
@@ -23,4 +25,50 @@ Zu den Verbesserungen gehören dabei auch:
 	\item Kovarianz und Kontravarianz werden explizit anwendet
 	\item Standardwerte für Parameter
 \end{itemize}
+\bigskip
+\begin{lstlisting}[caption={Kotlin Beispiel}, label={lst:kotlin-beispiel}, language=Kotlin]
+data class Example(
+  privat val defaultMessage: String = "Hello World"
+  privat val maybeNull: String? = null
+){
+  
+  // Expression
+  fun isHelloWorld() = when(message){
+    "Hello World" -> true
+    else -> false
+  }
+  
+  // "?" findet bei null verwendung
+  fun printIfNotNull() {
+    maybeNull?.run { 
+    	print(this)
+    }
+  }
+}
 
+// Erweiterungsfunktion und Funktion als Parameter
+fun HelloWorld.extensionFunction(function: () -> String) { 
+	val message = function()
+	println(message)
+}
+
+// kein new Schlüsselwort nötig
+// keine Semikolon nötig
+val example = Example()
+
+// copy wird automatisch generiert bei einer "data" Klasse
+val newExample = example.copy(defaultMessage = "New Message")
+
+// ist der letzte Parameter eine Funktion, so kann auf Klammern 
+// verzichtet werden
+newExample.extensionFunction { "Hello" }
+\end{lstlisting}
+\bigskip
+Insgesamt is anhand Listing
+\ref{lst:kotlin-beispiel}
+zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen "Boilerplate-Codes" und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten "Nullpointer-Exception" retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bswp. Listen zum Einsatz kommen.
+
+\subsection{Intent}
+
+
+ 
