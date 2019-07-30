@@ -8,6 +8,9 @@ Bevor auf Entscheidungen eingegangen wird ...
 \subsubsection{Android als Plattform}
 Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
 
+\subsubsection{Framework}
+Warum Framwork? Besonderheiten...
+
 \subsubsection{Kotlin als Programmiersprache}
 Die Applikationen in Android und das Android-SDK selbst sind bis vor wenigen Jahren fast ausschließlich in der Sprache Java entwickelt wurden. Seit der Google I/0 2017 gehört jedoch eine weitere Sprache zu den offiziell unterstützen:  Kotlin. Sie wird von dem Unternehmen Jetbrains entwickelt, die untere anderem die Entwicklungsumgebung Intellij für Java produzieren. Dieses bildet auch die Grundlage für Android Studio.
 Kotlin hat in den letzten Jahren an Bodenhaftung gewonnen und findet auch intern bei Google Verwendung.
@@ -71,5 +74,16 @@ zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
-Klickt der Nutzer in einer Anwendung auf einen "Zurück" Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden. 
- 
+Klickt der Nutzer in einer Anwendung auf einen "Zurück" Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.
+\\
+Daraus ergeben sich zwei Arten von "Intents": Eines ohne und eines mit zusätzlichen Nutzdaten (Englisch payload). Dies bedeutet, dass eine Struktur existieren muss, die entweder Daten beinhaltet oder nur eine semantische Bedeutung hat.
+\begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse}, language=Kotlin]
+class Intent<T> (val payload: T)
+\end{lstlisting}
+\bigskip
+Für diesen Fall eignet sich eine Klasse mit einem generischen Typ als Attribut, wie Listing
+\ref{lst:intent-klasse}
+zeigt.Das "<T>" in der Klassen Definition dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein "Item" aus dem obigen Beispiel.
+\\
+
+
