@@ -83,7 +83,54 @@ class Intent<T> (val payload: T)
 \bigskip
 Für diesen Fall eignet sich eine Klasse mit einem generischen Typ als Attribut, wie Listing
 \ref{lst:intent-klasse}
-zeigt.Das "<T>" in der Klassen Definition dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein "Item" aus dem obigen Beispiel.
+zeigt. Das "<T>" in der Klassen Deklaration dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein "Item" aus dem obigen Beispiel.
 \\
+Die aufgezeigte Option weißt jedoch gewisse Mängel auf:
+\begin{enumerate}
+	\item Der "Payload" darf niemals "null" sein
+	\item Der Name "Intent" transportiert die eigentliche Absicht nicht
+\end{enumerate}
+\bigskip
+Mangel Nr. 1 lässt sich mit einer einfachen Abwandlung von Listing
+\ref{lst:intent-klasse}
+behoben werden. 
+\begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
+class Intent<T> (val payload: T? = null)
+\end{lstlisting}
+\bigskip
+Hierfür muss lediglich von Kotlins Notation für "null"-Typen gebraucht gemacht werden: Das Fragezeichen. Um zu vermeiden, das bei dem erstellen einer Klasse ohne Inhalt stets "null" übergeben werden muss, wird ein Standardparameter verwendet. Listing
+\ref{lst:intent-klasse-2}
+stellt die Anpassungen dar.
+\\
+Für den zweiten Mangel gibt es unterschiedliche Ansätze:
+\begin{enumerate}
+	\item Ein zweites Attribut das die Absicht beschreibt
+	\item oder eine eigene Klasse für jede Intention
+\end{enumerate}
+\begin{lstlisting}[caption={Intent Enum}, label={lst:intent-enum}, language=Kotlin]
+enum class IntentDescription {
+	GO_BACK, DISPLAY_ITEM_DETAILS
+}
+\end{lstlisting}
+\bigskip
+Bei Ansatz Nummer Eins ist ein potenzieller Kandidat die Verwendung eines "enum". Diese kann durch Konstanten (Listing 
+\ref{lst:intent-enum} gibt einen Eindruck
+) zum Ausdruck bringen, um welche Intention es sich handelt. Im nächsten Schritt muss das Enum als Attribut in der Intent Klasse hinterlegt werden:
+\begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
+class Intent<T> (
+  val payload: T? = null, 
+  val description: IntentDescription
+)
+
+// die Explizite Angabe von Atrributsnamen
+// bei weglassen von anderen Attrbuten ist
+// best practice
+
+val intent = Intent(description = IntentDescription.GO_BACK)
+\end{lstlisting}
+\bigskip
+Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein "payload" von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden "null" Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der "NullPointer Exception" über den Weg zu laufen.
+\\
+Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller, für jede Intention eine Klasse zu kreieren. Gleichzeitig sollte aber verhindert  
 
 
