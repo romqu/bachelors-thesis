@@ -136,20 +136,44 @@ Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche 
 \\
 Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen "Produkt" und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
 \\
-Das zweite Konstrukt, die Summe von Werten liegt vor, wenn anstatt von mehreren Werte zu einem entweder ein Typ oder ein anderer vorliegt. Es ist somit keine Kombination von Werten wie beim Produkt, sondern eine Entscheidung für einen.
-\begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
-class Intent<T> (
-val payload: T? = null, 
-val description: IntentDescription
-)
+Das zweite Konstrukt, die Summe von Werten liegt vor, wenn anstatt von mehreren Werte zu einem entweder ein Typ oder ein anderer vorliegt. Es ist somit keine Kombination von Werten wie beim Produkt, sondern die Entscheidung für einen der Angegebenen. Das Enum wie in Listing
+\ref{lst:summen-typ}
+gehört unter anderem zu den Summen Typen.
+\begin{lstlisting}[caption={Summen Typ}, label={lst:summen-typ}, language=Kotlin]
+enum class Color(val rgb: Int) {
+	RED(0xFF0000),
+	GREEN(0x00FF00),
+	BLUE(0x0000FF)
+}
 
-// die Explizite Angabe von Atrributsnamen
-// bei weglassen von anderen Attrbuten ist
-// best practice
+val color: Color = Color.RED
 
-val intent = Intent(description = IntentDescription.GO_BACK)
+print(color is RED) // true
+print(color is GREEN) // false
 \end{lstlisting}
 \bigskip
+Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als "algebraisch" bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die "Summe" oder das "Produkt" bestehender Typen nimmt.
+\\
+\\
+In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem "sealed" Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
+\ref{lst:intent-klasse-2}
+funktionaler und eleganter zum implementieren:
+\begin{lstlisting}[caption={Intents als sealded class}, label={lst:intents-sealed-class}, language=Kotlin]
+sealed class Intent {
+	// 'object' erzeugt ein Singleton
+	// es ist keine Instanziierung möglich
+	// Attribute folglich nicht gestattet
+	object GoBack : Intent()
+	class DisplayItemDetails(item: Item): Intent()
+}
+\end{lstlisting}
+\bigskip
+Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von "null" Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies einen Zustand enthalten kann.
+Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
+\\
+
+
+Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
 
 
 
