@@ -131,6 +131,25 @@ val intent = Intent(description = IntentDescription.GO_BACK)
 \bigskip
 Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein "payload" von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden "null" Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der "NullPointer Exception" über den Weg zu laufen.
 \\
-Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller, für jede Intention eine Klasse zu kreieren. Gleichzeitig sollte aber verhindert  
+\\
+Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller für jede Intention eine Klasse zu kreieren. Bei dieser Variante ergeben sich zwei Eigenschaften: Jeder dieser Klassen stellt übergeordnet einen "Intent" dar und enthält möglicherweise einen "payload", welcher niemals "null" ist.
+\\
+Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen "Produkt" und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
+\\
+Das zweite Konstrukt, die Summe von Werten liegt vor, wenn anstatt von mehreren Werte zu einem entweder ein Typ oder ein anderer vorliegt. Es ist somit keine Kombination von Werten wie beim Produkt, sondern eine Entscheidung für einen.
+\begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
+class Intent<T> (
+val payload: T? = null, 
+val description: IntentDescription
+)
+
+// die Explizite Angabe von Atrributsnamen
+// bei weglassen von anderen Attrbuten ist
+// best practice
+
+val intent = Intent(description = IntentDescription.GO_BACK)
+\end{lstlisting}
+\bigskip
+
 
 
