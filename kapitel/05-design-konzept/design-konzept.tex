@@ -171,9 +171,65 @@ sealed class Intent {
 Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von "null" Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies einen Zustand enthalten kann.
 Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
 \\
+\subsection{View Model}
+Die Erzeugung eines Intents findet entweder in einer "Activity", einem "Fragment" oder Derivaten statt. Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. Weiterhin muss die Komponente reaktiv sein und den geforderten unidirektionalen Fluss einhalten.
+\\
+\\
+Im ersten Schritt muss eine zentrale Funktion definiert werden, die als Parameter einen Intent erhält.
+Diese muss vom Entwickler überschrieben und implementiert werden.
+Zu diesem Zweck wird vom Konzept der Vererbung und dem oft damit verbundenen Polymorphismus (griechisch für Vielgestaltigkeit) Gebrauch gemacht. Erbt eine Klasse von einer anderen, so wird sie zu einer sogenannten Subklasse, während die andere eine Superklasse (auch Eltern- oder Basisklasse) darstellt. Sinn und Zweck der Vererbung ist die Wiederverwendbarkeit von Code und somit die Vermeidung von Redundanz. Es ermöglicht Code für Klassen die gewisse Merkmale teilen nur einmal schreiben zu müssen und diese dann davon ableiten zu lassen. Die Polymorphie liegt vor, wenn  zwei Klassen denselben Methodennamen verwenden, aber die Implementierung der Methoden sich unterscheidet.
+Listing 
+\ref{lst:poly}
+verdeutlicht diesen Sachverhalt.
+\begin{lstlisting}[caption={Vererbung \& Polymorphismus}, label={lst:poly}, language=Kotlin]
+fun main(args: Array<String>) {
 
+	val dog = Dog()
+	val cat = Cat()
 
-Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
+	// gleiche Methode, aber unterschiedliche Implementierung
+	(dog as Animal).makeSound() // Wuff
+	(cat as Animal).makeSound() // Miau
+}
 
+abstract class Animal {
 
+	abstract fun makeSound()
+}
 
+class Dog : Animal(){
+
+	override fun makeSound(){
+		println("Wuff")
+	}
+}
+
+class Cat : Animal(){
+
+	override fun makeSound(){
+		println("Miau")
+	}
+}
+\end{lstlisting}
+\bigskip
+Für die Controller ähnliche Komponente bedarf es der Festlegung des vom Entwickler gewählten Intent Datentypen. In diesem Fall kann wieder auf den generischen Aspekt von Kotlin zurückgegriffen werden. Dieser Typ wird ebenfalls als Parameter Typ für die Intent-Funktion genutzt. Ein erster Entwurf kann wie folgt aussehen:
+\\
+\begin{lstlisting}[caption={}, label={}, language=Kotlin]
+abstract class Controller<I> {
+	
+	abstract fun intents(intent: Intent)
+}
+
+sealed class SomeIntent {
+	// ...
+}
+
+class SomeCrontroller: Controller<SomeIntent> {
+
+	override fun intents(intent: SomeIntent){
+		// ....
+	}
+}
+\end{lstlisting}
+\bigskip
+Im nächsten Schritt müssen die Intents einer Aktion zugeordnet bzw. in eine übersetzt werden. Dadurch, dass die Superklasse als Parameter verwendet, muss zu erst ermittelt werden, um welchen Subklasse von Intent es sich handelt. Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
