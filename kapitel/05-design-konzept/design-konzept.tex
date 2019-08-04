@@ -152,7 +152,11 @@ print(color is RED) // true
 print(color is GREEN) // false
 \end{lstlisting}
 \bigskip
-Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als "algebraisch" bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die "Summe" oder das "Produkt" bestehender Typen nimmt.
+Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich 
+auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner 
+besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als 
+"algebraisch" bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die "Summe" oder das 
+"Produkt" bestehender Typen nimmt.
 \\
 \\
 In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem "sealed" Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
@@ -168,16 +172,32 @@ sealed class Intent {
 }
 \end{lstlisting}
 \bigskip
-Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von "null" Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies einen Zustand enthalten kann.
+Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von 
+"null" Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung 
+und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
+eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, 
+aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der 
+Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur 
+einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies 
+einen Zustand enthalten kann.
 Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
 \\
 \subsection{View Model}
-Die Erzeugung eines Intents findet entweder in einer "Activity", einem "Fragment" oder Derivaten statt. Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. Weiterhin muss die Komponente reaktiv sein und den geforderten unidirektionalen Fluss einhalten.
+Die Erzeugung eines Intents findet entweder in einer "Activity", einem "Fragment" oder Derivaten statt. 
+Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, 
+welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. 
+Weiterhin muss die Komponente reaktiv sein und den geforderten unidirektionalen Fluss einhalten.
 \\
 \\
 Im ersten Schritt muss eine zentrale Funktion definiert werden, die als Parameter einen Intent erhält.
 Diese muss vom Entwickler überschrieben und implementiert werden.
-Zu diesem Zweck wird vom Konzept der Vererbung und dem oft damit verbundenen Polymorphismus (griechisch für Vielgestaltigkeit) Gebrauch gemacht. Erbt eine Klasse von einer anderen, so wird sie zu einer sogenannten Subklasse, während die andere eine Superklasse (auch Eltern- oder Basisklasse) darstellt. Sinn und Zweck der Vererbung ist die Wiederverwendbarkeit von Code und somit die Vermeidung von Redundanz. Es ermöglicht Code für Klassen die gewisse Merkmale teilen nur einmal schreiben zu müssen und diese dann davon ableiten zu lassen. Die Polymorphie liegt vor, wenn  zwei Klassen denselben Methodennamen verwenden, aber die Implementierung der Methoden sich unterscheidet.
+Zu diesem Zweck wird vom Konzept der Vererbung und dem oft damit verbundenen Polymorphismus (griechisch 
+für Vielgestaltigkeit) Gebrauch gemacht. Erbt eine Klasse von einer anderen, so wird sie zu einer 
+sogenannten Subklasse, während die andere eine Superklasse (auch Eltern- oder Basisklasse) darstellt. 
+Sinn und Zweck der Vererbung ist die Wiederverwendbarkeit von Code und somit die Vermeidung von 
+Redundanz. Es ermöglicht Code für Klassen die gewisse Merkmale teilen nur einmal schreiben zu müssen und 
+diese dann davon ableiten zu lassen. Die Polymorphie liegt vor, wenn  zwei Klassen denselben 
+Methodennamen verwenden, aber die Implementierung der Methoden sich unterscheidet.
 Listing 
 \ref{lst:poly}
 verdeutlicht diesen Sachverhalt.
@@ -212,9 +232,12 @@ class Cat : Animal(){
 }
 \end{lstlisting}
 \bigskip
-Für die Controller ähnliche Komponente bedarf es der Festlegung des vom Entwickler gewählten Intent Datentypen. In diesem Fall kann wieder auf den generischen Aspekt von Kotlin zurückgegriffen werden. Dieser Typ wird ebenfalls als Parameter Typ für die Intent-Funktion genutzt. Ein erster Entwurf kann wie folgt aussehen:
+Für die Controller ähnliche Komponente bedarf es der Festlegung des vom Entwickler gewählten Intent 
+Datentypen. In diesem Fall kann wieder auf den generischen Aspekt von Kotlin zurückgegriffen werden. 
+Dieser Typ wird ebenfalls als Parameter Typ für die Intent-Funktion genutzt. Ein erster Entwurf kann wie 
+folgt aussehen:
 \\
-\begin{lstlisting}[caption={}, label={}, language=Kotlin]
+\begin{lstlisting}[caption={Erster Controller Entwurf}, label={}, language=Kotlin]
 abstract class Controller<I> {
 	
 	abstract fun intents(intent: Intent)
@@ -232,4 +255,81 @@ class SomeCrontroller: Controller<SomeIntent> {
 }
 \end{lstlisting}
 \bigskip
-Im nächsten Schritt müssen die Intents einer Aktion zugeordnet bzw. in eine übersetzt werden. Dadurch, dass die Superklasse als Parameter verwendet, muss zu erst ermittelt werden, um welchen Subklasse von Intent es sich handelt. Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
+Im nächsten Schritt müssen die Intents einer Aktion zugeordnet bzw. in eine übersetzt werden. Dadurch, 
+dass die Superklasse als Parameter verwendet, muss zu erst ermittelt werden, um welchen Subklasse von 
+Intent es sich handelt. Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept 
+zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein 
+Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
+\\
+\\
+Auch in diesem Fall schafft Kotlin Abhilfe. Es stellt eine Expression bereit, welche eine elegante 
+Handhabung für genau diesen Fall bietet. Sie ist dem "switch" Statement aus Java sehr ähnlich, offenbart 
+aber mehr Möglichkeiten und ist dementsprechend mächtiger. Ein gewöhnliches switch Statement ist im 
+Grunde nur eine Aussage, die eine Reihe von einfachen if/else ersetzen kann, welche grundlegende Prüfungen durchführen. Folgendes Vorteile kann mit der sogenannten "when" Expression erzielt werde:
+\begin{enumerate}
+	\item Es gibt immer einen Wert zurück (minimal "Unit"), ohne "return" angeben zu müssen
+	\item Es ist kein Argument nötig
+	\item Es kann beliebige Bedingungsausdrücke haben
+	\item \label{when-design} Es hat ein allgemein besseres und sicheres Design (mögliche Überprüfung während der Kompilierung)
+	\item \label{when-smart-cast} Es unterstützt "Smart Cast" oder "Auto Casting"
+\end{enumerate}
+Das nachfolgende Listing
+\ref{lst:when-expression}
+veranschaulicht die Anwendung dieser Expression mit mehreren Bedingungsausdrücken:
+\begin{lstlisting}[caption={When Expression}, label={lst:when-expression}, language=Kotlin]
+// Mit Argument
+// Gibt einen String zurück
+val result = when(number) {
+	0 -> "Invalid number"
+	1, 2 -> "Number too low"
+	3 -> "Number correct"
+	in 4..10 -> "Number too high, but acceptable"
+	!in 100..Int.MAX_VALUE -> "Number too high, but solvable"
+	else -> "Number too high"
+}
+
+// Ohne Argument
+// Gibt ebenfalls einen String zurück
+val res = when {
+	x in 1..10 -> "cheap"
+	s.contains("hello") -> "it's a welcome!"
+	else -> ""
+}
+\end{lstlisting}
+\bigskip
+Die Punkte
+\ref{when-design}
+und
+\ref{when-smart-cast}
+sind dabei von besonderem Interesse. Durch die Verwendung einer "sealed" Klasse für die Implementierung der Intents ist es dem Compiler möglich festzustellen, inwieweit alle Subklassen innerhalb der "when" Expression abgedeckt sind. Fehlt eine, so wirft der Compiler einen Fehler und die Anwendung kann nicht ausgeführt werden. Des weiteren verliert der "else" seinen Nutzen, weshalb auf ihn verzichtet werden kann.
+\\
+Den nächsten Vorteil der sich ergibt, ist die Fähigkeit von Kotlin nach dem Bedingungsausdruck die Basisklasse automatisch in die korrekte Subklasse umzuwandeln. Dies wird als sogenanntes "Smart Casting" bezeichnet und erspart dem Entwickler ein manuelles umwandeln in die richtige Klasse.
+Ein Vergleich zwischen Java und Kotin gibt Listing 
+\ref{lst:when-smart-cast}
+an.
+\begin{lstlisting}[caption={"when" mit "smart cast"}, label={lst:when-smart-cast}, language=Kotlin]
+
+// JAVA
+val intent = Intent.GoBack
+
+if(intent instanceof Intent.DisplayItemDetails){
+	((Intent.DisplayItemDetails) intent).item // expliziter Cast
+} else if(...) { 
+	... 
+}
+
+// KOTLIN
+
+// "is" ist Notwendig, sobald die Klasse Konstruktor 
+// Argumente hat.
+// Bei "object" is keines von Nöten, da die Klasse 
+// nicht erzeugt wird.
+when(val intent = Intent.GoBack){
+	GoBack -> println("go back")
+	is DisplayItemDetails -> 
+		println(intent.item) // <-- Smart Cast
+	// keine "else" Zweig erforderlich, da alle 
+	// Subklassen abgedeckt sind
+}
+\end{lstlisting}
+
