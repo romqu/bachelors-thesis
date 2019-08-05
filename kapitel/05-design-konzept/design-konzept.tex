@@ -332,4 +332,36 @@ when(val intent = Intent.GoBack){
 	// Subklassen abgedeckt sind
 }
 \end{lstlisting}
+\bigskip
+Mit diesem Ansatz lässt sich die Intent-Funktion umsetzen.
+
+\subsection{Model \& Zustand}
+Für die Repräsentation des Models gibt MVI an, das dieses Unveränderlich sein muss. Dies bedeutet, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Dafür wird das Model kopiert und während diesem Vorgang mit neuen Werten versehen. 
+\\
+Auch für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess vereinfacht: Die "data" Klasse. Sie generiert mehrere Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem eine Methode die den Namen 'copy' trägt und wie der Name vermuten lässt, eine Kopie der Klasse erzeugt. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor inne hat. Dies macht es möglich, einzelne Attribute neu zu besetzten und bei anderen den Wert beizubehalten. Wie Listing
+\ref{lst:data-class}
+aufzeigt, gestaltet dies den Umgang mit Unveränderlichen Klassen verhältnismäßig einfach.
+\begin{lstlisting}[caption={data class}, label={lst:data-class}, language=Kotlin]
+
+data class MyClass(val text: String, val anotherText: String)
+
+val myClass = MyClass("text", "anotherText")
+
+// 'text' wird verändert, 'anotherText' nicht
+val newMyClass = myClass.copy(text = "newText")
+\end{lstlisting}
+\bigskip
+Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute keine Pflicht sind. Somit wäre es dem Entwickler ohne weiteres Möglich, das Objekt direkt zu modifizieren, ohne ein neues zu erzeugen müssen. Um dies zu Verhindern gilt es Sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem generieren von Code.  
+\subsubsection{Reflexion (Introspektion)}
+Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschrankungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Modifier, Variablen, Konstruktoren, Methoden, Annotationen (= reflektive Informationen) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
+\begin{enumerate}
+	\item Debugger
+	\item Interpreter
+	\item Objekt Serialisation
+	\item Dynamisches Laden von Code/ erzeugen von Objekten (z.B. Spring @Autowired)
+	\item Java Beans
+\end{enumerate}
+\bigskip
+In Kotlin muss beachtet werden
+Den Einstieg in die Introspektion gelingt 
 
