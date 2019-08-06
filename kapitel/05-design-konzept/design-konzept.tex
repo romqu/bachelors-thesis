@@ -400,5 +400,44 @@ class MyClassKotlin {
 // Hier ist 'override' teil der Deklaration
 override fun toString() {...}
 \end{lstlisting}
- 
+\bigskip
+Anhand der Beispiele lässt sich erahnen, dass Reflexion beträchtlichen Einfluss auf die Anwendung haben kann und viele Türen öffnet. Wie üblich ergeben sich dabei gewisse Vor- und Nachteile:
+\\
+\\
+\textbf{Vorteile:}
+\begin{itemize}
+	\item Analysieren und modifizieren von Klassen zur Laufzeit
+	\item Erweiterbarkeit durch die Nutzung von Annotationen 
+\end{itemize}
+\textbf{Nachteile:}
+\begin{itemize}
+	\item Der Zugriff auf private APIs kann ein Sicherheitsrisiko darstellen
+	\item Es kann nicht überprüft werden, inwieweit ein korrekter Datentyp vorliegt
+	\item Es kann die Ausführungsgeschwindigkeit negativ beeinflussen, da die JVM Optimierungen nicht durchführen kann 
+\end{itemize}
+Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Reflexion auf das notwendige Maß beschränkt werden sollte, da es grundlegende Prinzipien der typisierten Programmierung verletzt.
 
+\subsubsection{Code Generation}
+Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
+\\
+\\
+Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
+\begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
+FunSpec.builder("add")
+	.addParameter("a", Int::class)
+	.addParameter(ParameterSpec.builder("b", Int::class)
+		.defaultValue("%L", 0)
+		.build())
+	.addStatement("print(\"a + b = ${ a + b }\")")
+	.build()
+\end{lstlisting}
+\bigskip
+folgender Code erzeugt werden:
+\begin{lstlisting}[caption={Erzeugte Funktionen}, label={lst:data-class}, language=Kotlin]
+fun add(a: Int, b: Int = 0) {
+	print("a + b = ${ a + b }")
+}
+\end{lstlisting}
+welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
+Vor- und Nachteile...
+ 
