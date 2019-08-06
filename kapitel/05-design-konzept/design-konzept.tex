@@ -362,6 +362,43 @@ Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struk
 	\item Java Beans
 \end{enumerate}
 \bigskip
-In Kotlin muss beachtet werden
-Den Einstieg in die Introspektion gelingt 
+In Kotlin muss beachtet werden, dass zwei Schnittstellen für den Einstieg in die Reflexion existieren. Einmal die Standard Schnittstelle für Java, und einmal jene für Kotlin. Erstere erlaubt die Arbeit mit allen Java Konstrukten und zweitere die, die Kotlin exklusiv sind. Für jede Klasse existiert zur Laufzeit ein Objekt des Typs 'Class<T>' oder KClass<T>. T ist dabei der Typ der zu untersuchenden Klasse.
+\\
+\\
+Für den Zugriff auf die Java Reflexion muss auf die '.java' Endung zurückgegriffen werden, wie folgendes Beispiel verdeutlicht:
+\begin{lstlisting}[caption={Java Reflexion}, label={lst:data-class}, language=Kotlin]
+
+val myClass: Class<MyClass> = MyClass::class.java
+
+// gibt Methoden wie 'toString' aus
+myClass.methods.forEach(::println)
+\end{lstlisting}
+\bigskip
+In Kotlin wird über den 'double-colon' Operator auf die Reflexion zugegriffen:
+\begin{lstlisting}[caption={Kotlin Reflexion}, label={lst:data-class}, language=Kotlin]
+
+val myClass: KClass<MyClass> = MyClass::class
+
+// gibt den Namen der Klasse aus
+println(myClass.qualifiedName)
+
+// 'false', da 'text' nicht Konstant ist
+println(myClass::text.isConst)
+\end{lstlisting}
+\bigskip
+Eine weiterer Interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
+\begin{lstlisting}[caption={Override Annotation}, label={lst:data-class}, language=Kotlin]
+
+class MyClassJava {
+	
+	@Override
+	public String toString() {...}
+}
+
+class MyClassKotlin {
+
+// Hier ist 'override' teil der Deklaration
+override fun toString() {...}
+\end{lstlisting}
+ 
 
