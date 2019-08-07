@@ -440,4 +440,50 @@ fun add(a: Int, b: Int = 0) {
 \end{lstlisting}
 welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
 Vor- und Nachteile...
- 
+\subsubsection{Überprüfung durch Reflexion}
+Um die Wartung von generiertem Code, dem Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. Im ersten Schritt muss verifiziert werden, dass es sich bei dem Model um eine 'data' Klasse handelt. Hierfür bietet die Koltin Reflexion API ein Attribut:
+\begin{lstlisting}[caption={Kotlin 'isData' Attribut}, label={lst:data-class}, language=Kotlin]
+data Class DataClass
+
+println(DataClass()::class.isData) // true
+\end{lstlisting}
+\bigskip
+Im weiteren Vorgehen müssen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
+\begin{enumerate}
+	\item Liste sämtlicher Attribute der zu prüfenden Klasse erstellen
+	\item Filtern von nicht benötigten Attributen
+	\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
+	\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
+	\item Typen auf Unveränderlichkeit prüfen
+	\item Eine Fehlernachricht generieren, mit veränderlichen Attributsnamen
+\end{enumerate}
+
+\begin{lstlisting}[caption={}, label={lst:data-class}, language=Kotlin]
+fun KClass<*>.checkForImmutability(): String =
+members
+.filter { it.name.startsWith("component").not() }
+.fold("") { errorMessage: String, property: KCallable<*> ->
+	when (property) {
+		is KMutableProperty<*> -> {
+			val tmpErrorMessage = "$errorMessage\n${property.name} is not allowed to be 'var'"
+			checkSubTypeForImmutability(property, tmpErrorMessage)
+		}
+		
+		else -> checkSubTypeForImmutability(property, errorMessage)
+	}
+}
+
+fun checkSubTypeForImmutability(property: KCallable<*>, errorMessage: String) =
+when {
+	property.isSubtypeOf(MutableIterable::class) ->
+	"$errorMessage\n${property.name} is not allowed to be mutable"
+	
+	property.isSubtypeOf(Function::class) ->
+	"$errorMessage\n${property.name} is not allowed to be a function"
+	
+	else -> errorMessage
+}
+
+fun KCallable<*>.isSubtypeOf(clazz: KClass<*>): Boolean =
+	returnType.isSubtypeOf(clazz.starProjectedType)
+\end{lstlisting}
