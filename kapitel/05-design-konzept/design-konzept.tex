@@ -71,6 +71,175 @@ Insgesamt is anhand Listing
 \ref{lst:kotlin-beispiel}
 zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen "Boilerplate-Codes" und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten "Nullpointer-Exception" retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bswp. Listen zum Einsatz kommen.
 
+\subsection{Model \& Zustand}
+Ähnlich wie bei Redux nimmt das Model in MVI und somit der Zustand die zentral Rolle innerhalb der Anwendung ein. Es diktiert das User Interface (UI) und hat wesentlichen Einfluss auf die ausführende Business-Logik.
+\\
+\\
+Für die Repräsentation des Models gibt MVI vor, das dieses Unveränderlich sein muss. Dies wiederum hat zur Folge, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Hierfür wird das Model kopiert und während diesem optional Vorgang mit neuen Werten versehen. 
+\\
+\\
+Für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess stark vereinfacht: Die "data" Klasse. Sie generiert unterschiedliche Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem die Methode 'copy'. Wie der Name vermuten lässt, erzeugt sie eine Kopie der Klasse. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor der Klasse inne hat. Dies macht es möglich einzelne Attribute neu zu besetzten und bei den übrigen den derzeitigen Wert beizubehalten. Wie Listing
+\ref{lst:data-class}
+aufzeigt, gestaltet das den Umgang mit Unveränderlichen Klassen verhältnismäßig einfach.
+\begin{lstlisting}[caption={data class}, label={lst:data-class}, language=Kotlin]
+
+data class MyClass(val text: String, val anotherText: String)
+
+val myClass = MyClass("text", "anotherText")
+
+// 'text' wird verändert, 'anotherText' nicht
+val newMyClass = myClass.copy(text = "newText")
+\end{lstlisting}
+\bigskip
+Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute (= val) keine Pflicht darstellen. Somit wäre es dem Entwickler ohne weiteres Möglich, die Instanz direkt zu modifizieren, ohne ein neue zu erzeugen müssen. Um das zu Verhindern gilt es Sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen der Unveränderlichkeit entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem generieren von Code.  
+\subsubsection{Reflexion (Introspektion)}
+Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschrankungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Modifier, Variablen, Konstruktoren, Methoden, Annotationen (= reflektive Informationen) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
+\begin{enumerate}
+	\item Debugger
+	\item Interpreter
+	\item Objekt Serialisation
+	\item Dynamisches Laden von Code/ erzeugen von Objekten (z.B. Spring @Autowired)
+	\item Java Beans
+\end{enumerate}
+\bigskip
+In Kotlin muss beachtet werden, dass zwei Schnittstellen für den Einstieg in die Reflexion existieren. Einmal die Standard Schnittstelle für Java, und einmal jene für Kotlin. Erstere erlaubt die Arbeit mit allen Java Konstrukten und zweitere die, die Kotlin exklusiv sind. Für jede Klasse existiert zur Laufzeit ein Objekt des Typs 'Class<T>' oder KClass<T>. T ist dabei der Typ der zu untersuchenden Klasse.
+\\
+\\
+Für den Zugriff auf die Java Reflexion muss auf die '.java' Endung zurückgegriffen werden, wie folgendes Beispiel verdeutlicht:
+\begin{lstlisting}[caption={Java Reflexion}, label={lst:data-class}, language=Kotlin]
+
+val myClass: Class<MyClass> = MyClass::class.java
+
+// gibt Methoden wie 'toString' aus
+myClass.methods.forEach(::println)
+\end{lstlisting}
+\bigskip
+In Kotlin wird über den 'double-colon' Operator auf die Reflexion zugegriffen:
+\begin{lstlisting}[caption={Kotlin Reflexion}, label={lst:data-class}, language=Kotlin]
+
+val myClass: KClass<MyClass> = MyClass::class
+
+// gibt den Namen der Klasse aus
+println(myClass.qualifiedName)
+
+// 'false', da 'text' nicht Konstant ist
+println(myClass::text.isConst)
+\end{lstlisting}
+\bigskip
+Eine weiterer Interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
+\begin{lstlisting}[caption={Override Annotation}, label={lst:data-class}, language=Kotlin]
+
+class MyClassJava {
+
+@Override
+public String toString() {...}
+}
+
+class MyClassKotlin {
+
+// Hier ist 'override' teil der Deklaration
+override fun toString() {...}
+\end{lstlisting}
+\bigskip
+Anhand der Beispiele lässt sich erahnen, dass Reflexion beträchtlichen Einfluss auf die Anwendung haben kann und viele Türen öffnet. Wie üblich ergeben sich dabei gewisse Vor- und Nachteile:
+\\
+\\
+\textbf{Vorteile:}
+\begin{itemize}
+	\item Analysieren und modifizieren von Klassen zur Laufzeit
+	\item Erweiterbarkeit durch die Nutzung von Annotationen 
+\end{itemize}
+\textbf{Nachteile:}
+\begin{itemize}
+	\item Der Zugriff auf private APIs kann ein Sicherheitsrisiko darstellen
+	\item Es kann nicht überprüft werden, inwieweit ein korrekter Datentyp vorliegt
+	\item Es kann die Ausführungsgeschwindigkeit negativ beeinflussen, da die JVM Optimierungen nicht durchführen kann 
+\end{itemize}
+Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Reflexion auf das notwendige Maß beschränkt werden sollte, da es grundlegende Prinzipien der typisierten Programmierung verletzt.
+
+\subsubsection{Code Generation}
+Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
+\\
+\\
+Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
+\begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
+FunSpec.builder("add")
+.addParameter("a", Int::class)
+.addParameter(ParameterSpec.builder("b", Int::class)
+.defaultValue("%L", 0)
+.build())
+.addStatement("print(\"a + b = ${ a + b }\")")
+.build()
+\end{lstlisting}
+\bigskip
+folgender Code erzeugt werden:
+\begin{lstlisting}[caption={Erzeugte Funktionen}, label={lst:data-class}, language=Kotlin]
+fun add(a: Int, b: Int = 0) {
+print("a + b = ${ a + b }")
+}
+\end{lstlisting}
+welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
+Vor- und Nachteile...
+\subsubsection{Überprüfung durch Reflexion}
+Um die Wartung von generiertem Code, dem Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. Im ersten Schritt muss verifiziert werden, dass es sich bei dem Model um eine 'data' Klasse handelt. Hierfür bietet die Koltin Reflexion API ein Attribut:
+\begin{lstlisting}[caption={Kotlin 'isData' Attribut}, label={lst:data-class}, language=Kotlin]
+data Class DataClass
+
+println(DataClass()::class.isData) // true
+\end{lstlisting}
+\bigskip
+Im weiteren Vorgehen müssen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
+\begin{enumerate}
+	\item Liste sämtlicher Attribute der zu prüfenden Klasse erstellen
+	\item Filtern von nicht benötigten Attributen
+	\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
+	\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
+	\item Typen auf Unveränderlichkeit prüfen
+	\item Eine Fehlernachricht generieren, mit den veränderlichen Attributsnamen
+\end{enumerate}
+Die Funktion zu Überprüfung wird dabei als Extension auf der Klasse 'KClass', Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte 'Wildcard'  und sagt aus, das beliebige Typen möglich sind.
+\\
+Bei der 'data' Klasse wird für jedes Attribut ein zusätzliches generiert, das mit dem Wort 'component' beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Dadurch kann man das Verfahren der destrukturierenden Zuweisung anwenden. Hierbei werden aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt, wie Listing
+\ref{destrukturierende-zuweisung}
+zeigt.
+\begin{lstlisting}[caption={Destrukturierende Zuweisung}, label={lst:destrukturierende-zuweisung}, language=Kotlin]
+val pair = Pair("forename", "surname")
+
+val (forename, surname) = pair
+\end{lstlisting}
+\\
+\begin{lstlisting}[caption={}, label={lst:data-class}, language=Kotlin]
+fun KClass<*>.checkForImmutability(): String =
+members
+.filter { it.name.startsWith("component").not() }
+.fold("") { errorMessage: String, property: KCallable<*> ->
+when (property) {
+is KMutableProperty<*> -> {
+val tmpErrorMessage = "$errorMessage\n${property.name} is not allowed to be 'var'"
+checkSubTypeForImmutability(property, tmpErrorMessage)
+}
+
+else -> checkSubTypeForImmutability(property, errorMessage)
+}
+}
+
+fun checkSubTypeForImmutability(property: KCallable<*>, errorMessage: String) =
+when {
+property.isSubtypeOf(MutableIterable::class) ->
+"$errorMessage\n${property.name} is not allowed to be mutable"
+
+property.isSubtypeOf(Function::class) ->
+"$errorMessage\n${property.name} is not allowed to be a function"
+
+else -> errorMessage
+}
+
+fun KCallable<*>.isSubtypeOf(clazz: KClass<*>): Boolean =
+returnType.isSubtypeOf(clazz.starProjectedType)
+\end{lstlisting}
+\bigskip
+Das Model muss ihm Controller als generischer Typ angegeben werden.
+
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
@@ -335,155 +504,8 @@ when(val intent = Intent.GoBack){
 \bigskip
 Mit diesem Ansatz lässt sich die Intent-Funktion umsetzen.
 
-\subsection{Model \& Zustand}
-Für die Repräsentation des Models gibt MVI an, das dieses Unveränderlich sein muss. Dies bedeutet, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Dafür wird das Model kopiert und während diesem Vorgang mit neuen Werten versehen. 
-\\
-Auch für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess vereinfacht: Die "data" Klasse. Sie generiert mehrere Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem eine Methode die den Namen 'copy' trägt und wie der Name vermuten lässt, eine Kopie der Klasse erzeugt. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor inne hat. Dies macht es möglich, einzelne Attribute neu zu besetzten und bei anderen den Wert beizubehalten. Wie Listing
-\ref{lst:data-class}
-aufzeigt, gestaltet dies den Umgang mit Unveränderlichen Klassen verhältnismäßig einfach.
-\begin{lstlisting}[caption={data class}, label={lst:data-class}, language=Kotlin]
+\subsection{Aktion}
+Die Aktion wird aus dem Intent gebildet. Sie gibt an, welcher Teil der Business Logik aufgerufen wird. Sie soll mit der gleichen Struktur wie der Intent aufgebaut sein.
 
-data class MyClass(val text: String, val anotherText: String)
-
-val myClass = MyClass("text", "anotherText")
-
-// 'text' wird verändert, 'anotherText' nicht
-val newMyClass = myClass.copy(text = "newText")
-\end{lstlisting}
-\bigskip
-Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute keine Pflicht sind. Somit wäre es dem Entwickler ohne weiteres Möglich, das Objekt direkt zu modifizieren, ohne ein neues zu erzeugen müssen. Um dies zu Verhindern gilt es Sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem generieren von Code.  
-\subsubsection{Reflexion (Introspektion)}
-Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschrankungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Modifier, Variablen, Konstruktoren, Methoden, Annotationen (= reflektive Informationen) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
-\begin{enumerate}
-	\item Debugger
-	\item Interpreter
-	\item Objekt Serialisation
-	\item Dynamisches Laden von Code/ erzeugen von Objekten (z.B. Spring @Autowired)
-	\item Java Beans
-\end{enumerate}
-\bigskip
-In Kotlin muss beachtet werden, dass zwei Schnittstellen für den Einstieg in die Reflexion existieren. Einmal die Standard Schnittstelle für Java, und einmal jene für Kotlin. Erstere erlaubt die Arbeit mit allen Java Konstrukten und zweitere die, die Kotlin exklusiv sind. Für jede Klasse existiert zur Laufzeit ein Objekt des Typs 'Class<T>' oder KClass<T>. T ist dabei der Typ der zu untersuchenden Klasse.
-\\
-\\
-Für den Zugriff auf die Java Reflexion muss auf die '.java' Endung zurückgegriffen werden, wie folgendes Beispiel verdeutlicht:
-\begin{lstlisting}[caption={Java Reflexion}, label={lst:data-class}, language=Kotlin]
-
-val myClass: Class<MyClass> = MyClass::class.java
-
-// gibt Methoden wie 'toString' aus
-myClass.methods.forEach(::println)
-\end{lstlisting}
-\bigskip
-In Kotlin wird über den 'double-colon' Operator auf die Reflexion zugegriffen:
-\begin{lstlisting}[caption={Kotlin Reflexion}, label={lst:data-class}, language=Kotlin]
-
-val myClass: KClass<MyClass> = MyClass::class
-
-// gibt den Namen der Klasse aus
-println(myClass.qualifiedName)
-
-// 'false', da 'text' nicht Konstant ist
-println(myClass::text.isConst)
-\end{lstlisting}
-\bigskip
-Eine weiterer Interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
-\begin{lstlisting}[caption={Override Annotation}, label={lst:data-class}, language=Kotlin]
-
-class MyClassJava {
-	
-	@Override
-	public String toString() {...}
-}
-
-class MyClassKotlin {
-
-// Hier ist 'override' teil der Deklaration
-override fun toString() {...}
-\end{lstlisting}
-\bigskip
-Anhand der Beispiele lässt sich erahnen, dass Reflexion beträchtlichen Einfluss auf die Anwendung haben kann und viele Türen öffnet. Wie üblich ergeben sich dabei gewisse Vor- und Nachteile:
-\\
-\\
-\textbf{Vorteile:}
-\begin{itemize}
-	\item Analysieren und modifizieren von Klassen zur Laufzeit
-	\item Erweiterbarkeit durch die Nutzung von Annotationen 
-\end{itemize}
-\textbf{Nachteile:}
-\begin{itemize}
-	\item Der Zugriff auf private APIs kann ein Sicherheitsrisiko darstellen
-	\item Es kann nicht überprüft werden, inwieweit ein korrekter Datentyp vorliegt
-	\item Es kann die Ausführungsgeschwindigkeit negativ beeinflussen, da die JVM Optimierungen nicht durchführen kann 
-\end{itemize}
-Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Reflexion auf das notwendige Maß beschränkt werden sollte, da es grundlegende Prinzipien der typisierten Programmierung verletzt.
-
-\subsubsection{Code Generation}
-Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
-\\
-\\
-Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
-\begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
-FunSpec.builder("add")
-	.addParameter("a", Int::class)
-	.addParameter(ParameterSpec.builder("b", Int::class)
-		.defaultValue("%L", 0)
-		.build())
-	.addStatement("print(\"a + b = ${ a + b }\")")
-	.build()
-\end{lstlisting}
-\bigskip
-folgender Code erzeugt werden:
-\begin{lstlisting}[caption={Erzeugte Funktionen}, label={lst:data-class}, language=Kotlin]
-fun add(a: Int, b: Int = 0) {
-	print("a + b = ${ a + b }")
-}
-\end{lstlisting}
-welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
-Vor- und Nachteile...
-\subsubsection{Überprüfung durch Reflexion}
-Um die Wartung von generiertem Code, dem Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. Im ersten Schritt muss verifiziert werden, dass es sich bei dem Model um eine 'data' Klasse handelt. Hierfür bietet die Koltin Reflexion API ein Attribut:
-\begin{lstlisting}[caption={Kotlin 'isData' Attribut}, label={lst:data-class}, language=Kotlin]
-data Class DataClass
-
-println(DataClass()::class.isData) // true
-\end{lstlisting}
-\bigskip
-Im weiteren Vorgehen müssen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
-\begin{enumerate}
-	\item Liste sämtlicher Attribute der zu prüfenden Klasse erstellen
-	\item Filtern von nicht benötigten Attributen
-	\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
-	\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
-	\item Typen auf Unveränderlichkeit prüfen
-	\item Eine Fehlernachricht generieren, mit veränderlichen Attributsnamen
-\end{enumerate}
-
-\begin{lstlisting}[caption={}, label={lst:data-class}, language=Kotlin]
-fun KClass<*>.checkForImmutability(): String =
-members
-.filter { it.name.startsWith("component").not() }
-.fold("") { errorMessage: String, property: KCallable<*> ->
-	when (property) {
-		is KMutableProperty<*> -> {
-			val tmpErrorMessage = "$errorMessage\n${property.name} is not allowed to be 'var'"
-			checkSubTypeForImmutability(property, tmpErrorMessage)
-		}
-		
-		else -> checkSubTypeForImmutability(property, errorMessage)
-	}
-}
-
-fun checkSubTypeForImmutability(property: KCallable<*>, errorMessage: String) =
-when {
-	property.isSubtypeOf(MutableIterable::class) ->
-	"$errorMessage\n${property.name} is not allowed to be mutable"
-	
-	property.isSubtypeOf(Function::class) ->
-	"$errorMessage\n${property.name} is not allowed to be a function"
-	
-	else -> errorMessage
-}
-
-fun KCallable<*>.isSubtypeOf(clazz: KClass<*>): Boolean =
-	returnType.isSubtypeOf(clazz.starProjectedType)
-\end{lstlisting}
+\subsection{Reducer}
+Im Reducer findet der Aufruf der Business Logik statt. Es handelt sich dabei um eine Funktion, welche die aus dem Intent hergeleitet Aktion und das derzeitige Model preisgibt.   
