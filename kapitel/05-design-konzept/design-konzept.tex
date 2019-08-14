@@ -199,6 +199,7 @@ Im weiteren Vorgehen müssen die einzelnen Attribute der Klasse auf ihre Unverä
 \end{enumerate}
 Die Funktion zu Überprüfung wird dabei als Extension auf der Klasse 'KClass', Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte 'Wildcard'  und sagt aus, das beliebige Typen möglich sind.
 \\
+Innerhalb der Funktion erfolgt der Zugriff auf die Liste aller Attribute der Klasse.
 Bei der 'data' Klasse wird für jedes Attribut ein zusätzliches generiert, das mit dem Wort 'component' beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Dadurch kann man das Verfahren der destrukturierenden Zuweisung anwenden. Hierbei werden aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt, wie Listing
 \ref{destrukturierende-zuweisung}
 zeigt.
@@ -207,7 +208,10 @@ val pair = Pair("forename", "surname")
 
 val (forename, surname) = pair
 \end{lstlisting}
+Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen von jedem Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es aus der Liste gelöscht.
 \\
+\\
+Im darauffolgenden Schritt soll zu Erst geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Trifft dies zu, so schließt sich dem die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine Liste, der Elemente direkt hinzugefügt oder entfernt werden können.
 \begin{lstlisting}[caption={}, label={lst:data-class}, language=Kotlin]
 fun KClass<*>.checkForImmutability(): String =
 members

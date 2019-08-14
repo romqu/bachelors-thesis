@@ -1,0 +1,34 @@
+\section{Design \& Konzept}
+\label{sec:design-und-konzept}
+In diesem Kapitel ...
+
+\subsection{Grundlegende Designentscheidungen}
+Bevor auf Entscheidungen eingegangen wird ...
+
+\subsubsection{Android als Plattform}
+Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
+
+\subsubsection{Framework}
+Warum Framwork? Besonderheiten...
+
+
+
+\subsection{Zustand (State) und seine Verwaltung}
+In den Ausführungen von MVI wird der Zustand als eine Anhäufung von Werten betrachtet.Es bildet den Kern von MVI und muss im Normalfall vom Entwickler selbst Verwaltet werden. Unter anderem muss garantiert sein, dass ein Zugriff und eine Modifikation des Zustands nur an einer Stelle erfolgen kann. Im Rahmen des Framworks wird eine Komponente genutzt, die diese Aufgaben für den Entwickler übernimmt.
+\\
+\\
+Diese Erwartet den initialen Zustand, der vom Nutzer an das Framework übergeben wird. Innerhalb der Komponente befindet sich Funktionalität, die den Zustand auf seine Korrektheit überprüft. Dazu gehört Beispielweise die Anforderung auf Unveränderlichkeit. Sollte diese nicht gegeben sein, so wird eine Fehlermeldung ausgegeben.
+\\
+Des weiteren bietet sie Möglichkeiten mit dem Zustand sicher zu arbeiten, sowie eine neuen zu hinterlegen. Diese Komponente ist nicht direkt für den Nutzer zugänglich. Dies verhindert, dass der Zustand an einer beliebigen Stelle verändert werden kann.
+\\
+\\
+Damit das Framework den Zustand besser zuordnen kann, muss es mit einer Beschriftung versehen und dementsprechend markiert werden. Auch diese wird seitens des Framework bereitgestellt.
+
+\subsection{Intent, Action und Result}
+Bevor der Entwickler auf den Zustand zugreifen kann, muss er seine Intents definieren. Zu jedem Intent muss eine Action existieren. Hierfür wartet das Framework mit einer Struktur auf, die genanntes erzwingt und die Erfüllung dieser Anforderung sicherstellt. 
+\\
+\\
+Ähnlich wie auf einen Intent eine Action erfolgt, zieht eine Action einen Result nach sich. Auch das gibt das Framework durch eine Struktur vor und muss vom Entwickler angewandt werden.
+
+\subsection{Transformer und die Business-Logik}
+
