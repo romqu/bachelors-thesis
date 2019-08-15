@@ -31,4 +31,15 @@ Bevor der Entwickler auf den Zustand zugreifen kann, muss er seine Intents defin
 Ähnlich wie auf einen Intent eine Action erfolgt, zieht eine Action einen Result nach sich. Auch das gibt das Framework durch eine Struktur vor und muss vom Entwickler angewandt werden.
 
 \subsection{Transformer und die Business-Logik}
+Die Action teilt dem Framwork mit, welcher Teil der Business Logik ausgeführt werden soll. Mithilfe einer Komponente, dem 'ActionTransformer', wird vorgegeben an welcher Stelle dies stattfindet. Innerhalb dieser Komponente befindet sich der einzige Ort, an welchem eine Interaktion mit dem Zustand möglich ist.
+\\
+Der Entwickler kann dabei aus zwei Funktionen wählen:
+\begin{enumerate}
+	\item Der Zustand wird bereitgestellt und ein neuer wird zurück erwartet
+	\item Der Zustand wird bereitgestellt und kann für die zu Ausführende Logik herangezogen aber nicht verändert werden 
+\end{enumerate}
+\bigskip
+Somit ist im Quellcode klar ersichtlich, inwieweit eine Abänderung der Zustands gewollt ist und wann dieser lediglich mitsamt seiner Daten für den weiteren Verlauf benötigt wird. Hinzu kommt hier auch die automatische Handhabung von Seiteneffekten und asynchroner Funktionalität. Dies garantiert, dass der Zustand keine unabsichtliche Modifikation erfährt und zu jedem Zeitpunkt nur einer auf ihn zugreifen kann.
 
+\subsection{Controller}
+Der Controller vereint die bisher beschriebenen Komponenten und 'kontrolliert' bzw. koordiniert den Ablauf.
