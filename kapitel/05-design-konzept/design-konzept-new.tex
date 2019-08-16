@@ -17,27 +17,34 @@ Warum Framwork? Besonderheiten...
 \end{sidewaysfigure}
 \clearpage
 \subsection{Zustand (State) und seine Verwaltung}
-In den Ausführungen von MVI wird der Zustand als eine Anhäufung von Werten betrachtet.Es bildet den Kern von MVI und muss im Normalfall vom Entwickler selbst Verwaltet werden. Unter anderem muss garantiert sein, dass ein Zugriff und eine Modifikation des Zustands nur an einer Stelle erfolgen kann. Im Rahmen des Framworks wird eine Komponente genutzt, die diese Aufgaben für den Entwickler übernimmt.
+In den Ausführungen von MVI wird der Zustand als eine Anhäufung von Werten betrachtet. Es bildet den Kern von MVI und muss im Normalfall vom Entwickler selbst verwaltet werden. Unter anderem muss garantiert sein, dass ein Zugriff und eine Modifikation des Zustands nur an einer Stelle erfolgen kann. Im Rahmen des Framworks wird eine Komponente genutzt, die diese Aufgaben für den Entwickler übernimmt und den Zustand 'managed': Der 'StateManager'.
+\\\\
+Dieser erwartet den initialen Zustand, der vom Entwickler an das Framework übergeben wird. Der Zustand wird dabei als generischer Parameter definiert und muss dem Interface 'MviState' entsprechen. Nachdem der Zustand überreicht wurde, wird geprüft, inwieweit dieser der Anforderung der Unveränderlichkeit entspricht. Sollte diese nicht gegeben sein, so wird eine Fehlermeldung ausgegeben und der Prozess gestoppt.
+\\\\
+Ist dies erfolgreich, so wartet der 'StateManager' mit Funktionalität auf, welche es ermöglicht einen neuen Zustand zu hinterlegen, sowie mit ihm sicher zu arbeiten. Ein neue Setzung des Wertes wird dabei durch die Kombinationen der Funktionen 'reduce' und 'setNewState' erreicht. 
+\\\\
+Erstere erwartet eine Funktion als Parameter, 'reducer', welche wiederum den derzeitigen Zustand übergeben bekommt. Diese wird aufgerufen und produziert einen neuen Zustand, der durch 'setNewState' als aktueller Zustand gesetzt wird. Dies geschieht allerdings nur unter der Prämisse, dass sich mindestens ein Wert innerhalb der Datenstruktur verändert hat.
 \\
-\\
-Diese Erwartet den initialen Zustand, der vom Nutzer an das Framework übergeben wird. Innerhalb der Komponente befindet sich Funktionalität, die den Zustand auf seine Korrektheit überprüft. Dazu gehört Beispielweise die Anforderung auf Unveränderlichkeit. Sollte diese nicht gegeben sein, so wird eine Fehlermeldung ausgegeben.
-\\
-Des weiteren bietet sie Möglichkeiten mit dem Zustand sicher zu arbeiten, sowie eine neuen zu hinterlegen. Diese Komponente ist nicht direkt für den Nutzer zugänglich. Dies verhindert, dass der Zustand an einer beliebigen Stelle verändert werden kann.
-\\
-\\
-Damit das Framework den Zustand besser zuordnen kann, muss es mit einer Beschriftung versehen und dementsprechend markiert werden. Auch diese wird seitens des Framework bereitgestellt.
+Als Zusatz stellt 'setNewState' sicher, dass es auch bei gleichzeitigen Zugriffen von mehreren 'Threads' zu keiner sogenannten unbeabsichtigten Wettlaufsituation (Race Condition) und damit schwer auffindbaren Problemen kommt.
+\\\\
+Die zwei weiteren Methoden 'map' und 'mapObservable' nehmen genau wie 'reduce' eine Funktionen entgegen, welche den aktuellen Zustand erhält. In dieser kann der Entwickler auf die Attribute des Zustands zurückgreifen, jedoch keine neuen bestimmen.
+\\\\
+Diese Komponente ist nicht direkt für den Nutzer zugänglich und wir ausschließlich intern im Framework genutzt. Es verhindert, dass der Zustand an einer beliebigen und nicht vorgesehenen Stelle verändert werden kann.
 
 \subsection{Intent, Action und Result}
-Bevor der Entwickler auf den Zustand zugreifen kann, muss er seine Intents definieren. Zu jedem Intent muss eine Action existieren. Hierfür wartet das Framework mit einer Struktur auf, die genanntes erzwingt und die Erfüllung dieser Anforderung sicherstellt. 
+Die im Titel genannten Komponenten dienen der Übermittlung und Beschreibung von Informationen innerhalb des 'Kreislaufs' vom MVI. Diese müssen vom Entwickler selbst gestellt werden, erhalten dabei jedoch Vorgaben vom Framework.
+\\\\
+So muss zu jedem Intent eine Action existieren. Hierfür wartet das Framework mit dem Interface 'MviIntent' auf, das genanntes erzwingt und die Erfüllung dieser Anforderung sicherstellt. Realisiert wird dies durch die Funktion 'mapToAction', die der Entwickler später implementieren muss und eine 'Action' zurück gibt.  
+\\\\
+Ähnlich wie auf einen Intent eine Action erfolgt, zieht eine Action ein Result nach sich. Auch das gibt das Framework durch ein Interface namens 'MviAction' vor und muss vom Entwickler angewandt werden. Das Result findet seine Anwendung später in der View und wird ebenfalls mit einem Interface versehen.
 \\
 \\
-Ähnlich wie auf einen Intent eine Action erfolgt, zieht eine Action einen Result nach sich. Auch das gibt das Framework durch eine Struktur vor und muss vom Entwickler angewandt werden. Das Result findet seine Anwendung später in der View.
-\\
-\\
-Sämtliche der hier aufgeführten Strukturen sollten mit ihrem Namen die vorgesehene Intention signalisieren. Zusätzlich müssen sie in der Lage sein weitere Nutzdaten (Payload) aufzunehmen, die mit ihnen in Zusammenhang stehen und für den weiteren Verlauft ausschlaggebend sind.
+Sämtliche der hier aufgeführten Strukturen sollten mit ihrem Namen die vorgesehene Intention signalisieren. Zusätzlich müssen sie in der Lage sein weitere Nutzdaten (Payload) aufzunehmen, die mit ihnen in Zusammenhang stehen und für den weiteren Verlauft Essential sind.
 
 \subsection{Transformer und die Business-Logik}
-Die Action teilt dem Framwork mit, welcher Teil der Business Logik ausgeführt werden soll. Mithilfe einer Komponente, dem 'ActionTransformer', wird vorgegeben an welcher Stelle dies stattfindet. Zu jeder Actio gehört solch ein 'Transormer'. Innerhalb dieser Komponente befindet sich der einzige Ort, an welchem eine Interaktion mit dem Zustand möglich ist.
+Ein elementaren Bestandsteil einer Anwendung macht die Businesslogik aus. Sie ist im Falle von MVI allein verantwortlich für das Abändern des Zustands und sollte strikt von anderen Komponenten getrennt sein.
+\\\\
+Die Action teilt dem Framwork mit, welcher Teil der Business Logik ausgeführt werden soll. Mithilfe einer Komponente, dem 'ActionTransformer', wird vorgegeben an welcher Stelle dies stattfindet. Zu jeder 'Action' gehört solch ein 'Transormer'. Innerhalb dieser Komponente befindet sich der einzige Ort, an welchem eine Interaktion mit dem Zustand möglich ist.
 \\
 Der Entwickler kann dabei aus zwei Funktionen wählen:
 \begin{enumerate}
