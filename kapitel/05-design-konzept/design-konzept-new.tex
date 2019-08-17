@@ -27,7 +27,7 @@ Erstere erwartet eine Funktion als Parameter, 'reducer', welche wiederum den der
 \\
 Als Zusatz stellt 'setNewState' sicher, dass es auch bei gleichzeitigen Zugriffen von mehreren 'Threads' zu keiner sogenannten unbeabsichtigten Wettlaufsituation (Race Condition) und damit schwer auffindbaren Problemen kommt.
 \\\\
-Die zwei weiteren Methoden 'map' und 'mapObservable' nehmen genau wie 'reduce' eine Funktionen entgegen, welche den aktuellen Zustand erhält. In dieser kann der Entwickler auf die Attribute des Zustands zurückgreifen, jedoch keine neuen bestimmen.
+Die Methode 'map' nimmt genau wie 'reduce' eine Funktionen entgegen, welche den aktuellen Zustand erhält. In dieser kann der Entwickler auf die Attribute des Zustands zurückgreifen, jedoch keine neuen bestimmen.
 \\\\
 Diese Komponente ist nicht direkt für den Nutzer zugänglich und wir ausschließlich intern im Framework genutzt. Es verhindert, dass der Zustand an einer beliebigen und nicht vorgesehenen Stelle verändert werden kann.
 
@@ -41,20 +41,22 @@ So muss zu jedem Intent eine Action existieren. Hierfür wartet das Framework mi
 \\
 Sämtliche der hier aufgeführten Strukturen sollten mit ihrem Namen die vorgesehene Intention signalisieren. Zusätzlich müssen sie in der Lage sein weitere Nutzdaten (Payload) aufzunehmen, die mit ihnen in Zusammenhang stehen und für den weiteren Verlauft Essential sind.
 
+\subsection{Reaktiver unidirektionaler Datenfluss}
+Für die Konzeptionierung der nächsten Komponenten gilt vorher zu klären, wie der geforderte reaktive unidirektionale Datenfluss in das Framework integriert werden soll. Dabei müssen Daten synchron oder asynchron verarbeitet und die Option zur Nebenläufigkeit (Concurrency) geboten werden. Zu diesem Zweck bedarf es einem Tool, welches das bereits aufgeführte 'Observer' und 'Iterator' Pattern nutzt. In diesem Zusammenhang taucht oft das Objekt 'Observable' auf, das genau diese Anforderungen erfüllt.  
+
 \subsection{Transformer und die Business-Logik}
 Ein elementaren Bestandsteil einer Anwendung macht die Businesslogik aus. Sie ist im Falle von MVI allein verantwortlich für das Abändern des Zustands und sollte strikt von anderen Komponenten getrennt sein.
 Hierfür stellt das Framework den 'ActionTransformer zu Verfügung.
 \\\\
-Wie der Name vermuten lässt, ist die 'Action' unter anderem ausschlaggebend für die Nutzung der Komponente. Jeder 'Action' wird dabei ein 'ActionTransfomrer' zuteil, welcher über der ersten der zwei generischen Parameter, dem 'A', definiert wird. Dieser Parameter setzt voraus, dass das eingesetzte Objekt vom Interface 'MviAction' nutzen macht. Der zweite generische Parameter 'R' sieht ein Objekt vor, dass dem Interface 'MviResutlt' entstammt. Hier wird das zugehörige Result zur Action eingefügt. 
+Wie der Name vermuten lässt, ist die 'Action' unter anderem ausschlaggebend für die Nutzung der Komponente. Jeder 'Action' wird dabei ein 'ActionTransfomrer' zuteil, welcher über der ersten der zwei generischen Parameter, dem 'A', definiert wird. Dieser Parameter setzt voraus, dass das eingesetzte Objekt vom Interface 'MviAction' nutzen macht. Der zweite generische Parameter 'R' sieht ein Objekt vor, dass dem Interface 'MviResutlt' entstammt. Hier wird das zugehörige Result zur angegebenen Action eingefügt. 
 \\\\
-Die Action teilt dem Framwork mit, welcher Teil der Business Logik ausgeführt werden soll. Mithilfe einer Komponente, dem 'ActionTransformer', wird vorgegeben an welcher Stelle dies stattfindet. Zu jeder 'Action' gehört solch ein 'Transormer'. Innerhalb dieser Komponente befindet sich der einzige Ort, an welchem eine Interaktion mit dem Zustand möglich ist.
-\\
-Der Entwickler kann dabei aus zwei Funktionen wählen:
+Der 'ActionTransformer' ermöglicht die Interaktion mit dem Zustand durch eine Variationen an Funktionen. Dafür benötigt er einen 'StateManager' welcher im bei seiner Erstellung übergeben werden muss. Die Funktionalität kann dabei - ähnlich wie beim 'StateManger' - in zwei Kategorien unterteilt werden:
 \begin{enumerate}
-	\item Der Zustand wird bereitgestellt und ein neuer wird zurück erwartet
-	\item Der Zustand wird bereitgestellt und kann für die zu Ausführende Logik herangezogen aber nicht verändert werden 
-\end{enumerate}
-\bigskip
+	\item Die, in der ein neuer Zustand erzeugt wird und
+	\item die, in der ausschließlich auf die Daten zugegriffen wird
+\end{enumerate} 
+Zu ersten Kategorie gehört lediglich die 'reduce' Methode, welche auf die gleichnamige Methode im 'StateManager' zugreift. 
+\\\\
 Somit ist im Quellcode klar ersichtlich, inwieweit eine Abänderung der Zustands gewollt ist und wann dieser lediglich mitsamt seiner Daten für den weiteren Verlauf benötigt wird. Hinzu kommt hier auch die automatische Handhabung von Seiteneffekten und asynchroner Funktionalität. Dies garantiert, dass der Zustand keine unabsichtliche Modifikation erfährt und zu jedem Zeitpunkt nur einer auf ihn zugreifen kann.
 
 \subsection{Controller}
