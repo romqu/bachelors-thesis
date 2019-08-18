@@ -5,9 +5,6 @@ In diesem Kapitel ...
 \subsection{Grundlegende Designentscheidungen}
 Bevor auf Entscheidungen eingegangen wird ...
 
-\subsubsection{Android als Plattform}
-Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
-
 \subsubsection{Framework}
 Warum Framwork? Besonderheiten...
 \subsection{Übersicht der Komponenten im Klassendiagramm}
@@ -42,6 +39,7 @@ So muss zu jedem Intent eine Action existieren. Hierfür wartet das Framework mi
 Sämtliche der hier aufgeführten Strukturen sollten mit ihrem Namen die vorgesehene Intention signalisieren. Zusätzlich müssen sie in der Lage sein weitere Nutzdaten (Payload) aufzunehmen, die mit ihnen in Zusammenhang stehen und für den weiteren Verlauft Essential sind.
 
 \subsection{Reaktiver unidirektionaler Datenfluss}
+\label{subsec:reaktiver-unidirektionaler-datenfluss}
 Für die Konzeptionierung der nächsten Komponenten gilt vorher zu klären, wie der geforderte reaktive unidirektionale Datenfluss in das Framework integriert werden soll. Dabei müssen Daten synchron oder asynchron verarbeitet und die Option zur Nebenläufigkeit (Concurrency) geboten werden. Zu diesem Zweck bedarf es einem Tool, welches das bereits aufgeführte 'Observer' und 'Iterator' Pattern nutzt. In diesem Zusammenhang taucht oft das Objekt 'Observable' auf, das genau diese Anforderungen erfüllt.  
 
 \subsection{Transformer und die Business-Logik}
@@ -55,19 +53,40 @@ Der 'ActionTransformer' ermöglicht die Interaktion mit dem Zustand durch eine V
 	\item Die, in der ein neuer Zustand erzeugt wird und
 	\item die, in der ausschließlich auf die Daten zugegriffen wird
 \end{enumerate} 
-Zu ersten Kategorie gehört lediglich die 'reduce' Methode, welche auf die gleichnamige Methode im 'StateManager' zugreift. 
+Zu ersten Kategorie gehört lediglich die 'reduce' Methode, welche auf die gleichnamige Methode im 'StateManager' zugreift. Auch sie bekommt eine Funktion als Parameter, jedoch mit dem Unterschied, dass diese zusätzlich den derzeitigen Wert in Bearbeitung enthält. Dies kann beispielsweise ein Item sein, dass
+von einem Intent an die Action weitergegeben wurde. Auf Basis dieser zwei Werte kann der Entwickler einen neuen Zustand bestimmen, welcher intern über den 'StateManager' gesetzt wird. Diese Operation findet auf der in Kapitel
+\ref{subsec:reaktiver-unidirektionaler-datenfluss}
+präsentierten 'Observable' Klasse statt und legt diese auch als Rückgabewert fest.
+\\\\
+In die zweite Kategorie fallen die Methoden 'mapWithState' und 'flatMapWithState', die beide die gleiche Funktion wie sie auch bei 'reduce' verwendet wird erhalten. Ihnen ist es nicht gestattet eine neuen Zustand herzustellen, sie können lediglich mit ihm arbeiten. Die 'flatMapWithState' Methode grenzt sich dadurch ab, das sie erlaubt andere asynchrone Funktionalität auszuführen, die ebenfalls einen Wert vom Typ 'Observable' zurückgibt und dabei Seiteneffekte berücksichtigt.
+\\
+Alle hier aufgezählten Methoden operieren auf den anfangs genannten generischen Parametern. 
 \\\\
 Somit ist im Quellcode klar ersichtlich, inwieweit eine Abänderung der Zustands gewollt ist und wann dieser lediglich mitsamt seiner Daten für den weiteren Verlauf benötigt wird. Hinzu kommt hier auch die automatische Handhabung von Seiteneffekten und asynchroner Funktionalität. Dies garantiert, dass der Zustand keine unabsichtliche Modifikation erfährt und zu jedem Zeitpunkt nur einer auf ihn zugreifen kann.
 
-\subsection{Controller}
-Der Controller vereint die bisher beschriebenen Komponenten und 'kontrolliert' bzw. koordiniert anhand dieser den Aufruf der Business-Logik. Er stellt das Bindeglied zwischen der View, einer 'Action' und dem dazugehörigen 'ActionTransormer' dar und sorgt für den Aufruf von ebendiesem. Dafür muss er über die vom Entwickler angedachte Form des Zustands, Intents, Action und Result informiert werden. Überdies erhält der Controller den initialen Zustand und eine Liste von Namen der zugehörigen 'ActionTransformer' vom Entwickler.
+\subsection{Controller als Bindeglied}
+Der Controller vereint die bisher beschriebenen Komponenten und 'kontrolliert' bzw. koordiniert anhand dieser den Aufruf der Business-Logik. Er stellt das Bindeglied zwischen der View, einer 'Action' und dem dazugehörigen 'ActionTransormer' dar und sorgt für den Aufruf von ebendiesem. 
 \\\\
-In der initialen Phase verifiziert er daraufhin, dass alle 'ActionTransformer' von der hinterlegten 'Action' und dem 'Result' abstammen um späteren Konflikten vorzubeugen. Anschließend wird der 'StateMananger' mit dem überlieferten Zustand instanziiert. Im letzten Schritt erzeugt der Controller alle 'ActionTransformer' die jeweils einen 'StateManager' zugewiesen bekommen.
+Dafür muss er über die vom Entwickler angedachte Form des Zustands, Intents, Action und Result informiert werden. Dies geschieht wie bei den vorherigen Komponenten durch die Angabe mehrerer generischer Parameter. Überdies erhält der Controller für seine Konstruktion den initialen Zustand und eine Liste von Namen der zugehörigen 'ActionTransformer' vom Entwickler.
 \\\\
-Im Controller befindet sich die Intent-Funktionen, welche die von der View generierten 'Intents' entgegennimmt und verarbeitet. Sie dient als Einstiegspunk in den unidirektional Kreislauf. Ebenfalls findet hier die Model-Funtionen ihren Platz, welche allerdings nicht für den Entwickler sichtbar ist und intern automatisch abgewickelt wird. Sie trägt Sorge für den Aufruf des korrekten 'ActionTransformers'. 
-
+In der initialen Phase verifiziert der 'Controller', dass alle 'ActionTransformer' von der hinterlegten 'Action' und dem 'Result' abstammen um späteren Konflikten vorzubeugen. Anschließend wird der 'StateMananger' mit dem überlieferten Zustand instanziiert. Im letzten Schritt erzeugt der 'Controller' alle 'ActionTransformer' die jeweils einen 'StateManager' zugewiesen bekommen und speichert diese in Form von Schlüssel (Name des Transformers) und dazugehörigem 'ActionTransformer' in dem Attribut 'actionTransformerMap' ab.
+\\\\
+Im Controller selbst existieren zusätzlich zwei Funktionen und eine Variable, von denen nur letztere von außen Zugänglich ist: 'intent'. Sie stellt die in MVI beschriebene Intent-Funktion dar und dient als Einstieg in den unidirektionalen Kreislauf. Wird sie aufgerufen so führt sie die interne 'mapToAction' Methode aus, die mittels der im 'MviIntent' Interface definierten 'toAction' Methode, den 'Intent' in eine 'Action' umwandelt.
+\\\\
+Die zweite und zugleich auch letzte Funktion ist die 'model' Methode. Sie nimmt die 'Action', ermittelt ihren Klassenamen und entnimmt auf Grundlage dessen den entsprechenden 'ActionTransformer' aus der 'actionTransformerMap'. Die dort enthaltende Business Logik wird dann ausgeführt und das 'Result ', verpackt in einem 'Observable', nach 'oben' durchgereicht.
 \subsection{View}
-Die 'View' stellt den obersten Teil des Frameworks dar und gibt an, 
+Die 'View' stellt den obersten Teil des Frameworks dar und besitzt im Kern zwei Eigenschaften: Sie reicht die 'Intents' an ihren 'Controller' weiter und verarbeitet das von ihm erhaltene 'Result'. Für beide werden erneut generische Parameter definiert. Einmal einer welcher aussagt, dass das eingefügte Objekt vom 'MviController' abstammen und ein zweiter, der dem 'MviResult' Interface entsprechen muss.
+\\\\
+Hierfür etabliert das Framework die 'MviView' Klasse, von der die 'View' abstammen muss. Sie stellt die oben geschilderten Anforderungen sicher, indem sie den Entwickler zwingt, ein Attribut zu hinterlegen und eine Funktionen zu implementieren. Bei ersterem handelt es sich um das Objekt, dass der Entwickler als 'MviController' ersonnen hat, bei letzterem um eine Methode, die ein 'Result' als Parameter erwartet. In dieser soll vom Entwickler die Logik stehen, welche für das aktualisieren des User Interface (UI) zuständig ist. 
 
 \subsection{Anleitung zur korrekten Nutzung}
-Hier wird (Schritt für Schritt) beschrieben wie der Entwickler zu Verfahren hat, um das Framework zu nutzen.
+Um die Handhabung des Frameworks und die für den Entwickler vorgesehenen Komponenten besser nachzuvollziehen, wird im folgenden eine kurze Schritt für Schritt Anleitung dargelegt:
+\begin{enumerate}
+	\item Anlegen der Klasse für den Zustand im Verbund mit 'MviState'
+	\item Anlegen sämtlicher Actions im Verbund mit 'MviAction
+	\item Anlegen sämtlicher Intents im Verbund mit 'MviIntent' und obigen 'Actions'
+	\item Anlegen sämtlicher Results im Verbund mit 'MviResult'
+	\item Implementierung der Business Logik auf Basis der 'ActionTransformer' Klasse
+	\item Implementierung des Controllers auf Basis der 'MviController' Klasse
+	\item Implementierung der View auf Basis der 'MviView' Klasse
+\end{enumerate}
