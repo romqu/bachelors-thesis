@@ -6,20 +6,22 @@ In diesem Kapitel ...
 Bevor auf Entscheidungen eingegangen wird ...
 
 \subsubsection{Android als Plattform}
-Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder Serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwickelung von Webseiten fand und es sich im Fall Android um einen Nachzügler handelt.
+Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwicklung von Webseiten fand und erst später seinen Einzug in Android erhielt.
 
 \subsubsection{Kotlin als Programmiersprache}
-Die Applikationen in Android und das Android-SDK selbst sind bis vor wenigen Jahren fast ausschließlich in der Sprache Java entwickelt wurden. Seit der Google I/0 2017 gehört jedoch eine weitere Sprache zu den offiziell unterstützen:  Kotlin. Sie wird von dem Unternehmen Jetbrains entwickelt, die untere anderem die Entwicklungsumgebung Intellij für Java produzieren. Dieses bildet auch die Grundlage für Android Studio.
+Die Applikationen in Android und das Android-SDK selbst sind bis vor wenigen Jahren fast ausschließlich in der Sprache Java entwickelt wurden. Seit der Google I/0 2017 gehört jedoch eine weitere Sprache zu den offiziell unterstützten:  Kotlin. Sie wird von dem Unternehmen Jetbrains
+\footnote{https://www.jetbrains.com/}
+entwickelt, die untere anderem die Entwicklungsumgebung Intellij für Java produzieren. Dieses bildet auch die Grundlage für Android Studio.
 Kotlin hat in den letzten Jahren an Bodenhaftung gewonnen und findet auch intern bei Google Verwendung.
 \\
-Die Sprache wird als statisch typisierte, objektorientierte Programmiersprache bezeichnet und verfügt über eine hohe Interoperabilität zu Java. Dies bedeutet, dass innerhalb eines in Java geschriebenen Programms ohne viel Aufwand Kotlin genutzt werden kann. Dies ist ein wichtiger Faktor für die immer weiter ansteigende Beliebtheit, da es eine einfache Integration und bisherige Projekte gestattet. 
-Kotlin bringt ein verbesserte Syntax mit und macht beispielsweise die Verwendung von "null" explizit.
+Die Sprache wird als statisch typisierte, objektorientierte Programmiersprache bezeichnet und verfügt über eine hohe Interoperabilität zu Java. Dies bedeutet, dass innerhalb eines in Java geschriebenen Programms ohne viel Aufwand Kotlin genutzt werden kann. Dies ist ein wichtiger Faktor für die immer weiter ansteigende Beliebtheit, da es eine einfache Integration für bisherige Projekte gestattet. 
+Kotlin bringt eine verbesserte Syntax mit und macht beispielsweise die Verwendung von 'null' explizit.
 Zu den Verbesserungen gehören dabei auch:
 \\
 \begin{itemize}
 	\item Ableitung von Typen
 	\item Alles ist eine Expression 
-	\item Funktionen sind "First-Class-Funktionen" und bilden eine Funktionale Grundlage
+	\item Funktionen sind 'First-Class-Objekte' und bilden eine funktionale Grundlage
 	\item Datenklassen machen den Umgang mit unveränderliche Datenstrukturen einfach
 	\item Erweiterungsfunktionen
 	\item Kovarianz und Kontravarianz werden explizit anwendet
@@ -47,7 +49,7 @@ data class Example(
 }
 
 // Erweiterungsfunktion und Funktion als Parameter
-fun HelloWorld.extensionFunction(function: () -> String) { 
+fun Exampaple.extensionFunction(function: () -> String) { 
 	val message = function()
 	println(message)
 }
@@ -66,18 +68,37 @@ newExample.extensionFunction { "Hello" }
 \bigskip
 Insgesamt is anhand Listing
 \ref{lst:kotlin-beispiel}
-zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen "Boilerplate-Codes" und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten "Nullpointer-Exception" retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bswp. Listen zum Einsatz kommen.
+zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen 'Boilerplate-Codes' und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten 'Nullpointer-Exception' retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bswp. Listen zum Einsatz kommen.
 
-\subsection{Model \& Zustand}
+\subsection{Funktionale reaktive Programmierung mit RxJava und RxKotlin}
+Die Implementierung des Obervers und Iterator Patterns mit dazugehörigen Operatoren, die Einhaltung von funktionalen Paradigmen und die Berücksichtigung von asynchroner als auch paralleler Ausführung von Funktionalität (und deren Synchronisierung) ist eine äußerst komplexe Herausforderung, die viel Erfahrung und Zeit erfordert. Deshalb wird in diesem Fall auf eine bereits bestehende Implementierung zurückgegriffen, die in der Android Entwicklung oft zur Anwendung kommt: RxJava.
+\\\\
+Diese Bibliothek ist eine Implementierung der 'Reactive Extension' API, welche für viele Plattformen und Programmiersprachen verfügbar ist. Sie hat ihrem Ursprung in '.NET/C\#' aus dem Hause Microsoft. Sie arbeitet genau wie die Java Stream API auf der Basis von Datenströmen und stellt dafür ein Fülle an Operatoren zur Verfügung.
+\\\\
+Zusätzlich zu 'RxJava' existiert eine 'DSL' die Kotlin agnostisch ist: RxKotlin.
+Anhand Listing
+\ref{lst:rx-beispiel}
+soll der Umgang mit dieser Bibliothek in einem für den weiteren Verlaufen relevanten Umfang dargelegt werden.
+\begin{lstlisting}[caption={'RxJava/Kotlin Beispiel}, label={lst:rx-beispiel}, language=Kotlin]
+// Erstellung eines Observables
+val observable = Observable.just("Hello")
+
+observavble
+	.map { text: String ->
+		text + "World"
+	}.subscribe(::println)
+\end{lstlisting}
+
+\subsection{Zustand (State) und der 'StateManager'}
 Ähnlich wie bei Redux nimmt das Model in MVI und somit der Zustand die zentral Rolle innerhalb der Anwendung ein. Es diktiert das User Interface (UI) und hat wesentlichen Einfluss auf die ausführende Business-Logik.
 \\
 \\
-Für die Repräsentation des Models gibt MVI vor, das dieses Unveränderlich sein muss. Dies wiederum hat zur Folge, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Hierfür wird das Model kopiert und während diesem optional Vorgang mit neuen Werten versehen. 
+Für die Repräsentation des Models gibt MVI vor, das dieses unveränderlich sein muss. Dies wiederum hat zur Folge, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Hierfür wird der Zustand kopiert und während diesem optionalem Vorgang mit neuen Werten versehen. 
 \\
 \\
-Für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess stark vereinfacht: Die "data" Klasse. Sie generiert unterschiedliche Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem die Methode 'copy'. Wie der Name vermuten lässt, erzeugt sie eine Kopie der Klasse. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor der Klasse inne hat. Dies macht es möglich einzelne Attribute neu zu besetzten und bei den übrigen den derzeitigen Wert beizubehalten. Wie Listing
+Für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess stark vereinfacht: Die 'data' Klasse. Sie generiert unterschiedliche Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem die Methode 'copy'. Wie der Name vermuten lässt, erzeugt sie eine Kopie der Klasse. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor der Klasse inne hat. Dies macht es möglich einzelne Attribute neu zu besetzten und bei den übrigen den derzeitigen Wert beizubehalten. Wie Listing
 \ref{lst:data-class}
-aufzeigt, gestaltet das den Umgang mit Unveränderlichen Klassen verhältnismäßig einfach.
+aufzeigt, gestaltet das den Umgang mit unveränderlichen Klassen verhältnismäßig einfach.
 \begin{lstlisting}[caption={data class}, label={lst:data-class}, language=Kotlin]
 
 data class MyClass(val text: String, val anotherText: String)
@@ -88,14 +109,14 @@ val myClass = MyClass("text", "anotherText")
 val newMyClass = myClass.copy(text = "newText")
 \end{lstlisting}
 \bigskip
-Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute (= val) keine Pflicht darstellen. Somit wäre es dem Entwickler ohne weiteres Möglich, die Instanz direkt zu modifizieren, ohne ein neue zu erzeugen müssen. Um das zu Verhindern gilt es Sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen der Unveränderlichkeit entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem generieren von Code.  
+Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute (= val) keine Pflicht darstellen. Somit wäre es dem Entwickler ohne weiteres Möglich, die Instanz direkt zu modifizieren, ohne ein neue zu erzeugen müssen. Um das zu verhindern gilt es sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen der Unveränderlichkeit entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem Generieren von Code.  
 \subsubsection{Reflexion (Introspektion)}
 Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschrankungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Modifier, Variablen, Konstruktoren, Methoden, Annotationen (= reflektive Informationen) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
 \begin{enumerate}
 	\item Debugger
 	\item Interpreter
-	\item Objekt Serialisation
-	\item Dynamisches Laden von Code/ erzeugen von Objekten (z.B. Spring @Autowired)
+	\item Objektserialisierung
+	\item Dynamisches Laden von Code/ Erzeugen von Objekten (z.B. Spring @Autowired)
 	\item Java Beans
 \end{enumerate}
 \bigskip
@@ -123,7 +144,7 @@ println(myClass.qualifiedName)
 println(myClass::text.isConst)
 \end{lstlisting}
 \bigskip
-Eine weiterer Interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
+Eine weiterer, durchweg interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
 \begin{lstlisting}[caption={Override Annotation}, label={lst:data-class}, language=Kotlin]
 
 class MyClassJava {
@@ -155,7 +176,7 @@ Anhand der Beispiele lässt sich erahnen, dass Reflexion beträchtlichen Einflus
 Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Reflexion auf das notwendige Maß beschränkt werden sollte, da es grundlegende Prinzipien der typisierten Programmierung verletzt.
 
 \subsubsection{Code Generation}
-Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
+Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt. Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
 \\
 \\
 Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
@@ -178,87 +199,111 @@ print("a + b = ${ a + b }")
 welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
 Vor- und Nachteile...
 \subsubsection{Überprüfung durch Reflexion}
-Um die Wartung von generiertem Code, dem Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. Im ersten Schritt muss verifiziert werden, dass es sich bei dem Model um eine 'data' Klasse handelt. Hierfür bietet die Koltin Reflexion API ein Attribut:
+Um die Wartung von generiertem Code, den Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. 
+\\\\
+Im ersten Schritt muss verifiziert werden, dass es sich bei der Klasse für den Zustand um eine 'data' Klasse handelt. Hierfür bietet die Kotlin Reflexion API ein Attribut:
 \begin{lstlisting}[caption={Kotlin 'isData' Attribut}, label={lst:data-class}, language=Kotlin]
-data Class DataClass
+data class DataClass
 
 println(DataClass()::class.isData) // true
 \end{lstlisting}
 \bigskip
-Im weiteren Vorgehen müssen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
-\begin{enumerate}
+Sollte diese Auswertung negativ ausfallen, so wird eine 'IllegalStateException' geworfen und dem Entwickler mitteilt, dass ohne eine 'data' Klasse nicht fortgefahren werden kann.
+\\\\ 
+Ist die Überprüfung jedoch erfolgreich, so muss im weiteren Vorgehen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
+\begin{enumerate}[label*=\arabic*.]
 	\item Liste sämtlicher Attribute der zu prüfenden Klasse erstellen
 	\item Filtern von nicht benötigten Attributen
-	\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
-	\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
-	\item Typen auf Unveränderlichkeit prüfen
-	\item Eine Fehlernachricht generieren, mit den veränderlichen Attributsnamen
+	\item In einer 'Schleife' 
+	\begin{enumerate}[label*=\arabic*.]
+		\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
+			\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
+		\item Typen auf Unveränderlichkeit prüfen
+		\item Eine Fehlernachricht generieren, mit den veränderlichen Attributsnamen
+	\end{enumerate}
+	\item Eine Fehlernachricht mit allen veränderlichen Attributen oder einen leeren Text zurückgeben
 \end{enumerate}
-Die Funktion zu Überprüfung wird dabei als Extension auf der Klasse 'KClass', Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte 'Wildcard'  und sagt aus, das beliebige Typen möglich sind.
-\\
-Innerhalb der Funktion erfolgt der Zugriff auf die Liste aller Attribute der Klasse.
-Bei der 'data' Klasse wird für jedes Attribut ein zusätzliches generiert, das mit dem Wort 'component' beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Dadurch kann man das Verfahren der destrukturierenden Zuweisung anwenden. Hierbei werden aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt, wie Listing
-\ref{destrukturierende-zuweisung}
-zeigt.
-\begin{lstlisting}[caption={Destrukturierende Zuweisung}, label={lst:destrukturierende-zuweisung}, language=Kotlin]
-val pair = Pair("forename", "surname")
-
-val (forename, surname) = pair
-\end{lstlisting}
-Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen von jedem Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es aus der Liste gelöscht.
-\\
-\\
-Im darauffolgenden Schritt soll zu Erst geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Trifft dies zu, so schließt sich dem die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine Liste, der Elemente direkt hinzugefügt oder entfernt werden können.
-\begin{lstlisting}[caption={}, label={lst:data-class}, language=Kotlin]
-fun KClass<*>.checkForImmutability(): String =
-members
-.filter { it.name.startsWith("component").not() }
-.fold("") { errorMessage: String, property: KCallable<*> ->
-when (property) {
-is KMutableProperty<*> -> {
-val tmpErrorMessage = "$errorMessage\n${property.name} is not allowed to be 'var'"
-checkSubTypeForImmutability(property, tmpErrorMessage)
-}
-
-else -> checkSubTypeForImmutability(property, errorMessage)
-}
-}
-
-fun checkSubTypeForImmutability(property: KCallable<*>, errorMessage: String) =
-when {
-property.isSubtypeOf(MutableIterable::class) ->
-"$errorMessage\n${property.name} is not allowed to be mutable"
-
-property.isSubtypeOf(Function::class) ->
-"$errorMessage\n${property.name} is not allowed to be a function"
-
-else -> errorMessage
-}
-
-fun KCallable<*>.isSubtypeOf(clazz: KClass<*>): Boolean =
-returnType.isSubtypeOf(clazz.starProjectedType)
+Die Funktion zu Überprüfung wird dabei als Erweiterungsfunktion auf der Klasse 'KClass', Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte 'Wildcard' und sagt aus, das beliebige Typen möglich sind.
+\\\\
+Innerhalb der Erweiterungsfunktion erfolgt der Zugriff auf die Liste aller Attribute der Klasse (Listing
+\ref{lst:erweiterungsfunktion-kclass-01}).
+\begin{lstlisting}[caption={Erweiterungsfunktion 'KClass' mit Liste aller Attribute}, label={lst:erweiterungsfunktion-kclass-01}, language=Kotlin]
+internal fun KClass<*>.findMutableProperties(): String =
+	members // Liste mit allen Attributen
+	// ...
 \end{lstlisting}
 \bigskip
-Das Model muss ihm Controller als generischer Typ angegeben werden.
+Zu beachten ist dabei, dass bei der 'data' Klasse für jedes Attribut ein zusätzliches generiert wird, welches mit dem Wort 'component' beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Durch dieses kann das Verfahren der destrukturierenden Zuweisung angewandt werden. Hierbei können aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt werden. Dies ist z.B. nützlich, wenn eine Funktion zwei Werte zurückgeben, oder eine 'Map' mit Schlüssel und zugehörigem Wert gleichzeitig durchlaufen werden soll. Listing
+\ref{lst:destrukturierende-zuweisung}
+zeigt beide Anwendungsfälle.
+\begin{lstlisting}[caption={Destrukturierende Zuweisung}, label={lst:destrukturierende-zuweisung}, language=Kotlin]
+data class Person(
+	val forename: String,
+	val surname: String
+)
 
+fun fetchPerson() = Person("forename", "surname")
+
+val (forename, surname) = fetchPerson()
+
+for ((key, value) in map) {
+	// .... 
+}
+\end{lstlisting}
+Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen von jedem Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es - entsprechend Listing 
+\ref{lst:filtern}
+- aus der Liste gelöscht.
+\begin{lstlisting}[caption={Filtern}, label={lst:filtern}, language=Kotlin] 
+members.filter { property -> 
+	property.name.startsWith("component").not() 
+}
+\end{lstlisting}
+\bigskip
+Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Mit der Reflexion API wird dies über die 'KMutableProperty<*>' Klasse signalisiert. Diesem schließt sich die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine 'MutableList' in Kotlin, welcher Elemente direkt hinzugefügt oder entfernt werden können.
+\\\\
+Die beide Funktionen 'findMutableProperties' und 'isSubtypeMutable' werden gemeinsam in der Klasse 'KClassUtil' untergebracht.
+\subsubsection{StateManager}
+Die oben aufgeführte Implementierung für die Überprüfung der Klasse für den Zustand findet ihren Platz in der in der in Kapitel
+\ref{subsec:zustand-und-statemanager}
+vorgestellten  'StateManager' Klasse.
+\\\\
+Bevor die Klasse implementiert werden kann, muss das 'MviState' Marker Interface wie in Listing
+\ref{lst:mvi-state-interface}
+definiert werden.
+\begin{lstlisting}[caption={'MviState' Interface}, label={lst:mvi-state-interface}, language=Kotlin]
+interface MviState
+\end{lstlisting}
+\bigskip
+Nun erfolgt die Nutzung von diesem in der Definition des 'StateManager' und seinem Konstruktor mit dem 'state' Attribut:
+\begin{lstlisting}[caption={ 'StateManager' mit 'MviState'}, label={lst:state-manger-definiton}, language=Kotlin]
+class StateManager<S : MviState>(
+	private var state: S
+) {
+	// ....
+}
+\end{lstlisting}
+Dabei beschreibt das 'S' den generischen Part und der Doppelpunkt Notation sagt aus, dass das Objekt, welches für 'S' eingesetzt wird 'MviState' implementieren muss. Die 'state' Variable ist aufgrund des vorangestellten 'private' nur innerhalb Klasse selbst sichtbar. Um die geforderte Eigenschaft der Mutation zu entsprechen, wird 'var' verwendet. 
+\\\\
+
+ 
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
-Klickt der Nutzer in einer Anwendung auf einen "Zurück" Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.
+Klickt der Nutzer in einer Anwendung auf einen 'Zurück' Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.
 \\
-Daraus ergeben sich zwei Arten von "Intents": Eines ohne und eines mit zusätzlichen Nutzdaten (Englisch payload). Dies bedeutet, dass eine Struktur existieren muss, die entweder Daten beinhaltet oder nur eine semantische Bedeutung hat.
+Daraus ergeben sich zwei Arten von 'Intents': Eines ohne und eines mit zusätzlichen Nutzdaten (Englisch payload). Dies bedeutet, dass eine Struktur existieren muss, die entweder Daten beinhaltet oder nur eine semantische Bedeutung hat.
 \begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse}, language=Kotlin]
 class Intent<T> (val payload: T)
 \end{lstlisting}
 \bigskip
 Für diesen Fall eignet sich eine Klasse mit einem generischen Typ als Attribut, wie Listing
 \ref{lst:intent-klasse}
-zeigt. Das "<T>" in der Klassen Deklaration dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein "Item" aus dem obigen Beispiel.
+zeigt. Das '<T>' in der Klassen Deklaration dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein 'Item' aus dem obigen Beispiel.
 \\
 Die aufgezeigte Option weißt jedoch gewisse Mängel auf:
 \begin{enumerate}
-	\item Der "Payload" darf niemals "null" sein
-	\item Der Name "Intent" transportiert die eigentliche Absicht nicht
+	\item Der 'Payload' darf niemals 'null' sein
+	\item Der Name 'Intent' transportiert die eigentliche Absicht nicht
 \end{enumerate}
 \bigskip
 Mangel Nr. 1 lässt sich mit einer einfachen Abwandlung von Listing
@@ -268,7 +313,7 @@ behoben werden.
 class Intent<T> (val payload: T? = null)
 \end{lstlisting}
 \bigskip
-Hierfür muss lediglich von Kotlins Notation für "null"-Typen gebraucht gemacht werden: Das Fragezeichen. Um zu vermeiden, das bei dem erstellen einer Klasse ohne Inhalt stets "null" übergeben werden muss, wird ein Standardparameter verwendet. Listing
+Hierfür muss lediglich von Kotlins Notation für 'null'-Typen gebraucht gemacht werden: Das Fragezeichen. Um zu vermeiden, das bei dem erstellen einer Klasse ohne Inhalt stets 'null' übergeben werden muss, wird ein Standardparameter verwendet. Listing
 \ref{lst:intent-klasse-2}
 stellt die Anpassungen dar.
 \\
@@ -283,7 +328,7 @@ enum class IntentDescription {
 }
 \end{lstlisting}
 \bigskip
-Bei Ansatz Nummer Eins ist ein potenzieller Kandidat die Verwendung eines "enum". Diese kann durch Konstanten (Listing 
+Bei Ansatz Nummer Eins ist ein potenzieller Kandidat die Verwendung eines 'enum'. Diese kann durch Konstanten (Listing 
 \ref{lst:intent-enum} gibt einen Eindruck
 ) zum Ausdruck bringen, um welche Intention es sich handelt. Im nächsten Schritt muss das Enum als Attribut in der Intent Klasse hinterlegt werden:
 \begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
@@ -299,12 +344,12 @@ class Intent<T> (
 val intent = Intent(description = IntentDescription.GO_BACK)
 \end{lstlisting}
 \bigskip
-Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein "payload" von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden "null" Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der "NullPointer Exception" über den Weg zu laufen.
+Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein 'payload' von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden 'null' Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der 'NullPointer Exception' über den Weg zu laufen.
 \\
 \\
-Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller für jede Intention eine Klasse zu kreieren. Bei dieser Variante ergeben sich zwei Eigenschaften: Jeder dieser Klassen stellt übergeordnet einen "Intent" dar und enthält möglicherweise einen "payload", welcher niemals "null" ist.
+Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller für jede Intention eine Klasse zu kreieren. Bei dieser Variante ergeben sich zwei Eigenschaften: Jeder dieser Klassen stellt übergeordnet einen 'Intent' dar und enthält möglicherweise einen 'payload', welcher niemals 'null' ist.
 \\
-Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen "Produkt" und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
+Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen 'Produkt' und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
 \\
 Das zweite Konstrukt, die Summe von Werten liegt vor, wenn anstatt von mehreren Werte zu einem entweder ein Typ oder ein anderer vorliegt. Es ist somit keine Kombination von Werten wie beim Produkt, sondern die Entscheidung für einen der Angegebenen. Das Enum wie in Listing
 \ref{lst:summen-typ}
@@ -325,11 +370,11 @@ print(color is GREEN) // false
 Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich 
 auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner 
 besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als 
-"algebraisch" bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die "Summe" oder das 
-"Produkt" bestehender Typen nimmt.
+'algebraisch' bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die 'Summe' oder das 
+'Produkt' bestehender Typen nimmt.
 \\
 \\
-In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem "sealed" Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
+In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem 'sealed' Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
 \ref{lst:intent-klasse-2}
 funktionaler und eleganter zum implementieren:
 \begin{lstlisting}[caption={Intents als sealded class}, label={lst:intents-sealed-class}, language=Kotlin]
@@ -343,7 +388,7 @@ sealed class Intent {
 \end{lstlisting}
 \bigskip
 Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von 
-"null" Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung 
+'null' Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung 
 und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
 eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, 
 aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der 
@@ -353,7 +398,7 @@ einen Zustand enthalten kann.
 Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
 \\
 \subsection{View Model}
-Die Erzeugung eines Intents findet entweder in einer "Activity", einem "Fragment" oder Derivaten statt. 
+Die Erzeugung eines Intents findet entweder in einer 'Activity', einem 'Fragment' oder Derivaten statt. 
 Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, 
 welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. 
 Weiterhin muss die Komponente reaktiv sein und den geforderten unidirektionalen Fluss einhalten.
@@ -390,7 +435,7 @@ abstract class Animal {
 class Dog : Animal(){
 
 	override fun makeSound(){
-		println("Wuff")
+		println('Wuff")
 	}
 }
 
@@ -429,19 +474,19 @@ Im nächsten Schritt müssen die Intents einer Aktion zugeordnet bzw. in eine ü
 dass die Superklasse als Parameter verwendet, muss zu erst ermittelt werden, um welchen Subklasse von 
 Intent es sich handelt. Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept 
 zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein 
-Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen "Formen"(hier Klassen) übereinstimmt. 
+Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen 'Formen'(hier Klassen) übereinstimmt. 
 \\
 \\
 Auch in diesem Fall schafft Kotlin Abhilfe. Es stellt eine Expression bereit, welche eine elegante 
-Handhabung für genau diesen Fall bietet. Sie ist dem "switch" Statement aus Java sehr ähnlich, offenbart 
+Handhabung für genau diesen Fall bietet. Sie ist dem 'switch' Statement aus Java sehr ähnlich, offenbart 
 aber mehr Möglichkeiten und ist dementsprechend mächtiger. Ein gewöhnliches switch Statement ist im 
-Grunde nur eine Aussage, die eine Reihe von einfachen if/else ersetzen kann, welche grundlegende Prüfungen durchführen. Folgendes Vorteile kann mit der sogenannten "when" Expression erzielt werde:
+Grunde nur eine Aussage, die eine Reihe von einfachen if/else ersetzen kann, welche grundlegende Prüfungen durchführen. Folgendes Vorteile kann mit der sogenannten 'when' Expression erzielt werde:
 \begin{enumerate}
-	\item Es gibt immer einen Wert zurück (minimal "Unit"), ohne "return" angeben zu müssen
+	\item Es gibt immer einen Wert zurück (minimal 'Unit'), ohne 'return' angeben zu müssen
 	\item Es ist kein Argument nötig
 	\item Es kann beliebige Bedingungsausdrücke haben
 	\item \label{when-design} Es hat ein allgemein besseres und sicheres Design (mögliche Überprüfung während der Kompilierung)
-	\item \label{when-smart-cast} Es unterstützt "Smart Cast" oder "Auto Casting"
+	\item \label{when-smart-cast} Es unterstützt 'Smart Cast' oder 'Auto Casting'
 \end{enumerate}
 Das nachfolgende Listing
 \ref{lst:when-expression}
@@ -471,13 +516,13 @@ Die Punkte
 \ref{when-design}
 und
 \ref{when-smart-cast}
-sind dabei von besonderem Interesse. Durch die Verwendung einer "sealed" Klasse für die Implementierung der Intents ist es dem Compiler möglich festzustellen, inwieweit alle Subklassen innerhalb der "when" Expression abgedeckt sind. Fehlt eine, so wirft der Compiler einen Fehler und die Anwendung kann nicht ausgeführt werden. Des weiteren verliert der "else" seinen Nutzen, weshalb auf ihn verzichtet werden kann.
+sind dabei von besonderem Interesse. Durch die Verwendung einer 'sealed' Klasse für die Implementierung der Intents ist es dem Compiler möglich festzustellen, inwieweit alle Subklassen innerhalb der 'when' Expression abgedeckt sind. Fehlt eine, so wirft der Compiler einen Fehler und die Anwendung kann nicht ausgeführt werden. Des weiteren verliert der 'else' seinen Nutzen, weshalb auf ihn verzichtet werden kann.
 \\
-Den nächsten Vorteil der sich ergibt, ist die Fähigkeit von Kotlin nach dem Bedingungsausdruck die Basisklasse automatisch in die korrekte Subklasse umzuwandeln. Dies wird als sogenanntes "Smart Casting" bezeichnet und erspart dem Entwickler ein manuelles umwandeln in die richtige Klasse.
+Den nächsten Vorteil der sich ergibt, ist die Fähigkeit von Kotlin nach dem Bedingungsausdruck die Basisklasse automatisch in die korrekte Subklasse umzuwandeln. Dies wird als sogenanntes 'Smart Casting' bezeichnet und erspart dem Entwickler ein manuelles umwandeln in die richtige Klasse.
 Ein Vergleich zwischen Java und Kotin gibt Listing 
 \ref{lst:when-smart-cast}
 an.
-\begin{lstlisting}[caption={"when" mit "smart cast"}, label={lst:when-smart-cast}, language=Kotlin]
+\begin{lstlisting}[caption={'when' mit 'smart cast'}, label={lst:when-smart-cast}, language=Kotlin]
 
 // JAVA
 val intent = Intent.GoBack
