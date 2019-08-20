@@ -197,7 +197,6 @@ print("a + b = ${ a + b }")
 }
 \end{lstlisting}
 welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
-Vor- und Nachteile...
 \subsubsection{Überprüfung durch Reflexion}
 Um die Wartung von generiertem Code, den Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. 
 \\\\
@@ -263,9 +262,10 @@ Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein ne
 \\\\
 Die beide Funktionen 'findMutableProperties' und 'isSubtypeMutable' werden gemeinsam in der Klasse 'KClassUtil' untergebracht.
 \subsubsection{StateManager}
+\label{subsubsec:state-manager}
 Die oben aufgeführte Implementierung für die Überprüfung der Klasse für den Zustand findet ihren Platz in der in der in Kapitel
 \ref{subsec:zustand-und-statemanager}
-vorgestellten  'StateManager' Klasse.
+vorgestellten 'StateManager' Klasse.
 \\\\
 Bevor die Klasse implementiert werden kann, muss das 'MviState' Marker Interface wie in Listing
 \ref{lst:mvi-state-interface}
@@ -284,8 +284,107 @@ class StateManager<S : MviState>(
 \end{lstlisting}
 Dabei beschreibt das 'S' den generischen Part und der Doppelpunkt Notation sagt aus, dass das Objekt, welches für 'S' eingesetzt wird 'MviState' implementieren muss. Die 'state' Variable ist aufgrund des vorangestellten 'private' nur innerhalb Klasse selbst sichtbar. Um die geforderte Eigenschaft der Mutation zu entsprechen, wird 'var' verwendet. 
 \\\\
+Für die Umsetzung der 'setNewState' Methode ist zu beachten, dass diese die Eigenschaft der 'Threadsicherheit' erfüllen muss. Um das zu erreichen, wird auf die 'synchronized' Funktion gesetzt, welche ein Objekt als 'Lock' nutzt. Jeglicher Code der sich innerhalb dieses Blocks befindet, kann nur von einem 'Thread' zurzeit ausgeführt werden. Bevor der 'Thread' diesen Bereich betritt, muss er vom zugehörigen Objekt einen 'Lock' anfordern. Sollte dieser in Verwendung sein, so muss der 'Thread' warten bis der 'Lock' wieder frei ist. 
+\\\\
+Um keine unnötige Zuweisung durchführen zu müssen, wird in einer 'if' Abfrage der neue mit dem aktuellen Zustand verglichen. Nur wenn ein Unterschied entdeckt besteht findet eine Zuweisung statt.
+Mit Listing
+\ref{lst:set-new-state}
+\begin{lstlisting}[caption={ 'setNewState' Methode}, label={lst:set-new-state}, language=Kotlin]
+private fun setNewState(newState: S) {
 
- 
+	// 'this' ist die aktuelle Instanz des 'StateManager'
+	synchronized(this) {
+		if((state == newState).not()) state = newState
+	}
+}
+\end{lstlisting}
+\bigskip
+kann darauf die 'reduce' Methode in den 'StateManager' integriert werden. Sie macht von Kotlins 'First-Class-Objekt' Eigenschaft Gebrauch, die es erlaubt, Funktionen als Übergabeparameter zu definieren. Listing
+\ref{lst:reduce}
+macht dies Sichtbar.
+\begin{lstlisting}[caption={ 'reduce' Methode}, label={lst:reduce}, language=Kotlin]
+fun reduce(reducer: (currentState: S) -> S) {
+	setNewState(reducer(state))
+}
+\end{lstlisting}
+\bigskip
+Die letzte Methode die zu Implementieren gilt ist 'map'. Im Gegensatz zu 'reduce' benötigt sie eine zweiten generischen Parameter '<R>', welcher im Zuge der Methoden Definition hinterlegt wird. Ihn zeichnet aus, das ihm mit 'T : Any' eine 'Upper-bounded wildcard' zugrunde liegt. Dies bestimmt, das jedes Objekt von 'Any' ('Object' in Java) abstammen muss und, viel wichtiger, nicht 'null' sein darf.
+Genau wie 'reduce' wird auch hier eine Funktion als Parameter genutzt.
+Letztendlich wird durch 'R' der Rückgabewert festgelegt, wie Listing
+\ref{lst:map}
+beweist.
+\begin{lstlisting}[caption={ 'map' Methode}, label={lst:map}, language=Kotlin]
+fun <R : Any> map(mapper: (currentState: S) -> R): R {
+	return mapper(state)
+}
+\end{lstlisting}
+\bigskip
+Damit erfüllt diese Komponente alle Anforderung und ist vollends implementiert.
+
+\subsection{Intent, Action und das Result als Interfaces}
+Bevor die nächst größeren Klassen in Angriff genommen werden können, müssen ergänzend 'Marker' Interfaces für die im Titel stehenden Komponenten erstellt werden. Das einzige Interface, welches von einer einfachen 'Interface" Definition abweicht ist 'MviIntent'. Genau wie in Kapitel
+\ref{subsubsec:state-manager}
+wird ein generischer Typ mit einem 'Upper Bound' benutzt. In diesem Fall wird 'MviAction' angegeben.
+\begin{lstlisting}[caption={'Marker' Interfaces}, label={lst:marker-interfaces}, language=Kotlin]
+interface MviAction
+
+interface MviIntent<A : MviAction> {
+
+	fun toAction(): A
+}
+
+interface MviResult
+\end{lstlisting}
+
+\subsection{MviActionTransformer}
+Für diese Komponente wird etwas gesucht, dass sich in den Kreislauf auf Basis von 'RxJava' und 'Observables' einfügt, einen Wert erwartet und einen (anderen) zurückliefert. Außerdem soll es dafür dienen, die Busniess Logik 'sichtbar' zu trennen. Das Ziel ist daher die Transformation von Werten mittels Komposition von Funktionen.
+\\\\
+Hierfür bietet sich ein Interface namens 'ObservableTransformer' an, das die 'RxJava' Bibliothek zur bereitstellt. Dieses wird wie folgt definiert:
+\begin{lstlisting}[caption={ObservableTransformer}, label={lst:observable-transformer}, language=Kotlin]
+public interface ObservableTransformer<Upstream, Downstream> {
+	/**
+	* Applies a function to the upstream Observable and 
+	* returns an ObservableSource with
+	* optionally different element type.
+	* @param upstream the upstream Observable instance
+	* @return the transformed ObservableSource instance
+	*/
+	@NonNull
+	ObservableSource<Downstream> apply(
+		@NonNull Observable<Upstream> upstream);
+}
+\end{lstlisting}
+'Upstream' steht für den Wert, der am Anfang vorliegt und 'Downstream' für den, der am Ende herauskommen muss. Listing
+\ref{lst:observable-transformer-usage}
+demonstriert, wie es die beschriebenen Anforderungen erfüllt.
+\begin{lstlisting}[caption={ObservableTransformer Anwendung}, label={lst:observable-transformer-usage}, language=Kotlin]
+
+val intToStringTransformer = 
+	ObservableTransfromer<Int, String> { upstream ->
+		upstream.map { integer ->
+			integer.toString()
+		}
+	}
+
+Observable.fromIterable([1,2,3])
+	.compose(intToStringTransformer)
+	.subscribe(::println)
+\end{lstlisting}
+\bigskip
+Die 'intToStringTransformer' Variable findet ihren Einsatz im Verbund mit dem 'compose' Operator und verwandelt jeden 'Integer' in einen 'String'. Hierzu ruft dieser die 'apply' Methode im 'ObservableTransfer' auf.
+\\\\
+Von diesem 'ObservableTransformer' erbt die 'MviActionTransformer' Klasse und muss dementsprechenden die generischen Parameter übernehmen. Hinzu kommt, das der benötigte 'StateManger' für seine Vollständigkeit ebenfalls einem bedarf. In der Klassen Definition von Listing
+\ref{lst:mvi-transformer-def}
+\begin{lstlisting}[caption={MviActionTransformer Definition}, label={lst:mvi-transformer-def},
+language=Kotlin]
+abstract class MviActionTransformer<S : MviState, A : MviAction, R : MviResult> 
+\end{lstlisting}
+\bigskip
+wird vom dem zudem vom'abstract' Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der 'apply' Methode von Nöten. Dies wird erst in den vom 'MviActionTransformer' abstammenden Klassen verlangt.
+\\\\
+Im nächsten Schritt wird genau wie im 'StateManager' zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein 'Observable' verwendet wird. 
+
+
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
@@ -397,7 +496,7 @@ einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanze
 einen Zustand enthalten kann.
 Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
 \\
-\subsection{View Model}
+\subsection{Controller}
 Die Erzeugung eines Intents findet entweder in einer 'Activity', einem 'Fragment' oder Derivaten statt. 
 Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, 
 welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. 
@@ -548,10 +647,4 @@ when(val intent = Intent.GoBack){
 }
 \end{lstlisting}
 \bigskip
-Mit diesem Ansatz lässt sich die Intent-Funktion umsetzen.
-
-\subsection{Aktion}
-Die Aktion wird aus dem Intent gebildet. Sie gibt an, welcher Teil der Business Logik aufgerufen wird. Sie soll mit der gleichen Struktur wie der Intent aufgebaut sein.
-
-\subsection{Reducer}
-Im Reducer findet der Aufruf der Business Logik statt. Es handelt sich dabei um eine Funktion, welche die aus dem Intent hergeleitet Aktion und das derzeitige Model preisgibt.   
+Mit diesem Ansatz lässt sich die Intent-Funktion umsetzen.  
