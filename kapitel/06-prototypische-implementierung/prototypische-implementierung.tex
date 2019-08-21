@@ -182,18 +182,18 @@ Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Progra
 Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
 \begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
 FunSpec.builder("add")
-.addParameter("a", Int::class)
-.addParameter(ParameterSpec.builder("b", Int::class)
-.defaultValue("%L", 0)
-.build())
-.addStatement("print(\"a + b = ${ a + b }\")")
-.build()
+	.addParameter("a", Int::class)
+	.addParameter(ParameterSpec.builder("b", Int::class)
+	.defaultValue("%L", 0)
+	.build())
+	.addStatement("print(\"a + b = ${ a + b }\")")
+	.build()
 \end{lstlisting}
 \bigskip
 folgender Code erzeugt werden:
 \begin{lstlisting}[caption={Erzeugte Funktionen}, label={lst:data-class}, language=Kotlin]
 fun add(a: Int, b: Int = 0) {
-print("a + b = ${ a + b }")
+	print("a + b = ${ a + b }")
 }
 \end{lstlisting}
 welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
@@ -382,8 +382,127 @@ abstract class MviActionTransformer<S : MviState, A : MviAction, R : MviResult>
 \bigskip
 wird vom dem zudem vom'abstract' Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der 'apply' Methode von Nöten. Dies wird erst in den vom 'MviActionTransformer' abstammenden Klassen verlangt.
 \\\\
-Im nächsten Schritt wird genau wie im 'StateManager' zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein 'Observable' verwendet wird. 
+Im nächsten Schritt wird genau wie im 'StateManager' zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein 'Observable' verwendet wird. Im ersten Anlauf ergeben sich dafür zwei Optionen:
+\begin{enumerate}
+	\item Eine Funktion, die einen generischen Parameter  (Wert in Arbeit) sowie eine 'reducer' Funktion erhält und intern ein 'Observable' generiert
+	\item Eine Funktion, die eine 'reducer' Funktion erhält und den bereits vorgestellten 'ObservableTransformer' nutzt
+\end{enumerate}
+Für Nummer eins kann folgende Implementation in Listing
+\ref{lst:versuch-1}
+herhalten:
+\begin{lstlisting}[caption={1. Versuch}, label={lst:versuch-1},language=Kotlin]
+protected fun <T : Any> reduceState(
+	value: T, 
+	reducer: (currentState: S) -> S
+): Observable<T> {
+	
+	return Observable.fromCallable {
+		stateManager.reduce { currentState ->
+			reducer(currentState)
+		}
+		value
+	}
+}
+\end{lstlisting}
+Hier wird mithilfe von 'Observable.fromCallable' ein 'Observable' erzeugt, in dessen Funktionsrumpf die 'reduce' Methode vom 'StateManager'  mit der bereitgestellten 'reducer' Funktion aufgerufen wird. Damit der derzeitige Wert im weiteren Verlauft nicht verloren geht, wird dieser am Ende zurückbegeben.
+\\\\
+Bei Nummer zwei kann der 'value' Parameter gespart werden, da dieser über 'upstream' mitgeliefert wird:
+\begin{lstlisting}[caption={2. Versuch}, label={lst:versuch-2},language=Kotlin]
+protected fun <T : Any> reduceState(
+	reducer: (currentState: S) -> S) =
+	
+	ObservableTransformer<T, T> { upstream: Observable<T>  ->
+		upstream.map { value ->
+			stateManager.reduce { currentState ->
+				reducer(currentState)
+			}
+		
+			value
+		}
+}
+\end{lstlisting}
+Beide Version erfüllen ihren Zweck, wirken allerdings wie Listing 
+\ref{lst:tranformer-reduce-usage}
+zeigt etwas umständlich in ihrer Anwendung, trotz der Verwendung von Anonymen bzw. Lambda-Funktionen.
+\begin{lstlisting}[caption={2. Versuch}, label={lst:versuch-2},language=Kotlin]
+upstream.map { TestMviResult.TestResult }
+// 1
+.flatMap { reduceState(it) { currentState ->
+		currentState
+} }
+// 2
+.compose(reduceState { currentState ->
+	currentState
+})
+\end{lstlisting}
+\bigskip
+Ein andere Alternative stellt die Entwicklung eines Operators eigens für 'RxJava' dar, jedoch gestaltet sich dies als durchaus komplex.
+\cite{rxjavaCustomOperator}
+Damit dem aus den Weg gegangen und auch die Einfachheit der Methode verbessert werden kann, ist der Einsatz einer Erweiterungsfunktion naheliegend. Bevor sich diesem allerdings gewidmet wird, muss ein Konzept der Kotlin Programmiersprache behandelt werden: 'inline' Funktionen.
+\\\\
+Infolge der Tatsache, das Kotlin zu JVM Bytecode kompiliert wird und Java von Haus aus keine Funktionen höherer Ordnung unterstützt, muss für jedes dieser eine Klasse bzw. ein Objekt erstellt werden. Besonders wen, dies innerhalb einer Schleife passiert, geht es einher mit der zusätzlichen Zuweisung von (Arbeits-)Speicher und kostet damit auch Performanz hinsichtlich des Leistungsverhalten. Um dem Vorzubeugen existiert die Möglichkeit, den Inhalt einer Funktionen an die Stelle zu kopieren an der sie aufgerufen wird. Für diesen Zweck stellt Kotlin das Schlüsselwort 'inline' bereit, dass wie in Listing 
+\ref{lst:inline}
+in der Methodendefinition platziert wird.
+\begin{lstlisting}[caption={inline}, label={lst:inline},language=Kotlin]
+fun main() {
+	multiplyByTwo(5) { println("Result is: $it") }
+}
 
+inline fun multiplyByTwo(
+	num: Int, 
+	lambda: (result: Int) -> Unit)
+: Int {
+	val result = num * 2
+	lambda(result)
+	return result
+}
+\end{lstlisting}
+\bigskip
+Daraus macht der Compiler:
+\begin{lstlisting}[caption={inline kompiliert}, label={lst:inline-compiled},language=Kotlin]
+public static final void main(@NotNull String[] args) {
+	//...
+	int num$iv = 5;
+	int result$iv = num$iv * 2;
+	String var4 = "Result is: " + result$iv;
+	System.out.println(var4);
+}
+\end{lstlisting}
+\bigskip
+Listing
+\ref{lst:inline-compiled}
+zeigt, dass die 'multiplyByTwo' Methode nicht aufgerufen wird.
+\\\\
+Eine Gefahr die in Betracht gezogen werden muss ist, dass sich innerhalb der übergebenen, anonymen Funktionen ein 'return' Statement befinden kann. Dies mag dazu führen, dass die umschließende (Aufrufer-) Funktion eventuell früher verlassen wird als gewollt. Listing
+\ref{lst:inline-return}
+verdeutlicht die Problematik.
+\begin{lstlisting}[caption={inline mit 'return'}, label={lst:inline-compiled},language=Kotlin]
+// Kotlin
+fun main() {
+	println("Start")
+	
+	multiplyByTwo(5) {
+		println("Result is: $it")
+		return
+	}
+	
+	println("Ende")
+}
+
+// Java
+public static final void main(@NotNull String[] args) {
+	String var1 = "Start";
+	System.out.println(var1);
+	int num$iv = 5;
+	int result$iv = num$iv * 2;
+	String var4 = "Result is: " + result$iv;
+	System.out.println(var4);
+}
+\end{lstlisting}
+\bigskip
+Wie zu erkennen ist nach 'System.out.println(var4);' Schluss und 'println("Ende");' wurde nicht übernommen.
+\\\\
+Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: 'crossinline'. Dies besagt, dass kein 'return' Statement erlaubt ist.
 
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
@@ -496,155 +615,3 @@ einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanze
 einen Zustand enthalten kann.
 Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
 \\
-\subsection{Controller}
-Die Erzeugung eines Intents findet entweder in einer 'Activity', einem 'Fragment' oder Derivaten statt. 
-Infolge der Anlehnung von Model-View-Intent and Model-View-Controller muss eine Komponente existieren, 
-welche die Business Logik innehat, die Intents entgegennimmt und sie im Kontext der Anwendung übersetzt. 
-Weiterhin muss die Komponente reaktiv sein und den geforderten unidirektionalen Fluss einhalten.
-\\
-\\
-Im ersten Schritt muss eine zentrale Funktion definiert werden, die als Parameter einen Intent erhält.
-Diese muss vom Entwickler überschrieben und implementiert werden.
-Zu diesem Zweck wird vom Konzept der Vererbung und dem oft damit verbundenen Polymorphismus (griechisch 
-für Vielgestaltigkeit) Gebrauch gemacht. Erbt eine Klasse von einer anderen, so wird sie zu einer 
-sogenannten Subklasse, während die andere eine Superklasse (auch Eltern- oder Basisklasse) darstellt. 
-Sinn und Zweck der Vererbung ist die Wiederverwendbarkeit von Code und somit die Vermeidung von 
-Redundanz. Es ermöglicht Code für Klassen die gewisse Merkmale teilen nur einmal schreiben zu müssen und 
-diese dann davon ableiten zu lassen. Die Polymorphie liegt vor, wenn  zwei Klassen denselben 
-Methodennamen verwenden, aber die Implementierung der Methoden sich unterscheidet.
-Listing 
-\ref{lst:poly}
-verdeutlicht diesen Sachverhalt.
-\begin{lstlisting}[caption={Vererbung \& Polymorphismus}, label={lst:poly}, language=Kotlin]
-fun main(args: Array<String>) {
-
-	val dog = Dog()
-	val cat = Cat()
-
-	// gleiche Methode, aber unterschiedliche Implementierung
-	(dog as Animal).makeSound() // Wuff
-	(cat as Animal).makeSound() // Miau
-}
-
-abstract class Animal {
-
-	abstract fun makeSound()
-}
-
-class Dog : Animal(){
-
-	override fun makeSound(){
-		println('Wuff")
-	}
-}
-
-class Cat : Animal(){
-
-	override fun makeSound(){
-		println("Miau")
-	}
-}
-\end{lstlisting}
-\bigskip
-Für die Controller ähnliche Komponente bedarf es der Festlegung des vom Entwickler gewählten Intent 
-Datentypen. In diesem Fall kann wieder auf den generischen Aspekt von Kotlin zurückgegriffen werden. 
-Dieser Typ wird ebenfalls als Parameter Typ für die Intent-Funktion genutzt. Ein erster Entwurf kann wie 
-folgt aussehen:
-\\
-\begin{lstlisting}[caption={Erster Controller Entwurf}, label={}, language=Kotlin]
-abstract class Controller<I> {
-	
-	abstract fun intents(intent: Intent)
-}
-
-sealed class SomeIntent {
-	// ...
-}
-
-class SomeCrontroller: Controller<SomeIntent> {
-
-	override fun intents(intent: SomeIntent){
-		// ....
-	}
-}
-\end{lstlisting}
-\bigskip
-Im nächsten Schritt müssen die Intents einer Aktion zugeordnet bzw. in eine übersetzt werden. Dadurch, 
-dass die Superklasse als Parameter verwendet, muss zu erst ermittelt werden, um welchen Subklasse von 
-Intent es sich handelt. Für die Auswertung eines Intents kann auf eine weiteres, funktionales Konzept 
-zurückgegriffen werden: Der Musterabgleich (Pattern Matching zu Englisch). Hierbei handelt es sich um ein 
-Verfahren das prüft, inwieweit ein vorgegebenes Muster mit anderen 'Formen'(hier Klassen) übereinstimmt. 
-\\
-\\
-Auch in diesem Fall schafft Kotlin Abhilfe. Es stellt eine Expression bereit, welche eine elegante 
-Handhabung für genau diesen Fall bietet. Sie ist dem 'switch' Statement aus Java sehr ähnlich, offenbart 
-aber mehr Möglichkeiten und ist dementsprechend mächtiger. Ein gewöhnliches switch Statement ist im 
-Grunde nur eine Aussage, die eine Reihe von einfachen if/else ersetzen kann, welche grundlegende Prüfungen durchführen. Folgendes Vorteile kann mit der sogenannten 'when' Expression erzielt werde:
-\begin{enumerate}
-	\item Es gibt immer einen Wert zurück (minimal 'Unit'), ohne 'return' angeben zu müssen
-	\item Es ist kein Argument nötig
-	\item Es kann beliebige Bedingungsausdrücke haben
-	\item \label{when-design} Es hat ein allgemein besseres und sicheres Design (mögliche Überprüfung während der Kompilierung)
-	\item \label{when-smart-cast} Es unterstützt 'Smart Cast' oder 'Auto Casting'
-\end{enumerate}
-Das nachfolgende Listing
-\ref{lst:when-expression}
-veranschaulicht die Anwendung dieser Expression mit mehreren Bedingungsausdrücken:
-\begin{lstlisting}[caption={When Expression}, label={lst:when-expression}, language=Kotlin]
-// Mit Argument
-// Gibt einen String zurück
-val result = when(number) {
-	0 -> "Invalid number"
-	1, 2 -> "Number too low"
-	3 -> "Number correct"
-	in 4..10 -> "Number too high, but acceptable"
-	!in 100..Int.MAX_VALUE -> "Number too high, but solvable"
-	else -> "Number too high"
-}
-
-// Ohne Argument
-// Gibt ebenfalls einen String zurück
-val res = when {
-	x in 1..10 -> "cheap"
-	s.contains("hello") -> "it's a welcome!"
-	else -> ""
-}
-\end{lstlisting}
-\bigskip
-Die Punkte
-\ref{when-design}
-und
-\ref{when-smart-cast}
-sind dabei von besonderem Interesse. Durch die Verwendung einer 'sealed' Klasse für die Implementierung der Intents ist es dem Compiler möglich festzustellen, inwieweit alle Subklassen innerhalb der 'when' Expression abgedeckt sind. Fehlt eine, so wirft der Compiler einen Fehler und die Anwendung kann nicht ausgeführt werden. Des weiteren verliert der 'else' seinen Nutzen, weshalb auf ihn verzichtet werden kann.
-\\
-Den nächsten Vorteil der sich ergibt, ist die Fähigkeit von Kotlin nach dem Bedingungsausdruck die Basisklasse automatisch in die korrekte Subklasse umzuwandeln. Dies wird als sogenanntes 'Smart Casting' bezeichnet und erspart dem Entwickler ein manuelles umwandeln in die richtige Klasse.
-Ein Vergleich zwischen Java und Kotin gibt Listing 
-\ref{lst:when-smart-cast}
-an.
-\begin{lstlisting}[caption={'when' mit 'smart cast'}, label={lst:when-smart-cast}, language=Kotlin]
-
-// JAVA
-val intent = Intent.GoBack
-
-if(intent instanceof Intent.DisplayItemDetails){
-	((Intent.DisplayItemDetails) intent).item // expliziter Cast
-} else if(...) { 
-	... 
-}
-
-// KOTLIN
-
-// "is" ist Notwendig, sobald die Klasse Konstruktor 
-// Argumente hat.
-// Bei "object" is keines von Nöten, da die Klasse 
-// nicht erzeugt wird.
-when(val intent = Intent.GoBack){
-	GoBack -> println("go back")
-	is DisplayItemDetails -> 
-		println(intent.item) // <-- Smart Cast
-	// keine "else" Zweig erforderlich, da alle 
-	// Subklassen abgedeckt sind
-}
-\end{lstlisting}
-\bigskip
-Mit diesem Ansatz lässt sich die Intent-Funktion umsetzen.  
