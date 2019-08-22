@@ -500,9 +500,68 @@ public static final void main(@NotNull String[] args) {
 }
 \end{lstlisting}
 \bigskip
-Wie zu erkennen ist nach 'System.out.println(var4);' Schluss und 'println("Ende");' wurde nicht übernommen.
+Wie zu erkennen ist nach 'System.out.println(var4);' Schluss und 'println("Ende");' wurde nicht übernommen. Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: 'crossinline'. Dies besagt ganz einfach, dass ein 'return' Statement in der übergebenen Funktion nicht gestattet ist.
 \\\\
-Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: 'crossinline'. Dies besagt, dass kein 'return' Statement erlaubt ist.
+Unter mithilfe der soeben vorgestellten Konzepten und Schlüsselwörter lässt sich die 'reduceState' Methode nach Listing
+\ref{lst:reduce-state}
+effizient und elegant umsetzen.
+\begin{lstlisting}[caption={'reduceState' Methode}, label={lst:reduce-state},language=Kotlin]
+typealias Reducer<S, T> = (value: T, currentState: S) -> S
+
+protected inline fun <T : Any> Observable<T>.reduceState(
+	crossinline reducer: Reducer<S, T>
+): Observable<T> =
+	map { value: T ->
+		stateManager.reduce { currentState ->
+			reducer(value, currentState)
+		}
+	
+		value
+}
+
+someObservable
+	.reduceState { newValue, currentState ->
+		currentState.copy(value = newValue)
+	}
+	.map { newValue -> \\... }
+\end{lstlisting}
+\bigskip
+Wie zusehen ist, wird die durch 'currentState.copy(...)' erzeugte Zustands Klasse mit dem neuen Wert nicht an die nächste Methode weitergereicht. Dies sorgt dafür, dass den vordefinierten Methoden ein Zugriff auf den Zustand vorbehalten ist.
+\\\\
+Als Ergänzung wird ein weitere Eigenschaft von Kotlin herangezogenen: Die Möglichkeit 'Aliase' unter Einsatz vom Schlüsselwort 'typealias' zu bestimmen. Diese sind besonders hilfreich wenn verschachtelte Typen ('Observable<Result<List<String>>>') oder Funktionen als Parameter vorliegen und häufiger gebraucht werden.
+\\\\
+Ein Vorteil dieser Lösung ist, dass die Erweiterungsfunktion nur innerhalb einer Klasse sichtbar ist, die von 'MviActionTransformer' abstammt. Unter diesen Voraussetzungen findet auch die Implementierung der anderen Methoden 'mapWithState' und 'flatMapWithState' statt. Am Ende lässt sich damit ein wie in Listing
+\ref{lst:example-transformer}
+Beispielhafte Implementierung erzielen. 
+\begin{lstlisting}[caption={Beispiel Implementation}, label={lst:example-transformer},language=Kotlin]
+class SomeTransformer(
+	stateManager: StateManager<SomeState>
+) : MviActionTransformer<
+	SomeState,
+	SomeAction,
+	SomeResult>(stateManager) {
+	
+	override fun apply(upstream: Observable<SomeAction>)
+	: ObservableSource<SomeResult> =
+	
+	upstream
+		.flatMapWithState { currentState: SomeState,
+					data: SomeAction ->
+		
+				doSomethingWithState(currentState)
+		}
+		.reduceState { newValue: SomeNewValue,
+				   currentState: SomeState ->
+		
+				currentState.copy(value = newValue)
+		}
+		.map { SomeResult }
+}
+\end{lstlisting}
+
+\subsection{MviController}
+Ähnlich wie der 'MviTransformer'
+
 
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
