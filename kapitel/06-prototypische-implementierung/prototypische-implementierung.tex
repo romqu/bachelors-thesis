@@ -560,9 +560,44 @@ class SomeTransformer(
 \end{lstlisting}
 
 \subsection{MviController}
-Ähnlich wie der 'MviTransformer'
+Ähnlich wie der 'MviTransformer' erhält auch diese Komponente mehrere generische Parameter, sowie den geforderten initialen Zustand und eine Liste mit allen zugehörigen 'MviActionTransormer' Klassen. Beide sind hierbei durch 'val' an ihren anfänglichen Wert gebunden. Dies verhindert jedoch nicht, das Daten innerhalb einer Klasse verändert werden können. So kann in Java beispielsweise einer Liste ein Wert hinzugefügt oder aus dieser entfernt werden.
+\\\\
+Um auch in diesem Fall die Unveränderlichkeit zu wahren, ist der Griff zu Drittanbieter-Software (3rd Party Libraries zu Englisch) eine gern genutzte Option. Mit Kotlin ist dies aber nicht zwingend nötig, denn es unterscheidet zwischen veränderlichen und unveränderlichen Listen. Ersteres wird durch 'MutableList' und zweites durch 'List' erreicht. Hierbei ist allerdings wichtig zu wissen, dass beide keine Implementierungen sondern lediglich ein Interface darstellen, in dem  Methoden für Schreiboperation präsent sind oder nicht. Dafür wird eine Liste auf Basis der Java 'Collection' erzeugt und in das jeweilige Interface (implizit) umgewandelt. Dies hat zur Folge, dass ein 'List' zu jederzeit in eine 'MutableList' verwandelt ('casted') werden kann:
+\begin{lstlisting}[caption={'List' und 'MutableList'}, label={lst:list-and-mutable-list},language=Kotlin]
+val list = listOf(1,2,3)
+val mutableList = mutableListOf(1,2,3)
 
+list.add(4) // nicht vorhanden
+mutableList.add(4) // vorhanden
 
+(list as MutableList).add(4) // durch den 'cast' möglich
+\end{lstlisting}
+\bigskip
+Trotz dieser Problematik ist dies für das weitere Vorgehen nicht von großer Relevanz und der Konstruktor kann wie in Listing
+\ref{lst:controller-constructor}
+niedergeschrieben werden.
+\begin{lstlisting}[caption={Konsruktor}, label={lst:controller-constructor},language=Kotlin]
+abstract class MviController<S : MviState, I : MviIntent<A>, 
+		A : MviAction, R : MviResult>(
+	private val initialState: S,
+	private val actionTransformerKClassList: List<KClass<*>>)
+\end{lstlisting}
+\bigskip
+Um die 'actionTransformerMap' in Form einer 'HashMap<String, ObservableTransformer<A, R>>' zu füllen, muss ersten Schritt aus der 'KClass' eine Instanz vom Typ 'ObservableTransformer' erstellt werden. Hierzu kann auf ein Attribut namens 'primaryConstructor' zurückgegriffen werden, welches - wie der Name vermuten lässt - den primären Konstruktor als 'KFunction' bereitstellt. Der Tatsache geschuldet, das der Rückgabewert 'null' sein kann, muss diesem ein doppeltes Ausrufezeichen angestellt werden um dem Compiler mitzuteilen, dass dem nicht so ist.
+\\\\
+'KFunction' wiederum birgt eine Funktion, die es erlaubt den Konstruktor aufzurufen. Infolge der Tatsache das dieser Argumente beinhalten kann bietet die Funktion 'call' einen Parameter mit dem Schlüsselwort 'vararg' und dem Typ 'Any?. Damit können beliebig viele Argumente mit unterschiedlichen Werten übergeben werden. Überdies muss darauf geachtet werden, dass die Reihenfolge genau der entsprechen muss, wie sie im Konstruktor des zu erstellenden Objekts anzutreffen ist. Zuletzt erfolgt über einen expliziten 'cast' die Umwandlung von 'Any' zum 'ObservableTransformer'. 
+\\\\
+Hier macht sich der angesprochene Verlust der Typsicherheit bei der Verwendung von Reflexion bemerkbar: Wird die Reihenfolge nicht beachtet, so erfolgt kein Hinweis des Compiler - stattdessen kommt es zu einem Fehler zur Laufzeit des Programms. Und wird nach 'as' nicht der korrekte Typ angegeben, so führt dies ebenfalls zu einem Laufzeitfehler. Nach Listing
+\ref{lst:transfomer-create}
+\begin{lstlisting}[caption={Konsruktor}, label={lst:transfomer-create},language=Kotlin]
+val transformer = kClass
+			.primaryConstructor!!
+			.call(StateManager(initialState)) 
+				as ObservableTransformer<A, R>
+\end{lstlisting}
+ist der 'ObservableTransformer' erzeugt wurden, welcher als Wert in der 'HashMap' platz nehmen wird.
+\\\\
+Als nächstes gilt es den Schlüssel als Namen der 'Action' Klasse 
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
