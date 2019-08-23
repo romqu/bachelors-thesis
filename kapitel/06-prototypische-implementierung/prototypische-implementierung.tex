@@ -597,7 +597,88 @@ val transformer = kClass
 \end{lstlisting}
 ist der 'ObservableTransformer' erzeugt wurden, welcher als Wert in der 'HashMap' platz nehmen wird.
 \\\\
-Als nächstes gilt es den Schlüssel als Namen der 'Action' Klasse 
+Als nächstes gilt es den Schlüssel zum gerade erstellten 'ObservableTransformer' in Form des Namens seiner 'MviAction' abstammenden Klasse zu finden. Dieser lässt sich aus der Liste der Supertypen der jeweiligen  'MviController' Klasse entnehmen. Dafür gibt es das Attribut 'superTypes', welches diese als Liste in der Reihenfolge in der sie angegeben wurden enthält. Der 'MviController' befindet sich an erster Stelle und kann daher über den Index Null angesprochen werden. An diesem selbst liegt das Argument der 'MviAction' an zweiter Position und kann mittels des Attribut 'arguments' über den Index eins angesprochen werden. Zuletzt ist mit dem 'type' Attribut und der Methode 'toString' der Klassenname der 'MviAction' verfügbar. Listing
+\ref{lst:mviaction-name}
+zeigt die durch die Beschreibung erhaltene Implementation. 
+\begin{lstlisting}[caption={'MviAction' Name }, label={lst:mviaction-name},language=Kotlin]
+val actionName = kClass
+	.supertypes[0]
+	.arguments[1]
+	.type
+	.toString()
+\end{lstlisting}
+\bigskip
+Da es sich um eine Liste von 'MviActionTransfromer' handelt, muss dies für jedes Element vorgenommen werden. Um dem funktionalem Paradigma treu zu bleiben wird auf die 'Collections' API zurückgegriffen die, ähnlich der Java 'Stream' API, Methoden anbieten welche auf Basis von anonymen Funktion arbeiten.
+Gesucht wird eine Methode, die über die Liste iteriert und einen neuen Wert zurückgeben kann. Dafür eignet sich die 'map' Methode. In ihr wird der Code aus Listing
+\ref{lst:transfomer-create}
+und
+\ref{lst:mviaction-name}
+angewandt, wobei die Klasse und der Name als Paar zurückkommen. Ist die ganze Liste durchlaufen wurden, so ist das Ergebnis eine Liste von Paaren mit 'ObservableTransformer' und 'String' (Name der 'MviAction') als Inhalt.
+\\\\
+Im letzten Schritt muss aus der Liste eine 'HashMap' werden. Um den Fluss mit an aneinandergereihten Funktionen aufrecht zu erhalten und keine temporären Variablen anlegen zu müssen, wird erneut in Kotlins Trickkiste gegriffen. Im Zusammenspiel aus Funktionen höherer Ordnung und Erweiterungsfunktionen lassen sich sogenannte Funktionsliterale mit Empfängern bilden. Listing
+\ref{lst:function-literal-with-receiver}
+gibt ein Beispiel.
+\begin{lstlisting}[caption={Funktionsliteral mit Empfänger}, label={lst:function-literal-with-receiver},language=Kotlin]
+buildList<Int> {
+	add(1)
+	add(2)
+	removeAt(0)
+}
+
+fun <T> buildList(block: MutableList<T>.() -> Unit): List<T> {
+	val mutableList: MutableList<T> = mutableListOf()
+	mutableList.block()
+	return mutableList.toList()
+}
+\end{lstlisting}
+\bigskip
+In dieser Methode wird 'MutableList<T>' als Empfängern festgelegt und eine temporäre, anonyme Funktionen erweitert. Die in der 'buildList<Int>' anonymen Funktion spezifizierten Operation werden im Folge des Aufrufs auf der Liste angewandt. Anders ausgedrückt handelt es sich hierbei schlicht um temporäre Erdweiterfunktionen die für den Zeitraum des Aufrufs der Funktionen existieren.
+\\\\
+Kotlin geht noch einen Schritt weiter und bietet dies Art von Funktionen auf generischen Typen an, genannt 'scope functions'. Eine Methode ist 'apply', die obiges Beispiel weiter vereinfacht:
+\begin{lstlisting}[caption={apply Funktion}, label={lst:apply-function},language=Kotlin]
+public inline fun <T> T.apply(block: T.() -> Unit): T {
+	block()
+	return this
+}
+
+mutableList<Int>().apply{
+	// ...
+}
+\end{lstlisting}
+\bigskip
+Hiermit lässt sich der Rest Implementieren und eine 'HashMap' erzeugen:
+\begin{lstlisting}[caption={apply Funktion}, label={lst:apply-function},language=Kotlin]
+val actionTransformerMap = actionTransformerKClassList
+	.map { \\ ...}
+	.run {
+			HashMap<String, ObservableTransformer<A, R>>()
+			.apply {
+				putAll(this@run.asSequence())
+	}
+}
+\end{lstlisting}
+\bigskip
+Mit der 'actionTransformerMap' im Rücken erfolgt die Umsetzung der Model-Funktion. Sie wird als eine auf dem Observable<A>' fungierende Erweiterungsfunktion definiert und entnimmt der 'actionTransformerMap' auf Basis des vorliegenden 'MviAction' Namens  ein 'ObservableTransformer'. Dieser wird mit 'compose' innerhalb der 'flatMap' Methode ausgeführt.
+\\\\
+Damit lassen auch die letzten beiden Methoden implementieren, wobei Listing
+\ref{lst:controller-final}
+das Endergebnis darstellt:
+\begin{lstlisting}[caption={Endergebnis}, label={lst:controller-final},language=Kotlin]
+val intent = ObservableTransformer<I, R> {
+ upstream: Observable<I> ->
+	upstream
+	 .mapToAction()
+	 .model()
+}
+
+private fun Observable<I>.mapToAction(): Observable<A> =
+	map { intent -> intent.toAction() }
+
+private fun Observable<A>.model(): Observable<R> =
+	flatMap {action ->
+		compose(actionTransformerMap[action::class.qualifiedName])
+	}
+\end{lstlisting}
 \subsection{Intent}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
