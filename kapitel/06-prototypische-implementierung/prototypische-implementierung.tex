@@ -675,11 +675,25 @@ private fun Observable<I>.mapToAction(): Observable<A> =
 	map { intent -> intent.toAction() }
 
 private fun Observable<A>.model(): Observable<R> =
-	flatMap {action ->
+	flatMap { action ->
 		compose(actionTransformerMap[action::class.qualifiedName])
 	}
 \end{lstlisting}
-\subsection{Intent}
+
+\subsection{MviView}
+Die letzte Komponente kommt in den Klassen zum Einsatz, die für Darstellung des UI zuständig sind: 'Activty', 'Fragment' und 'Custom Views'.
+
+\begin{lstlisting}[caption={MviView}, label={lst:mvi-view},language=Kotlin]
+interface MviView<C : MviController<*, *, *, *>, R : MviResult>{
+	
+	val controller: C
+	
+	fun render(result: R)
+}
+\end{lstlisting}
+\bigskip
+Bevor ein Beispiel für eine Anwendung gegeben werden kann, muss geklärt werden, wie man 'Intent', 'Action' und 'Result' in Kotlin Implementiert. 
+\subsection{Intent, Action, Result - Mögliche Anwendung}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
 Klickt der Nutzer in einer Anwendung auf einen 'Zurück' Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.

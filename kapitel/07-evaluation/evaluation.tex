@@ -1,0 +1,30 @@
+\section{Evaluation}
+\label{sec:evaluation}
+In diesem Kapitel ...
+\\\\
+
+\textbf{Verwalten des Zustands}
+\bigskip
+\begin{addmargin}[1em]{0em}
+	Durch den 'StateManager' Klasse ist diese Anforderung zu großen Teilen abgedeckt. Ein neuer Zustand kann ausschließlich indirekt unter sicheren Bedingungen gesetzt werden. Des weiteren steht Funktionalität für den Zugriff auf den Zustand zur Verfügung, ohne dabei eine Änderung am Original vornehmen zu können. Ein interessanter Zusatz wäre die Option den Zustand observieren lassen zu können und jedem Beobachter über eine Änderung zu informieren. Damit bestände die Möglichkeit, durch eine Modifikation am Zustand ohne größeren Aufwand anderweitige Logik ausführen zu lassen. Dadurch würde das Framework ebenfalls zusätzlich an Reaktivität gewinnen.  
+\end{addmargin}
+\\\\
+
+\textbf{Überprüfung des Zustands als unveränderliche Datenstruktur}
+\bigskip
+\begin{addmargin}[1em]{0em}
+	Mittels der angewendeten Reflexion ist dieser Punkt im Großen und Ganzen erfüllt. Ein bessere Lösung stellt jedoch die Generierung einer unveränderlichen Zustands Klasse (hier 'data' Klasse ) mittels Annotation dar. Damit ginge man einer Überprüfung zur Laufzeit und dem damit einhergehenden Problemen (keine Typsicherheit etc.) aus dem Weg und stellt von Anfang an die Korrektheit des Zustands sicher. 
+\end{addmargin}
+\\\\
+
+\textbf{Speichern des Zustands}
+\begin{addmargin}[1em]{0em}
+	Diese Anforderung ist im Prototypen nicht vorhanden. Für eine befriedigende Implementierung muss der Zustand sowohl Konfiguration Änderungen (Drehung der Ansicht etc.) als auch dass Beenden des Prozess der Anwendung überstehen. Für die Realisierung dieser Funktion ergeben sich unterschiedliche Ansätze:
+	\begin{enumerate}
+		\item Das persistente Speichern des Zustands bei jeder Änderung (bswp. mit sqlite)
+		\item Die Nutzung des 'Jetpack' 'ViewModel' in Kombination mit der 'AbstractSavedStateVMFactory'
+		zum Speichern innerhalb eines 'Bundles'
+		\item Das nutzen von 'onSavedInstanceSate' zum hinterlegen des Zustands in einem 'Bundle'  und einer der jeweiligen Methoden zur Wiederherstellung
+	\end{enumerate}
+	Nummer ein ist auf den erstem Blick mit dem geringsten Aufwand verbunden, besitzt jedoch zwei . Abgesehen davon, dass jede Änderungen eine Schreib Operation auf dem Dateisystem bedeutet, muss der gespeicherte Zustand auch wieder zum richtigen Zeitpunkt gelöscht werden. Passiert dies nicht, so könnte der Nutzer 
+\end{addmargin}
