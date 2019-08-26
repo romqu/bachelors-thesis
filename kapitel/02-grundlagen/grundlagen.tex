@@ -105,28 +105,24 @@ der Programmiersprache Elm
 wieder. Elm besitze eine in die Sprache integrierte Architektur die den einfach Namen "The Elm Architecture" 
 \cite{theElmArchitecture}
 trägt. Eine andere Variante lautet: Model-View-Update. Anhand dessen lassen sich bereits die Kern-Komponenten der Entwurfsmusters erahnen.
+\\\\
+\textbf{Model:} Dies repräsentiert den Zustand der Applikation als eine simple Datenstruktur.
 \\
-\\
-\textbf{Model:} Das Model repräsentiert den Zustand der Applikation als eine simple Datenstruktur.
-\\
-\textbf{View:} Die View ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie in Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
-\subsection{Funktionale Programmierung}
-Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion (pure functions) oder die Unveränderlichkeit (Immutibilty) einen Datenstruktur angesprochen. Diese Konzepte zählen zu einem Programmierparadigma, welches in den letzten Jahren auch an Bedeutung in Sprachen wie Java gewonnen hat
+\textbf{View:} Sie ist eine Funktion, welche aus einem Model HTML code generiert. Ebenfalls wie in Flux wird kommt auch hier das Konzept von "pure functions" zum tragen: Die gleiche Eingabe erzeugt die gleich Ausgabe - ohne Ausnahme.
+\\\\
+\textbf{Update:}
+Hierbei wird, ähnlich wie im 'Reducer', das Model manipuliert und dadurch der Zustand der Anwendung aktualisiert.
+\\\\
+Es ist zu erkennen, dass diese Architektur den vorherigen sehr ähnlich ist. Sie genießt jedoch den Vorteil ein wesentlicher Bestandteil der Sprache zu sein. Damit ist es unter anderem möglich, die Sprache auf die Architektur anzupassen, statt andersherum.
+
+\subsection{Reaktive funktionale Programmierung}
+Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion ('pure functions') oder die Unveränderlichkeit einen Datenstruktur angesprochen. Diese Konzepte zählen zu einem Programmierparadigma, welches in den letzten Jahren auch an Bedeutung in Sprachen wie Java gewonnen hat
 \cite{javaFunctionalProgramming}
-: Funktionale Programmierung.
-\\
-\\
-In der häufig imperativen, Objektorientierte Programmierung wie sie in Java oder auch C\# anzutreffen ist, machen Klassen und
-die Mutation (in möglicher Abhängigkeit von gewissen Konditionen) solcher den Hauptbestandteil des Quellcodes aus. Dabei ist zu beachten, dass die funktionale Programmierung die Objektorientierte nicht zwingenden ausschließt, sondern lediglich in eingeschränkter Form nutzt.
-Eine Implementierung in Java welche Beispielweise den Name eines Nutzer Objekts ändert, könnte wie folgt aussehen:
-\begin{lstlisting}[frame=single, language=Java]
-public User changeUserName(String newUserName, User currentUser){
- if(newUserName != null){
-  currentUser.name = newName
-		
-  System.out.println("Changed user name to: " + newUserName)	
- }
-	
- return currentUser
-}
-\end{lstlisting}
+: funktionale Programmierung.
+\\\\
+In der häufig imperativen, objektorientierten Programmierung wie sie in Java oder auch C\# anzutreffen ist, machen Klassen, die Mutation derer und globale Variablen den Hauptbestandteil des Quellcodes aus. Dabei ist zu beachten, dass die funktionale Programmierung die Objektorientierte nicht zwingenden ausschließt, sondern lediglich in eingeschränkter Form nutzt. In der funktionalen Programmierung geht es, wie der Name bereits vermuten lässt, hauptsächliche um das Arbeiten mit Funktionen.
+\\\\ 
+Dabei muss man verstehen, das bei einer imperativen Entwicklung Schritt für Schritt programmiert wird, wie etwas getan werden soll. Es handelt sich dabei oft um eine Serie von Mutationen in Kombination mit Abfragen von gewissen Konditionen. In der funktionellen hingegen wird nur zum Ausdruck gebracht, das etwas vollführt werden soll, aber nicht wie es am Ende vollbracht wird. 
+\\\\
+'Funktionale' Funktionen sind nicht identisch mit den Funktionen, die beispiel- oder typischerweise in Java genutzt werden - die, die einen Wert zurückgibt (oder nicht). Stattdessen ist eine funktionale Programmierfunktion wie eine mathematische Funktion, die eine Ausgabe erzeugt, die ausschließlich von ihren Argumenten abhängig ist. Jedes Mal, wenn diese mit den gleichen Argumenten aufgerufen wird, erhält man immer das gleiche Ergebnis. Erreicht wir dies durch Funktionen, die Frei von Seiteneffekten sind. Das bedeutet, dass keine Variable mutiert oder auf die Konsole ausgegeben wird. Ebenfalls sind Operation die auf die Peripherie des Gerätes zugreifen (I/O) theoretisch nicht erlaubt. Im Prinzip sorgen Seiteneffekte für inkonsistente Abläufe bzw. Resultate innerhalb eines Programms.
+\\\\

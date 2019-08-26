@@ -1,30 +1,66 @@
 \section{Evaluation}
 \label{sec:evaluation}
-In diesem Kapitel ...
-\\\\
 
-\textbf{Verwalten des Zustands}
-\bigskip
-\begin{addmargin}[1em]{0em}
-	Durch den 'StateManager' Klasse ist diese Anforderung zu großen Teilen abgedeckt. Ein neuer Zustand kann ausschließlich indirekt unter sicheren Bedingungen gesetzt werden. Des weiteren steht Funktionalität für den Zugriff auf den Zustand zur Verfügung, ohne dabei eine Änderung am Original vornehmen zu können. Ein interessanter Zusatz wäre die Option den Zustand observieren lassen zu können und jedem Beobachter über eine Änderung zu informieren. Damit bestände die Möglichkeit, durch eine Modifikation am Zustand ohne größeren Aufwand anderweitige Logik ausführen zu lassen. Dadurch würde das Framework ebenfalls zusätzlich an Reaktivität gewinnen.  
-\end{addmargin}
 \\\\
+\subsection{Verwalten des Zustands}
+Durch den 'StateManager' Klasse ist diese Anforderung zu großen Teilen abgedeckt. Ein neuer Zustand kann ausschließlich indirekt unter sicheren Bedingungen gesetzt werden. Des weiteren steht Funktionalität für den Zugriff auf den Zustand zur Verfügung, ohne dabei eine Änderung am Original vornehmen zu können. Ein interessanter Zusatz wäre die Option den Zustand observieren lassen zu können und jedem Beobachter über eine Änderung zu informieren. Damit bestände die Möglichkeit, durch eine Modifikation am Zustand ohne größeren Aufwand anderweitige Logik ausführen zu lassen. Dadurch würde das Framework ebenfalls zusätzlich an Reaktivität gewinnen.  
 
-\textbf{Überprüfung des Zustands als unveränderliche Datenstruktur}
-\bigskip
-\begin{addmargin}[1em]{0em}
-	Mittels der angewendeten Reflexion ist dieser Punkt im Großen und Ganzen erfüllt. Ein bessere Lösung stellt jedoch die Generierung einer unveränderlichen Zustands Klasse (hier 'data' Klasse ) mittels Annotation dar. Damit ginge man einer Überprüfung zur Laufzeit und dem damit einhergehenden Problemen (keine Typsicherheit etc.) aus dem Weg und stellt von Anfang an die Korrektheit des Zustands sicher. 
-\end{addmargin}
+\subsection{Überprüfung des Zustands als unveränderliche Datenstruktur}
+Mittels der angewendeten Reflexion ist dieser Punkt im Großen und Ganzen erfüllt. Ein bessere Lösung stellt jedoch die Generierung einer unveränderlichen Zustands Klasse (hier 'data' Klasse ) mittels Annotation dar. Damit ginge man einer Überprüfung zur Laufzeit und dem damit einhergehenden Problemen (keine Typsicherheit etc.) aus dem Weg und stellt von Anfang an die Korrektheit des Zustands sicher. 
+
+\subsection{Speichern des Zustands}
+\label{subsec:speicher-des-zustands}
+Diese Anforderung ist im Prototypen nicht vorhanden. Für eine befriedigende Implementierung muss der Zustand sowohl Konfiguration Änderungen (Drehung der Ansicht etc.) als auch dass Beenden des Prozess der Anwendung überstehen. Für die Realisierung dieser Funktion ergeben sich unterschiedliche Ansätze:
+\begin{enumerate}
+	\item Das persistente Speichern des Zustands bei jeder Änderung (bswp. mit sqlite)
+	\item Die Nutzung des 'Jetpack' 'ViewModel' in Kombination mit der 'AbstractSavedStateVMFactory'
+	zum Speichern innerhalb eines 'Bundles'
+	\item Das nutzen von 'onSavedInstanceSate' zum hinterlegen des Zustands in einem 'Bundle'  und einer der jeweiligen Methoden zur Wiederherstellung
+\end{enumerate}
+Nummer eins ist auf den erstem Blick mit dem geringsten Aufwand verbunden, besitzt jedoch zwei 'Unannehmlichkeiten'. Abgesehen davon, dass jede Änderungen eine Schreib Operation auf dem Dateisystem bedeutet, muss der gespeicherte Zustand auch wieder zum richtigen Zeitpunkt gelöscht werden. Passiert dies nicht, so könnte sich der Nutzer innerhalb einer unerwarteten Ansicht wiederfinden.
 \\\\
+Bei Nummer zwei besteht die Abhängigkeit zu Android spezifischen Implementierungen mit ihren potentiellen Eigenheiten. Dies stellt Möglicherweise eine Einschränkung in der Flexibilität dar und kann unter Umständen dazu führen, das Tests unter erschwerten Bedingungen durchgeführt werden müssen. Auf der anderen Seite wird ein Großteil der Arbeit vom Framwork übernommen und ist damit bereits automatisiert. Dabei bleibt zu evaluieren, inwieweit die zugrundeliegende Implementation die Anforderungen erfüllt, oder ob eine manuelle Umsetzung zu bevorzugen ist.
+\\\\
+Der letzte Ansatz ist zwischen Nummer eins und zwei anzusiedeln. Er birgt einen höheren Aufwand als Nummer 2, ist dabei aber vermutlich Vielseitiger. Auch hier muss abgewogen werden, wie diese Variante gegenüber Nummer 2 langfristig abschneidet.
+\\\\
+Für zwei und drei muss der Zustand von 'Parcelable' abstammen, um im 'Bundle' abgelegt werden zu können. Dies wäre ein weiterer Einsatzort für Code Generierung, welcher die Implementierung vornehmen könnten. 
 
-\textbf{Speichern des Zustands}
-\begin{addmargin}[1em]{0em}
-	Diese Anforderung ist im Prototypen nicht vorhanden. Für eine befriedigende Implementierung muss der Zustand sowohl Konfiguration Änderungen (Drehung der Ansicht etc.) als auch dass Beenden des Prozess der Anwendung überstehen. Für die Realisierung dieser Funktion ergeben sich unterschiedliche Ansätze:
-	\begin{enumerate}
-		\item Das persistente Speichern des Zustands bei jeder Änderung (bswp. mit sqlite)
-		\item Die Nutzung des 'Jetpack' 'ViewModel' in Kombination mit der 'AbstractSavedStateVMFactory'
-		zum Speichern innerhalb eines 'Bundles'
-		\item Das nutzen von 'onSavedInstanceSate' zum hinterlegen des Zustands in einem 'Bundle'  und einer der jeweiligen Methoden zur Wiederherstellung
-	\end{enumerate}
-	Nummer ein ist auf den erstem Blick mit dem geringsten Aufwand verbunden, besitzt jedoch zwei . Abgesehen davon, dass jede Änderungen eine Schreib Operation auf dem Dateisystem bedeutet, muss der gespeicherte Zustand auch wieder zum richtigen Zeitpunkt gelöscht werden. Passiert dies nicht, so könnte der Nutzer 
-\end{addmargin}
+\subsection{Wiederherstellung des Zustands}
+Infolge der fehlenden Persistenz des Zustands findet auch keine Rekonstruktion von diesem statt. Die dafür zu Verfügung stehenden Ansätze sind Identisch zu den in Sektion
+\ref{subsec:speicher-des-zustands}
+aufgeführten.
+
+\subsection{Bereitstellung eines 'Reducers'}
+Dieser wird innerhalb des 'StateManager' und später durch den 'MviActionTransformer' dem Entwickler offeriert. Mithilfe eines Alias wird der eigentlichen Funktion als Parameter der Name 'Reducer' gegeben.
+Damit ist die Anforderung zwar erfüllt, bietet aber dennoch Potential für eine bessere Lösung.
+
+
+\subsection{Trennung von Business und Ansicht Logik}
+Durch die Kombination aus 'MviActionTransformer', 'MviController' und 'MviView' erfolgt die Implementierung und Ausführung der Business Logik strikt von der Ansicht Logik getrennt. Zudem ist der Zugriff auf den Zustand nur innerhalb des 'MviActionTransformer' gestattet, in welchem auch die Business Logik residiert. 
+\\\\
+Das Konzept bietet eine guten Ansatz, verliert durch die Anwendung von Reflexion jedoch an Robustheit. Auch in diesem Fall kann über den Einsatz von Code Generierung nachgedacht werden.
+
+\subsection{Handhabung von Seiteneffekten}
+Seiteneffekte werden im Framework nicht als solche gekennzeichnet oder gar besonders behandelt, sondern stellen die Standardmäßige Erwartung der Ausführung dar. In vielen Fällen findet eine Operation asynchron statt, in der Zugleich meist eine Form von I/O involviert ist. Das Framework nimmt dafür die 'Observable' Klasse und den Operator 'flatMap' zur Hand.
+\\\\
+Hiermit ist die Anforderung indirekt erfüllt, könnte durch eine spezielle Behandlung von Seiteneffekten jedoch verbessert werden.
+
+\subsection{Identifizieren von 'Intent', 'Action', 'State' und 'Result'}
+Die im Titel genannten Komponenten werden lediglich durch Interfaces definiert, welche abgesehen von 'Intent' keine weitere Funktionen vorgeben. Dadurch ist auch diese Anforderung für sich umgesetzt, bietet aber Platz für Verbesserungen.
+
+\subsection{Asynchrone Ausführung}
+Hierfür wird 'RxJava' und die zu der Bibliothek gehörenden Operatoren genutzt. Diese erfüllt den Zweck, weißt aufgrund ihrer Komplexität aber eine hohe Lernkurve auf. Koltin enthält eines in die Sprache integriertes Konzept, welches die asynchrone Programmierung synchron erscheinen lässt: 'Coroutines'.
+\cite{kotlinCoroutines}
+Die ist in seiner Anwendung wesentlich einfacher und kann daher als Alternative herangezogen werden.
+
+\subsection{Dogmatisches Framework}
+Durch die Komponenten von denen die Klassen des Entwicklers teilweise abstammen, die Überprüfung der Zustands Klasse und das vordefinierte Vorgehen durch den 'MviController' ist das Framework durchaus als 'dogmatisch' zu beschreiben.
+
+\subsection{Unidirektionaler Datenfluss}]
+Dieser wird durch die Verwendung des 'Observable', dem 'MviActionTransformer' und der vorgefertigten Funktionen innerhalb des  'MviController' geboten.
+
+\subsection{Reaktiv \& Funktional}
+Das Framework macht Gebrauch von reaktiven und funktionalen Konzepten: Observer Pattern, Komposition von Funktionen, unveränderliche Datenstrukturen, algebraische Datentypen, Musterabgleich sowie Funktionen höherer Ordnung. Es erfüllt damit grob die Idee dieser Paradigmen.
+
+\subsection{Kotlin spezifische Implementierung}
+Das Framework ist in Kotlin geschrieben und nutzt eine Vielzahl der bereitgestellten Konzepte, darunter Erweiterungsfunktionen, 'inline' für Funktionen und natürlich Funktionen höherer Ordnung. Diese Art der Implementierung wäre in Java nicht möglich gewesen und ist damit Kotlin spezifisch.
