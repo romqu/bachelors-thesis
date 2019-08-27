@@ -115,7 +115,7 @@ Hierbei wird, ähnlich wie im 'Reducer', das Model manipuliert und dadurch der Z
 \\\\
 Es ist zu erkennen, dass diese Architektur den vorherigen sehr ähnlich ist. Sie genießt jedoch den Vorteil ein wesentlicher Bestandteil der Sprache zu sein. Damit ist es unter anderem möglich, die Sprache auf die Architektur anzupassen, statt andersherum.
 
-\subsection{Reaktive funktionale Programmierung}
+\subsection{Funktionale Programmierung}
 Im Verlaufe der Kapitel wurden bereits Begriffe wie eine "reine" Funktion ('pure functions') oder die Unveränderlichkeit einen Datenstruktur angesprochen. Diese Konzepte zählen zu einem Programmierparadigma, welches in den letzten Jahren auch an Bedeutung in Sprachen wie Java gewonnen hat
 \cite{javaFunctionalProgramming}
 : funktionale Programmierung.
@@ -124,5 +124,37 @@ In der häufig imperativen, objektorientierten Programmierung wie sie in Java od
 \\\\ 
 Dabei muss man verstehen, das bei einer imperativen Entwicklung Schritt für Schritt programmiert wird, wie etwas getan werden soll. Es handelt sich dabei oft um eine Serie von Mutationen in Kombination mit Abfragen von gewissen Konditionen. In der funktionellen hingegen wird nur zum Ausdruck gebracht, das etwas vollführt werden soll, aber nicht wie es am Ende vollbracht wird. 
 \\\\
-'Funktionale' Funktionen sind nicht identisch mit den Funktionen, die beispiel- oder typischerweise in Java genutzt werden - die, die einen Wert zurückgibt (oder nicht). Stattdessen ist eine funktionale Programmierfunktion wie eine mathematische Funktion, die eine Ausgabe erzeugt, die ausschließlich von ihren Argumenten abhängig ist. Jedes Mal, wenn diese mit den gleichen Argumenten aufgerufen wird, erhält man immer das gleiche Ergebnis. Erreicht wir dies durch Funktionen, die Frei von Seiteneffekten sind. Das bedeutet, dass keine Variable mutiert oder auf die Konsole ausgegeben wird. Ebenfalls sind Operation die auf die Peripherie des Gerätes zugreifen (I/O) theoretisch nicht erlaubt. Im Prinzip sorgen Seiteneffekte für inkonsistente Abläufe bzw. Resultate innerhalb eines Programms.
+'Funktionale' Funktionen sind nicht identisch mit den 'unreinen' Funktionen, die beispiel- oder typischerweise in Java genutzt werden - die, die einen Wert zurückgibt (oder nicht). Stattdessen ist eine funktionale Programmierfunktion wie eine mathematische Funktion, die eine Ausgabe erzeugt, die ausschließlich von ihren Argumenten abhängig ist. Jedes Mal, wenn diese mit den gleichen Argumenten aufgerufen wird, erhält man immer das gleiche Ergebnis. Erreicht wir dies durch Funktionen, die Frei von Seiteneffekten sind. Das bedeutet, dass keine globale Variable mutiert oder bspw. auf die Konsole ausgegeben wird. Ebenfalls sind Operation die auf die Peripherie des Gerätes zugreifen (I/O) theoretisch nicht erlaubt. Somit ist ein  Seiteneffekt ein extern beobachtbarer Effekt, den eine Funktion zusätzlich zur Rückgabe eines Wertes ausführt. Im Prinzip sorgen sie für inkonsistente Abläufe bzw. Resultate innerhalb eines Programms. Natürlich ist die Entwicklung einer Anwendung ohne Seiteneffekte unmöglich, daher geht es vielmehr darum, sie zu minimieren und gesondert zu behandeln. Sie sollten meist am Ende einer Berechnung erfolgen und nicht im Laufe dieser.
 \\\\
+Für die Einhaltung dieser Prinzipien stellt eine funktionale Sprache meist unterschiedliche Werkzeuge zur Verfügung. Dazu gehören Funktionen höherer Ordnung, bei der eine Variable eine Funktionen verkörpern kann. Die tief verankerte Fähigkeit unveränderliche Datenstrukturen zu erstellen. Das arbeiten mit Klassenhierarchien und algebraischen Datentypen, sowie dem oft dazugehörigen Musterabgleich. Oder die Bereitstellung von sogenannten 'Monads', welche unter anderem dafür dienen Seiteneffekte zu isolieren und erkennbar zu machen.
+\\\\
+Ein großer Vorteil der funktionalen Programmierung ist, das vieles ein deterministisches Verhalten aufweist. Dies macht es einfacher einen Überblick zu bekommen und das Programm zu verstehen. Zugleich macht die Komposition von Funktionen das Programm modularer. Ein weiterer nicht zu unterschätzender Vorteil entspringt der Unveränderlichkeit, durch welches die Anwendung Threadsicherheit erlangt.
+\\\\
+Insgesamt kann gesagt werden, dass das Anwenden von funktionalen Konzepten auch in Sprachen wie Java angestrebt werden sollte. Selbst wenn dies nicht in dem Umfang stattfinden kann, wie es in 'echten' funktionalen Sprachen möglich ist. 
+\\
+Zuletzt sollte noch erwähnt werden, dass am Ende immer imperativer Code steht. Funktionale Programmierung stellt eine Abstraktion dar und ist intern imperativ.
+
+\subsection{Reaktive Programmierung}
+Heutige Anwendungen müssen viele Ereignisse in scheinbar willkürlicher Reihenfolge verarbeiten: Ein Klick eines Nutzer, eine Fehlermeldung, Speichern im Dateisystem, Kommunikation mit dem Netzwerk, aktualisieren der Benutzeroberfläche usw. Auf jedes dieser Ereignisse muss das Programm reagieren, und dabei immer Ansprechbar bleiben. Hierfür ist es Notwendig den Code asynchron zu schreiben, d.h. ohne das andere Prozeduren blockiert werden.
+\\\\
+Ein bekannte Methode stellt hierbei die Verwendungen von sogenannten Rückruffunktion ('Callbacks') dar, welches ein gern genutztes Mittel in der imperativen Welt ist. Leider führt diese Variante meist zu einer 'Callback Hell' und tief verschachtelten, unübersichtlichen Code. Dazu existieren vielfältige Verbesserungen, die alle eins Gemeinsam haben: sie reagieren (auf etwas).
+\\\\
+Hierzu besteht ein weiteres Paradigma: die reaktive Programmierung. Sie setzt auf Konzepte der funktionalen Programmierung, bevorzugt einen deklarativen Ansatz und ist damit eine weitere Abstraktion. Ihr anliegen ist es, asynchronen Code basierend auf unterschiedlichen, zeitlich abhängigen Ereignissen einfach zu handhaben.
+\\
+Ein Beispiel ist das Tippen auf einen Touchscreen; etwas, dass zu beliebigen Zeitpunkten passieren kann. Anstatt in einer Schleife zu fragen 'Hat der Nutzer den Bildschirm berührt?' hinterlegt man beim System etwas das auf dieses Ereignis horcht. Registriert das System eine solche Aktion leitet es dies Information an alle 'Zuhörer' weiter. Über diese Vorgehensweise können die unterschiedlichsten Datenquellen angesprochen werden. In der reaktiven Programmierung ist es möglich mehrere solcher Ereignisse zu Kombinieren und mit ihnen zu arbeiten.
+\\\\
+Zum Einsatz kommt in der reaktiven Programmierung das Beobachter-Muster (Englisch Observer Pattern). In diesem wird eine Änderung an einem Objekt an alle die von ihm Abhängig sind propagiert. Dabei unterscheidet man zwischen einem 'Observable' und dem 'Observer'. Ersterer erzeugt ein oder mehrere Ereignisse und bietet Operatoren um mit ihnen zu arbeiten. Daraus ergibt sich ein Fluss an Daten, der von jemanden aufgenommen und beobachtet werden möchte - dafür ist der 'Observer' zuständig. Dieser schließt eine Abonnement auf dem 'Observable' ab und erhält die gewünschten Daten. In Pseudocode kann dies wie folgt aussehen:
+\begin{lstlisting}[caption={Pseudocode reaktive Programmierung}, label={lst:pseudo-reaktiv}, language=Kotlin]
+Observable.produce("Hello")
+	.delay(1000)
+	.map { text -> text + " World" }
+	.subscribe(SomeObserver())
+\end{lstlisting}
+\bigskip
+Am Beginn von Listing 
+\ref{lst:pseudo-reaktiv}
+wird eine Wert erzeugt, als 'Observable' transferiert und um 1 Sekunde verzögert. Genau wie bei der funktionalen Programmierung ist dabei die Implementation von 'delay' zweitrangig. Es geht nur darum auszudrücken was gemacht werden soll und nicht wie. Dies hat zur Folge, dass der Code ausdrucksstark wird. Als nächstes wird mit einer anonymen Funktionen höherer Ordnung der Wert manipuliert. Zum Schluss hinterlegt sich der 'Observer' als Abonnent und erwartet das Resultat. Abgesehen von der 'subscribe' Funktion gibt jede andere ein neues 'Observable' zurück. Das liegt daran, dass das 'Observable' als unveränderliche Datenstruktur realisiert wird.
+\\\\
+Reaktive Programmierung macht es einfach, auf mehrere (gleichzeitige) Ereignisse zu reagieren und asynchron als auch parallel mit ihnen in deklarativer Form zu arbeiten. 
+
+
