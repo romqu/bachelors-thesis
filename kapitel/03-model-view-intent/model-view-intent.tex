@@ -1,5 +1,34 @@
 \section{Model-View-Intent}
 \label{sec:model-view-intent}
+In diesem Kapitel wird MVI unter die Lupe genommen und genauer beschrieben.
+
+\subsection{Vorausgegangene Architekturmuster}
+Hier werden in kurzer Ausführung die bekanntesten Architekturmuster neben Model-View-Intent beschrieben.
+
+\subsubsection{Model-View-Controller}
+Mode-View-Controller oder auch MVC ist eines der ältesten Architekturmuster und wurde im Jahre 1979 von Trygve Reenskaug veröffentlicht.
+\cite{theModelViewEditorTrygveReenskaug1979, modelsViewsControllersTrygveReenskaug1979}
+Es besteht aus drei Komponenten mit folgenden Funktionen:
+\begin{itemize}
+	\item \textbf{Model}: Es beschreibt den Zustand der Anwendung durch das Festhalten von Daten und aktualisiert informiert die View über Veränderungen. (View)
+	\item \textbf{View}: Sie ist für die Darstellung des UI zuständig und aktualisiert sich bei Änderungen im Model.
+	\item \textbf{Controller}:  Er kontrolliert die beiden anderen Komponenten und enthält möglicherweise weitere (Business) Logik. Dafür nimmt Ereignisse aus der View bzw. vom Nutzer entgegen und manipuliert daraufhin das Model oder die View direkt. 
+\end{itemize}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[height=0.5\textwidth]{./images/mvc-diagram.png}
+	\caption{Model-View-Controller}
+	\label{fig:mvc}
+\end{figure}
+\clearpage
+
+\subsubsection{Mode-View-Presenter}
+Das nächste im Bunde ist Model-View-Presenter (MVP) aus dem Jahre 1996.
+\cite{modelViewPresenterTheTaligentMikePotel1996, modelViewPresenterMartinFowler2006}
+
+\subsubsection{Model-View-ViewModel}
+
+\subsection{Historie \& Grundlegendes}
 Model-View-Intent (MVI) ist eine weiteres Entfursmuster, welches der Feder von André (Medeiros) Staltz entstammt. Er stellte dieses auf einer Javascript Konferenz im Jahre 2015 vor
 \cite{modelViewIntentIntroduction}. Es gehört damit zu den jüngsten seiner Art.
 Seine ursprüngliche Anwendung fand es in dem ebenfalls von André Staltz geschaffenen Framework CycleJs, hat seit der Artikelreihe von Hannes Dorfmann in 2016
@@ -17,14 +46,14 @@ MVI betrachtet dafür die Interaktion zwischen einem Nutzer und Programm als ein
 	\label{fig:userComputerInputOutput}
 \end{figure}
 \\
-Die Grundprinzipien für den Aufbau der Architektur entspringen dabei dem beschriebenen, originalem Model-View-Controller. Das,
-was MVC jedoch inkompatibel für die von MVI vorhergesehenen Prozesse macht, ist die Tatsache, das der Controller proaktiv ist. Dies bedeutet, dass der Controller selbstbestimmt über das Model und View verfügen und diese direkt manipulieren kann. Zwangsläufig wissen die jeweiligen Komponenten auch, von welchen Komponenten sie abhängig sind. Oder anders ausgedrückt: Eine Komponente deklariert, welche anderen Komponenten sie beeinflussen, anstatt dass andere Komponenten explizit aktualisiert werden (z.B. das Modell). Dabei wird das Prinzip des unidirektionale Datenfluss verletzt, welches auch in MVI strikt verfolgt wird. 
+Die Grundprinzipien für den Aufbau der Architektur entspringen dabei dem beschriebenen, originalem Model-View-Controller. Das, was MVC jedoch inkompatibel für die von MVI vorhergesehenen Prozesse macht, ist die Tatsache, das der Controller proaktiv ist. Dies bedeutet, dass der Controller selbstbestimmt über das Model und View verfügen und diese direkt manipulieren kann. Zwangsläufig wissen die jeweiligen Komponenten auch, von welchen Komponenten sie abhängig sind. Oder anders ausgedrückt: Eine Komponente deklariert, welche anderen Komponenten sie beeinflussen, anstatt dass andere Komponenten explizit aktualisiert werden (z.B. das Modell). Dabei wird das Prinzip des unidirektionale Datenfluss verletzt, welches auch in MVI strikt verfolgt wird. 
 \\
 \\
 Um dieses unter anderem zu erreichen, setzt MVI zusätzlich auf Reaktive Programmierung. Für MVI bedeutet reaktiv zu sein, dass jede Komponente ihre Abhängigkeiten beobachtet und auf Veränderungen dieser reagiert. Die drei Komponenten werden durch Observables repräsentiert, wobei der Output jeweils der Input einer anderen Komponente ist.
-\\
-\\
-Fast noch wichtiger als der reaktive Ansatz ist zu verstehen, wie der Kreislauf in Figur \ref{fig:datenflussFlux} programmatisch etabliert werden kann. Betrachtet man diesen Kreis etwas genauer, so wird deutlich, dass auf einen Input immer ein Output folgt. Dieses Konzept findet man auch in der Mathematik wieder: Funktionen. Mit diesen lässt sich MVI wie folgt illustrieren:
+
+\subsection{Model, View \& Intent}
+Fast noch wichtiger als der reaktive Ansatz ist zu verstehen, wie der Kreislauf in Figur \ref{fig:userComputerInputOutput} 
+programmatisch etabliert werden kann. Betrachtet man diesen Kreis etwas genauer, so wird deutlich, dass auf einen Input immer ein Output folgt. Dieses Konzept findet man auch in der Mathematik wieder: Funktionen. Mit diesen lässt sich MVI wie folgt illustrieren:
 \\
 \\
 \textbf{Intent}: Das I in MVI steht für Intent und stellt den Teil da, welches es von den anderen Entwurfsmustern unterscheidet. Das Ziel der Intent-Fuktion ist es, die Absicht des Nutzer im digitalen Kontext des Programms auszudrücken.
@@ -34,18 +63,15 @@ Der Output dieser Funktion (z.B. ein String) wird zum Input der nächsten:
 \\
 \textbf{Model}: Die Model-Funktion nimmt das entgegen, was die Intent-Funktion produziert. Ihre Aufgabe liegt in der Verwaltung des Zustands: Sie verfügt über das Model. Sie kann daher durchaus als das zentrale Element in MVI bezeichnet werden. In Anbetracht der Tatsache, dass MVI sich als auf funktionaler Programmierung basierendes Muster versteht, ist das Model unveränderlich. Daraus ergibt sich zwangsläufig, dass für einen Zustandswechsel das Model kopiert und somit ein neues erzeugt werden muss. 
 \\
-Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsveränderung hervorrufen kann und darf.
-Zusätzlich ist es der Ort, an dem auf die Business Logik der Anwendung zugegriffen wird.
+Diese Funktion ist der einziges Teil des Programms, welche eine Zustandsveränderung hervorrufen kann und darf. Zusätzlich ist es der Ort, an dem auf die Business Logik der Anwendung zugegriffen wird.
 \\
 \\
 \textbf{View}: Die View ist die letzte Funktion in der Kette, und ist zuständig für die visuelle Repräsentation des Models.
-\\
-\\
+\newpage
 Nimmt man alle drei Funktion zusammen, ergibt sich folgende Kette:
 \begin{lstlisting}[caption={funktion}, xleftmargin=.3\textwidth, frame=false, numbers=none]
 view(model(intent(input)))
 \end{lstlisting}
-\newpage
 Um den Sachverhalt zu verdeutlichten, kann dieses Beispiel in Form von pseudo-code herangezogen werden:
 \begin{lstlisting}[caption={pseudo mvi implementation}, label={lst:pseudo-mvi}, language=Kotlin]
 fun intent(text: String): Event {

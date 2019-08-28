@@ -4,16 +4,36 @@
 Bis zum Jahre 1973 und der Entwicklung des ersten Eingabegerätes mit Graphischer Oberfläche (GUI) (Xerox Alto \cite{xeroxAlto}) erfolgte die Interaktion mit einem Computer im Wesentlichen über eine Konsole. Dies reduzierte die Ein- und Ausgabe eines Programms auf rein textuelle Elemente. Seither hat sich viel getan: Die Erschaffung des Internets leitet den Beginn von Webseiten ein, welche von einer anfänglich statischen Ausprägung zu der heutigen dynamisch und komplexen wuchsen. Dazu gesellten sich im Laufe der Zeit mobile Endgeräte - zu Beginn bestückt mit Tasten für die Eingabe, sowie einem primitiven Bildschirm für die Anzeige finden sich heutzutage vorwiegend leistungsfähige, auf einem kapazitiven Touchscreen basierende Smartphones wieder. Hierbei ist über die Jahre der Funktionsumfang von Betriebssystem und Applikationen im Allgemeinen gestiegen.
 
 \subsection{Problemfeld}
-\label{sec:problemfeld}
+\label{subsec:problemfeld}
 Die Herausforderung für einen Entwickler ist es, die Nutzerschnittstelle (auch: Presenation Layer \cite{presentationLayerpatternsOfEnterpriseApplicationArchitectureMartinFowler}) ,
 innerhalb einer "Drei-Schichtenarchitektur"
 \cite{threeTierArchitectureDonaldWolfe2013}
 sinnvoll aufzubauen und dabei die Modellierung und Verwaltung des Zustandes innerhalb einer Applikation zu berücksichtigen. Hierfür müssen auch externe Vorkommnisse wie bswp. die Aktualisierung der zugrundeliegenden Datenbank miteinbezogen werden.
-\\
-Da diese Problematik nicht erst seit kurzem sondern seid vielen Jahren besteht, wurden hierfür 
+\\\\
+Da diese Problematik nicht erst seit kurzem sondern seit vielen Jahren besteht, wurden hierfür bereits unterschiedliche Ansätze entwickelt. Diese spiegeln sich in sogenannten Architekturmuster wieder und bieten ein Mittel, den 'Presentation Layer' sinnvoll zu organisieren.
+\\\\
+Zu diesen Architekturmuster hat sich im Jahre 2015 ein neues hinzugesellt: Model-View-Intent (MVI). Es besitzt bereits bekannte Herangehensweisen, setzt jedoch auch auf neue Ideen. Zu Beginn kam es ausschließlich in der Entwicklung von Webanwendungen zum Einsatz, bis es mit etwas Verzögerung auch in der (nativen) Android Entwikclung Einzug hielt. Wie es meist der Fall ist wenn neue Wege beschritten werden, ergibt sich viel Ungeklärtes. Dieses wächst wenn zusätzlich eine Wechsel der Plattform vorgenommenen, welche trotz Gemeinsamkeiten erhebliche Unterschiede und aufweist.
+\\\\
+Ist ein Entwickler an einem Einsatz von MVI interessiert, so ergeben sie für ihn gewisse, wenn auch übliche Hindernisse: Wie lassen sie die jeweiligen Komponenten umsetzten? Wie gut lassen sich Implementierungen für eine Plattform auf eine andere, seine Übertragen? Inwieweit müssen Eigenheit beachtet werden?  
 
 \subsection{Ziel der Arbeit}
-\label{sec:ziel-der-arbeit}
+\label{subsec:ziel-der-arbeit}
+Mit der Arbeit wird das Ziel verfolgt, das Architekturmuster MVI zu untersuchen, besser zu verstehen und im Kontext Android ein Framework zu schaffen.
+\\
+Es sollen Eigenheiten der Plattform, sowie allgemeine Probleme ausgemacht werden die für den Einsatz von MVI in Android relevant sind. Dazu müssen bereits bestehende Lösung evaluiert und vorhandene Problematiken aufgezeigt werden. Auf Basis der gewonnenen Erkenntnisse soll daraufhin ein kleines und dogmatisches Framework entwickelt werden. Die Absicht ist dem Anwender alle nötigen Komponenten zu Realisierung von MVI zur Verfügung zu stellen und eine klare Struktur vorzugeben. Dabei soll der Aufwand seitens des Nutzers möglichst gering gehalten werden.
 
 \subsection{Aufbau der Arbeit}
-\label{sec:aufbau-der-arbeit}
+\label{subsec:aufbau-der-arbeit}
+Im ersten Schritt werden die nötigen Grundlagen für ein besserer Verständnis von MVI geklärt. Dazu gehören spezielle Paradigmen der Programmierung als auch vorausgegangene Konzepte und Bibliotheken.
+\\\\
+Ist dies Vollbracht so wird im nächsten Schritt MVI mit all seinen Komponenten genau beschrieben. Es wird auch versucht, die Gründe für die Entstehung von MVI zu finden und zu erläutern.
+\\\\
+Daraufhin werden die Funktionalen und Nichtfunktionalen Anforderung für das zu entwickelnde Framework aufgelistet und näher ausgeführt. Hierbei soll Erkennbar ein, worauf der Fokus liegt und was als Optional eingestuft wird. 
+\\\\
+Im weiteren Fortgang wird mit diesen Anforderung und den zuvor erworbenen Kenntnissen das Framework und seine individuellen Komponenten konzipiert. Jeder dieser Komponenten wird ausführlich beleuchtet und ihre Funktion dargelegt. Auch die Zusammenhänge innerhalb des Frameworks werden aufgegriffen und erörtert.
+\\\\
+Anschließend erfolgt die Implementation des Framework in Form eines Prototypen. Zuvor werden jedoch Grundlegende Entscheidungen und ihre Auswirkungen erläutert. 
+\\\\
+Als vorletzter Schritt werden die jeweiligen Anforderungen auf Basis des Prototypen ausgewertet. Es wird geschaut zu welchem Grad diese Erfüllt wurden und falls nicht, welche Gründe dies hat und wie es umgesetzt werden könnte. Außerdem sollen eventuelle Verbesserungen diskutiert werden.
+\\\\
+Zum Schluss wird die Arbeit und ihr Ergebnis zusammengefasst und ein Ausblick gegeben.

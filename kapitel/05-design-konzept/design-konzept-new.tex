@@ -5,28 +5,6 @@ In diesem Kapitel ...
 \subsection{Framework}
 Warum Framwork? Besonderheiten...
 
-\subsection{Vorausgegangene Architekturmuster}
-Hier werden in kurzer Ausführung die bekanntesten Architekturmuster neben Model-View-Intent beschrieben und wie eines dieser MVI als Inspiration diente.
-
-
-\subsubsection{Model-View-Controller}
-Mode-View-Controller oder auch MVC ist eines der ältesten Architekturmuster und wurde im Jahre 1979 von Trygve Reenskaug veröffentlicht.
-\cite{theModelViewEditorTrygveReenskaug1979, modelsViewsControllersTrygveReenskaug1979}
-Es besteht aus drei Komponenten mit folgenden Funktionen:
-\begin{itemize}
-	\item \textbf{Model}: Es beschreibt den Zustand der Anwendung durch das Festhalten von Daten und aktualisiert informiert die View über Veränderungen. (View)
-	\item \textbf{View}: Sie ist für die Darstellung des UI zuständig und aktualisiert sich bei Änderungen im Model.
-	\item \textbf{Controller}:  Er kontrolliert die beiden anderen Komponenten und enthält möglicherweise weitere (Business) Logik. Dafür nimmt Ereignisse aus der View bzw. vom Nutzer entgegen und manipuliert daraufhin das Model oder die View direkt. 
-\end{itemize}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[height=0.5\textwidth]{./images/mvc-diagram.png}
-	\caption{Model-View-Controller}
-	\label{fig:mvc}
-\end{figure}
-\clearpage
-
-
 \subsection{Übersicht der Komponenten im Klassendiagramm}
 \begin{sidewaysfigure}
 		\includegraphics[width=\textwidth]{./images/framework-class-diagram}
