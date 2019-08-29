@@ -105,7 +105,7 @@ data class MyClass(val text: String, val anotherText: String)
 
 val myClass = MyClass("text", "anotherText")
 
-// 'text' wird verändert, 'anotherText' nicht
+// "text" wird verändert, "anotherText" nicht
 val newMyClass = myClass.copy(text = "newText")
 \end{lstlisting}
 \bigskip
@@ -128,7 +128,7 @@ Für den Zugriff auf die Java Reflexion muss auf die '.java' Endung zurückgegri
 
 val myClass: Class<MyClass> = MyClass::class.java
 
-// gibt Methoden wie 'toString' aus
+// gibt Methoden wie "toString" aus
 myClass.methods.forEach(::println)
 \end{lstlisting}
 \bigskip
@@ -140,7 +140,7 @@ val myClass: KClass<MyClass> = MyClass::class
 // gibt den Namen der Klasse aus
 println(myClass.qualifiedName)
 
-// 'false', da 'text' nicht Konstant ist
+// "false", da "text" nicht Konstant ist
 println(myClass::text.isConst)
 \end{lstlisting}
 \bigskip
@@ -155,7 +155,7 @@ public String toString() {...}
 
 class MyClassKotlin {
 
-// Hier ist 'override' teil der Deklaration
+// Hier ist "override" teil der Deklaration
 override fun toString() {...}
 \end{lstlisting}
 \bigskip
@@ -179,7 +179,7 @@ Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Refle
 Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt. Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
 \\
 \\
-Mithilfe der Bibliothek 'KotlinPoet' kann durch folgenden Code...
+Mithilfe der Bibliothek "KotlinPoet" kann durch folgenden Code...
 \begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
 FunSpec.builder("add")
 	.addParameter("a", Int::class)
@@ -284,7 +284,7 @@ Finde auch diese Funktionen ein veränderliches Attribut, so wird die überreich
 	when (property) {
 		is KMutableProperty<*> -> {
 			val tmpErrorMessage = "$errorMessage\n${property.name} 
-				is not allowed to be 'var'"
+				is not allowed to be var"
 			isSubtypeMutable(property, tmpErrorMessage)
 		}
 		
@@ -343,7 +343,7 @@ Mit Listing
 \begin{lstlisting}[caption={ 'setNewState' Methode}, label={lst:set-new-state}, language=Kotlin]
 private fun setNewState(newState: S) {
 
-	// 'this' ist die aktuelle Instanz des 'StateManager'
+	// "this" ist die aktuelle Instanz des "StateManager"
 	synchronized(this) {
 		if((state == newState).not()) state = newState
 	}
@@ -622,7 +622,7 @@ val mutableList = mutableListOf(1,2,3)
 list.add(4) // nicht vorhanden
 mutableList.add(4) // vorhanden
 
-(list as MutableList).add(4) // durch den 'cast' möglich
+(list as MutableList).add(4) // durch den "cast" möglich
 \end{lstlisting}
 \bigskip
 Trotz dieser Problematik ist dies für das weitere Vorgehen nicht von großer Relevanz und der Konstruktor kann wie in Listing
@@ -829,7 +829,7 @@ print(color is GREEN) // false
 Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich 
 auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner 
 besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als 
-'algebraisch' bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die 'Summe' oder das 
+'algebraisch' bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die »Summe« oder das 
 'Produkt' bestehender Typen nimmt.
 \\
 \\
@@ -838,7 +838,7 @@ In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, 
 funktionaler und eleganter zum implementieren:
 \begin{lstlisting}[caption={Intents als sealded class}, label={lst:intents-sealed-class}, language=Kotlin]
 sealed class Intent {
-	// 'object' erzeugt ein Singleton
+	// "object" erzeugt ein Singleton
 	// es ist keine Instanziierung möglich
 	// Attribute folglich nicht gestattet
 	object GoBack : Intent()
@@ -847,12 +847,11 @@ sealed class Intent {
 \end{lstlisting}
 \bigskip
 Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von 
-'null' Werten. Des weiteren ist mit einem Blick erkennbar welche Intents vorkommen, sowie ihre Bedeutung 
-und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
+'null' Werten. Des weiteren ist mit einem Blick erkennbar welche 'Intents' vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
 eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, 
 aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der 
 Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur 
 einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies 
 einen Zustand enthalten kann. Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss und nicht über mehrere verstreut sein darf.
 \\\\
-Der hier aufgeführte Ansatz kann dabeu ebenfalls für alle Actions und Results verwendet werden.
+Der hier aufgeführte Ansatz kann dabei ebenfalls für alle 'Actions' und 'Results' verwendet werden.

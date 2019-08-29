@@ -10,9 +10,9 @@ Mode-View-Controller oder auch MVC ist eines der ältesten Architekturmuster und
 \cite{theModelViewEditorTrygveReenskaug1979, modelsViewsControllersTrygveReenskaug1979}
 Es besteht aus drei Komponenten mit folgenden Funktionen:
 \begin{itemize}
-	\item \textbf{Model}: Es beschreibt den Zustand der Anwendung durch das Festhalten von Daten und aktualisiert informiert die View über Veränderungen. (View)
+	\item \textbf{Model}: Es beschreibt den Zustand der Anwendung durch das Festhalten von Daten und aktualisiert informiert die »View« über Veränderungen.
 	\item \textbf{View}: Sie ist für die Darstellung des UI zuständig und aktualisiert sich bei Änderungen im Model.
-	\item \textbf{Controller}:  Er kontrolliert die beiden anderen Komponenten und enthält möglicherweise weitere (Business) Logik. Dafür nimmt Ereignisse aus der View bzw. vom Nutzer entgegen und manipuliert daraufhin das Model oder die View direkt. 
+	\item \textbf{Controller}:  Er kontrolliert die beiden anderen Komponenten und enthält möglicherweise weitere (Business) Logik. Dafür nimmt Ereignisse aus der »View« bzw. vom Nutzer entgegen und manipuliert daraufhin das Model oder die »View« direkt. 
 \end{itemize}
 \begin{figure}[ht]
 	\centering
@@ -30,11 +30,11 @@ Es kann als die erste Iteration von MVC betrachtet werden, birgt dabei allerding
 Unterschiede. Genau wie sei Vorreiter wird es aus drei Komponenten zusammengesetzt:
 
 \begin{itemize}
-	\item \textbf{Model}: Es beinhaltet die Business Objekte und Logik die für die Ansicht von Relevanz sind. Sie kann zuständig sein für Zugriffe auf die Datenbank, das Dateisystem und Netzwerk (oft Rest API). Es hat keine direkten Zugriff auf den 'Presenter' oder due 'View'.
-	\item \textbf{View}: Sie ist ausschließlich für die Darstellung des UI und für die Interaktion mit dem Nutzer zuständig. Sie hat keine direkten Zugriff auf den 'Presenter' oder das 'Model'.
-	\item \textbf{Presenter}: Er beinhaltet die Business Logik der Anwendung und steht mit der 'View' und dem 'Model' im Austausch. Als Bindeglied steuert er die Abläufe zwischen den Beiden.
+	\item \textbf{Model}: Es beinhaltet die Business Objekte und Logik die für die Ansicht von Relevanz sind. Sie kann zuständig sein für Zugriffe auf die Datenbank, das Dateisystem und Netzwerk (oft Rest API). Es hat keine direkten Zugriff auf den »Presenter« oder due »View«.
+	\item \textbf{View}: Sie ist ausschließlich für die Darstellung des UI und für die Interaktion mit dem Nutzer zuständig. Sie hat keine direkten Zugriff auf den »Presenter« oder das »Model«.
+	\item \textbf{Presenter}: Er beinhaltet die Business Logik der Anwendung und steht mit der »View« und dem »Model« im Austausch. Als Bindeglied steuert er die Abläufe zwischen den Beiden.
 \end{itemize}
-Der gravierende Unterschied zu MVC besteht darin, dass das 'Model' nichts von der 'View' weiß und andersrum genauso. Der 'Presenter' kontrolliert die 'View', welche jegliche Ereignisse an den 'Presenter' weiterleitet. Erreicht wird diese durch die Verwendung von Interfaces bzw. Verträgen zwischen den Schichten. Damit erhält keine der Komponenten die konkrete Implementation dieser, sonder eine Abstraktion. Dies führt zu einer verbesserten Modularität, da die Komponenten zu jeder Zeit ausgetauscht werden können, solange der Vertrag 'erfüllt' wird.
+Der gravierende Unterschied zu MVC besteht darin, dass das »Model« nichts von der »View« weiß und andersrum genauso. Der »Presenter« kontrolliert die »View«, welche jegliche Ereignisse an den »Presenter« weiterleitet. Erreicht wird diese durch die Verwendung von Interfaces bzw. Verträgen zwischen den Schichten. Damit erhält keine der Komponenten die konkrete Implementation dieser, sonder eine Abstraktion. Dies führt zu einer verbesserten Modularität, da die Komponenten zu jeder Zeit ausgetauscht werden können, solange der Vertrag »erfüllt« wird.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[height=0.45\textwidth]{./images/mvp-vs-mvc.png}
@@ -45,15 +45,15 @@ Der gravierende Unterschied zu MVC besteht darin, dass das 'Model' nichts von de
 \clearpage
 
 \subsection{Historie \& Grundlegendes}
-Model-View-Intent (MVI) ist eine weiteres Entfursmuster, welches der Feder von André (Medeiros) Staltz entstammt. Er stellte dieses auf einer Javascript Konferenz im Jahre 2015 vor
+Model-View-Intent (MVI) ist eine weiteres Entwurfsmuster, welches der Feder von André (Medeiros) Staltz entstammt. Er stellte dieses auf einer Javascript Konferenz im Jahre 2015 vor
 \cite{modelViewIntentIntroduction}. Es gehört damit zu den jüngsten seiner Art.
-Seine ursprüngliche Anwendung fand es in dem ebenfalls von André Staltz geschaffenen Framework CycleJs, hat seit der Artikelreihe von Hannes Dorfmann in 2016
+Seine ursprüngliche Anwendung fand es in dem ebenfalls von André Staltz geschaffenen Framework »CycleJs«, hat seit der Artikelreihe von Hannes Dorfmann in 2016
 \cite{modelViewIntentOnAndroidHannesDorfmann2016}
 aber auch den Sprung in die Welt von Android vollbracht. MVI bezieht den Großteil seines Design aus den hier bereits vorstellten Ideen und Konzepten. Das erste Ziel ist, ähnlich wie bei MVC, Informationen zwischen zwei Welten zu übersetzten: der des digitalen Bereichs des Computers und des mentalen Modells des Benutzers. Oder anders formuliert: Das Programm muss verstehen, was der Nutzer im Sinn hat.
 Der zweite, zentrale Punkt von MVI besteht in der Handhabung des Zustands der Anwendung. Hierfür ist zu klären, was genau der Zustand inne hat.
 \\
 \\
-MVI betrachtet dafür die Interaktion zwischen einem Nutzer und Programm als einen Kreis(lauf). Betätigt der Nutzer bswp. einen Knopf, sein Output, so gestaltet sich dieser als Input für das Programm. Dieses wiederum erzeugt einen Output (z.B. eine Meldung), welcher zum Input des Nutzers wird (hier: lesen).
+MVI betrachtet dafür die Interaktion zwischen einem Nutzer und Programm als einen Kreis(lauf). Betätigt der Nutzer bspw.. einen Knopf, sein Output, so gestaltet sich dieser als Input für das Programm. Dieses wiederum erzeugt einen Output (z.B. eine Meldung), welcher zum Input des Nutzers wird (hier: lesen).
 \begin{figure}[ht]
 	\centering
 	\includegraphics[height=0.5\textwidth]{./images/mvi-cycle}
@@ -62,17 +62,17 @@ MVI betrachtet dafür die Interaktion zwischen einem Nutzer und Programm als ein
 	\label{fig:userComputerInputOutput}
 \end{figure}
 \\
-Die Grundprinzipien für den Aufbau der Architektur entspringen dabei dem beschriebenen, originalem Model-View-Controller. Das, was MVC jedoch inkompatibel für die von MVI vorhergesehenen Prozesse macht, ist die Tatsache, das der Controller proaktiv ist. Dies bedeutet, dass der Controller selbstbestimmt über das Model und View verfügen und diese direkt manipulieren kann. Zwangsläufig wissen die jeweiligen Komponenten auch, von welchen Komponenten sie abhängig sind. Oder anders ausgedrückt: Eine Komponente deklariert, welche anderen Komponenten sie beeinflussen, anstatt dass andere Komponenten explizit aktualisiert werden (z.B. das Modell). Dabei wird das Prinzip des unidirektionale Datenfluss verletzt, welches auch in MVI strikt verfolgt wird. 
+Die Grundprinzipien für den Aufbau der Architektur entspringen dabei dem beschriebenen, originalem Model-View-Controller. Das, was MVC jedoch inkompatibel für die von MVI vorhergesehenen Prozesse macht, ist die Tatsache, das der Controller proaktiv ist. Dies bedeutet, dass der »Controller« selbstbestimmt über das Model und View verfügen und diese direkt manipulieren kann. Zwangsläufig wissen die jeweiligen Komponenten auch, von welchen Komponenten sie abhängig sind. Oder anders ausgedrückt: Eine Komponente deklariert, welche anderen Komponenten sie beeinflussen, anstatt dass andere Komponenten explizit aktualisiert werden (z.B. das Modell). Dabei wird das Prinzip des unidirektionale Datenfluss verletzt, welches auch in MVI strikt verfolgt wird. 
 \\
 \\
-Um dieses unter anderem zu erreichen, setzt MVI zusätzlich auf Reaktive Programmierung. Für MVI bedeutet reaktiv zu sein, dass jede Komponente ihre Abhängigkeiten beobachtet und auf Veränderungen dieser reagiert. Die drei Komponenten werden durch Observables repräsentiert, wobei der Output jeweils der Input einer anderen Komponente ist.
+Um dieses unter anderem zu erreichen, setzt MVI zusätzlich auf Reaktive Programmierung. Für MVI bedeutet reaktiv zu sein, dass jede Komponente ihre Abhängigkeiten beobachtet und auf Veränderungen dieser reagiert. Die drei Komponenten werden durch »Observables« repräsentiert, wobei der Output jeweils der Input einer anderen Komponente ist.
 
 \subsection{Model, View \& Intent}
 Fast noch wichtiger als der reaktive Ansatz ist zu verstehen, wie der Kreislauf in Figur \ref{fig:userComputerInputOutput} 
 programmatisch etabliert werden kann. Betrachtet man diesen Kreis etwas genauer, so wird deutlich, dass auf einen Input immer ein Output folgt. Dieses Konzept findet man auch in der Mathematik wieder: Funktionen. Mit diesen lässt sich MVI wie folgt illustrieren:
 \\
 \\
-\textbf{Intent}: Das I in MVI steht für Intent und stellt den Teil da, welches es von den anderen Entwurfsmustern unterscheidet. Das Ziel der Intent-Fuktion ist es, die Absicht des Nutzer im digitalen Kontext des Programms auszudrücken.
+\textbf{Intent}: Das I in MVI steht für »Intent« und stellt den Teil da, welches es von den anderen Entwurfsmustern unterscheidet. Das Ziel der Intent-Fuktion ist es, die Absicht des Nutzer im digitalen Kontext des Programms auszudrücken.
 Ein Ereignis (oder Event), z.B. die Eingabe eines Buchstaben, kann hier der Input sein.
 Der Output dieser Funktion (z.B. ein String) wird zum Input der nächsten:
 \\
@@ -157,7 +157,7 @@ Schaut man sich die Model-Funktion in Beispiel \ref{lst:pseudo-reactive-mvi} und
 \end{enumerate}
 Der einzige Schritt der Fehlt, ist die Bereitstellung des derzeitigen oder des vorherigen Models. Hier kommt eine Komponente ins Spiel, die bereits in Kapitel
 \ref{subsec:redux} 
-angesprochen wurde: der Reducer. Er ist für genau den oben aufgeführten Prozess zuständig und der Platz, an dem das Model verändert wird.
+angesprochen wurde: der »Reducer«. Er ist für genau den oben aufgeführten Prozess zuständig und der Platz, an dem das Model verändert wird.
 
 \subsection{Endlicher Automat}
 Wenn der in der Model-Funktion ausgeführte Code eine neues Model hervorbringt, so bleibt der Zustand entweder der Gleiche oder er verändert sich. Unabhängig davon geht der Zustand in den selbigen oder in einen neuen Zustand über: es kommt zu einem sogenannten Zustandsübergang. Aber nicht nur das lässt sich aus dem gezeigten Beispiel ableiten; es sind noch weitere Schlussfolgerungen zulässig:
@@ -169,7 +169,7 @@ Wenn der in der Model-Funktion ausgeführte Code eine neues Model hervorbringt, 
 	\item Es gibt immer nur einen Zustand, in dem sich die Anwendung befinden kann
 \end{itemize}
 \bigskip
-Die oben genannten Punkte lassen sich anhand eines weiteren Beispiels besser erläutern: Man nehme an, dass sich auf einem Bildschirm ein Textfeld und ein dazugehöriger Knopf befindet. Das Textfeld ist anfänglich leer und der Knopf deaktiviert. Dieser kann nur aktiviert werden, wenn eine Eingabe im Textfeld erfolgt. Hiermit ist der Startzustand des Knopfs "deaktiviert" (z0). Gibt der Nutzer im Textfeld einen Text ein, so wird der Knopf aktiviert. Dieses Ereignis ist der bereits angeführte Zustandsübergang.
+Die oben genannten Punkte lassen sich anhand eines weiteren Beispiels besser erläutern: Man nehme an, dass sich auf einem Bildschirm ein Textfeld und ein dazugehöriger Knopf befindet. Das Textfeld ist anfänglich leer und der Knopf deaktiviert. Dieser kann nur aktiviert werden, wenn eine Eingabe im Textfeld erfolgt. Hiermit ist der Startzustand des Knopfs »deaktiviert« (z0). Gibt der Nutzer im Textfeld einen Text ein, so wird der Knopf aktiviert. Dieses Ereignis ist der bereits angeführte Zustandsübergang.
 Gleichzeitig wird ein Endzustand erreicht (z1) - weitere Eingaben führen zu keinem neuem Zustand.
 Die Beschreibungen z1 und z2 dienen hierbei als das Eingabealphabet und zeigen die Menge von potenziellen Ereignissen auf.
 \begin{figure}[ht]

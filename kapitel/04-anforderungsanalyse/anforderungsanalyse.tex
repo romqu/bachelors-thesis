@@ -3,12 +3,12 @@
 In diesem Kapitel werden beide Seiten von Anforderungen beschrieben: Funktional und Nichtfunktional. 
 
 \subsection{Funktionale Anforderungen}
-Die Funktionalen Anforderungen dienen dafür, um die genaue Funktionalität und das Verhalten eines Systems zu beschreiben. Es wird behandelt, was das System können soll und muss. Um dies besser abbilden zu können, werden die einzelnen Anforderungen einer Gewichtung unterzogen. Diese Gewichtung lässt sich in Form von "Muss","Soll" und "Kann" Anforderungen ausdrücken. Aufgrund des kleines Rahmens und Zeitfensters dieser Thesis wird sich im diesen Teil ausschließlich auf "Muss"-Anforderungen beschränkt, d.h. jene Funktionalität, welches das Framework erfüllen muss. Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel "FA" versehen.
+Die Funktionalen Anforderungen dienen dafür, um die genaue Funktionalität und das Verhalten eines Systems zu beschreiben. Es wird behandelt, was das System können soll und muss. Um dies besser abbilden zu können, werden die einzelnen Anforderungen einer Gewichtung unterzogen. Diese Gewichtung lässt sich in Form von »Muss«,»Soll« und »Kann« Anforderungen ausdrücken. Aufgrund des kleines Rahmens und Zeitfensters dieser Bachelorarbeit wird sich im diesen Teil ausschließlich auf »Muss«-Anforderungen beschränkt, d.h. jene Funktionalität, welches das Framework erfüllen muss. Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel »FA« versehen.
 \\
 \\
-\textbf{[A01] Identifizieren von "Intents"}
+\textbf{[A01] Identifizieren von »Intents«}
 \\
-Dem Nutzer des Frameworks muss es möglich sein, die "Intents" seiner Anwendung eindeutig zu markieren.
+Dem Nutzer des Frameworks muss es möglich sein, die »Intents« seiner Anwendung eindeutig zu markieren.
 \\
 \\
 \textbf{[A02] Trennung von Bussines und Ansicht Logik}
@@ -22,7 +22,7 @@ Es ist zwingende erforderlich, dass die vom Nutzer gewählte Struktur für das M
 handelt.
 \\
 \\
-\textbf{[A04] Bereitstellung eines "Reducers"}
+\textbf{[A04] Bereitstellung eines »Reducers«}
 \\
 Für das erzeugen von einem neuem Model muss dem Entwickler eine Funktionen in Form eines Reducers bereitgestellt werden. Diese muss das derzeitige Model und Ereignis zur Verfügung stellen. 
 \\
@@ -60,12 +60,12 @@ Hierbei darf es zu keinen unerwarteten Problemen (z.B. Race.Conditions) kommen.
 \\
 \\
 \subsection{Nicht funktionale Anforderungen}
-Die nicht funktionale Anforderungen sind im Gegensatz zu den funktionalen unspezifisch für ein Produkt, d.h. sie haben meist nur einen indirekten Einfluss auf das System. So kann beispielsweise festgelegt werden, dass die Ausführung einen bestimmten Funktionalität nur ein gewisses Maß an Zeit in Anspruch nehmen darf. Dazu gehören auch Qualitätsmerkmale, die erfüllt werden müssen.Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel "NFA" versehen.
+Die nicht funktionale Anforderungen sind im Gegensatz zu den funktionalen unspezifisch für ein Produkt, d.h. sie haben meist nur einen indirekten Einfluss auf das System. So kann beispielsweise festgelegt werden, dass die Ausführung einen bestimmten Funktionalität nur ein gewisses Maß an Zeit in Anspruch nehmen darf. Dazu gehören auch Qualitätsmerkmale, die erfüllt werden müssen.Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel »NFA« versehen.
 \\
 \\
 \textbf{[A11] Dogmatisches Framework}
 \\
-Das Framework soll den Entwickler "and die Hand nehmen" und genaue Vorgaben für die Anwendung kommunizieren. Damit sind zielgenauere Funktionen möglich und die Komplexität kann unter Umständen niedriger gehalten werden. Dies birgt allerdings die Gefahr, dass bei eigenwilliger Anwendung - und der damit einhergehenden Abweichung der Instruktionen - des Entwicklers es zu Komplikationen kommen kann.
+Das Framework soll den Entwickler »and die Hand nehmen« und genaue Vorgaben für die Anwendung kommunizieren. Damit sind zielgenauere Funktionen möglich und die Komplexität kann unter Umständen niedriger gehalten werden. Dies birgt allerdings die Gefahr, dass bei eigenwilliger Anwendung - und der damit einhergehenden Abweichung der Instruktionen - des Entwicklers es zu Komplikationen kommen kann.
 \\
 \\
 \textbf{[A12] Unidirektional}
@@ -78,9 +78,9 @@ Der in MVI geforderte unidirektionale Datenfluss muss eingehalten werden.
 Für die Umsetzung wird Kotlin als Programmiersprache herangezogen. Sie bietet einige syntaktische Vorteile gegenüber Java.
 \\
 \\
-\textbf{[A14] Reaktiv \& Funtkional}
+\textbf{[A14] Reaktiv \& Funktional}
 \\
-Reaktiv
+Das Framework soll auf verstärkt reaktiven und funktionalen Konzepten aufbauen.
 \subsection{Ubersicht der Anforderungen}
 Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) Anforderungen werden diese im Folgenden in einer Tabelle zusammengefasst.
 \\
@@ -95,7 +95,7 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 	ID & Anforderung & Typ
 	\\
 	\hline
-	01 & Identifizieren von 'Intent', 'Action', 'State' und 'Result' & fa
+	01 & Identifizieren von »Intent«, »Action«, »State« und »Result« & fa
 	\\
 	\hline	
 	02 & Trennung von Business und Ansicht Logik & fa
@@ -104,7 +104,7 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 	03 & Überprüfung des Zustands als unveränderliche Datenstruktur & fa
 	\\
 	\hline
-	04 & Bereitstellung eines 'Reducers' & fa
+	04 & Bereitstellung eines »Reducers« & fa
 	\\
 	\hline
 	05 & Handhabung von Seiteneffekten & fa 
@@ -141,11 +141,11 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 \endgroup
 
 \subsection{Begutachtung bestehender MVI-Frameworks/Bibliotheken}
-In diesem Kapitel wird ein Blick auf bereits bestehende MVI-Frameworks/Bibliotheke geworfen.
+In diesem Kapitel wird ein Blick auf bereits bestehende MVI-Frameworks/Bibliotheken geworfen.
 
 \subsubsection{MVICore}
 Hierbei handelt es sich um ein auf MVI ausgerichtet Framework dessen Entwicklung seit 2018 auf Github stattfindet.
 \cite{mviCoreGithub}
-Es bietet eine vollständige Abdeckung der von MVI verlangten Komponenten und stellt darüber hinaus weitere Eigenschaften wie 'Time Travel Debuggig' und 'Middlewares' zur Verfügung.
+Es bietet eine vollständige Abdeckung der von MVI verlangten Komponenten und stellt darüber hinaus weitere Eigenschaften wie »Time Travel Debuggig« und »Middlewares« zur Verfügung.
 
 \subsubsection{Roxie}
