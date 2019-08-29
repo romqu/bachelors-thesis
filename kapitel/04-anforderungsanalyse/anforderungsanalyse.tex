@@ -1,5 +1,6 @@
 \section{Anforderungsanalyse}
 \label{sec:anforderungsanalyse}
+In diesem Kapitel werden beide Seiten von Anforderungen beschrieben: Funktional und Nichtfunktional. 
 
 \subsection{Funktionale Anforderungen}
 Die Funktionalen Anforderungen dienen dafür, um die genaue Funktionalität und das Verhalten eines Systems zu beschreiben. Es wird behandelt, was das System können soll und muss. Um dies besser abbilden zu können, werden die einzelnen Anforderungen einer Gewichtung unterzogen. Diese Gewichtung lässt sich in Form von "Muss","Soll" und "Kann" Anforderungen ausdrücken. Aufgrund des kleines Rahmens und Zeitfensters dieser Thesis wird sich im diesen Teil ausschließlich auf "Muss"-Anforderungen beschränkt, d.h. jene Funktionalität, welches das Framework erfüllen muss. Für die Übersichtlichkeit werden sämtliche Anforderungen nummeriert und mit dem Kürzel "FA" versehen.
@@ -77,27 +78,23 @@ Der in MVI geforderte unidirektionale Datenfluss muss eingehalten werden.
 Für die Umsetzung wird Kotlin als Programmiersprache herangezogen. Sie bietet einige syntaktische Vorteile gegenüber Java.
 \\
 \\
-\textbf{[A14] Reaktiv}
+\textbf{[A14] Reaktiv \& Funtkional}
 \\
 Reaktiv
-\\
-\\
-\textbf{[A15] Funktional}
-\\
-Funtkional
-\\
-\\
 \subsection{Ubersicht der Anforderungen}
-Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) Anforderungen werden diese im Folgenden in einer Tabelle zusammengefasst. Zusätzlich wird ein Verweis auf das Design bzw. Konzept und die jeweilige Implementierung angefügt.
+Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) Anforderungen werden diese im Folgenden in einer Tabelle zusammengefasst.
 \\
 \\
-\setlength{\tabcolsep}{0.5em} % for the horizontal padding
-{\renewcommand{\arraystretch}{1.5}% for the vertical padding
-\begin{tabularx}{\textwidth}{ | l | l | c | }
-	\hline	
+%\setlength{\tabcolsep}{0.5em} % for the horizontal padding
+% {\renewcommand{\arraystretch}{1.5}% for the vertical padding
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{ | l | l | c | }
+	\hline
 	ID & Anforderung & Typ
 	\\
-	\specialrule{.1em}{.1em}{.1em}
+	\hline
 	01 & Identifizieren von 'Intent', 'Action', 'State' und 'Result' & fa
 	\\
 	\hline	
@@ -105,6 +102,7 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 	\\
 	\hline
 	03 & Überprüfung des Zustands als unveränderliche Datenstruktur & fa
+	\\
 	\hline
 	04 & Bereitstellung eines 'Reducers' & fa
 	\\
@@ -127,20 +125,20 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 	10 & Asynchrone Ausführung & fa
 	\\
 	\hline
-	11 & Dogmatisches Framework & fa
+	11 & Dogmatisches Framework & na
 	\\
 	\hline
-	12 & Unidirektionaler Datenfluss & fa
+	12 & Unidirektionaler Datenfluss & nfa
 	\\
 	\hline
-	13 & Kotlin spezifische Implementierung & fa
+	13 & Kotlin spezifische Implementierung & nfa
 	\\
 	\hline
-	14 & Reaktiv & Funktional & fa
+	14 & Reaktiv \& Funktional & nfa
 	\\
 	\hline
-\end{tabularx}
-}
+\end{tabular}
+\endgroup
 
 \subsection{Begutachtung bestehender MVI-Frameworks/Bibliotheken}
 In diesem Kapitel wird ein Blick auf bereits bestehende MVI-Frameworks/Bibliotheke geworfen.

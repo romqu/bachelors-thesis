@@ -18,6 +18,7 @@ Es besteht aus drei Komponenten mit folgenden Funktionen:
 	\centering
 	\includegraphics[height=0.5\textwidth]{./images/mvc-diagram.png}
 	\caption{Model-View-Controller}
+	\caption*{https://cycle.js.org/model-view-intent.html}
 	\label{fig:mvc}
 \end{figure}
 \clearpage
@@ -25,8 +26,23 @@ Es besteht aus drei Komponenten mit folgenden Funktionen:
 \subsubsection{Mode-View-Presenter}
 Das nächste im Bunde ist Model-View-Presenter (MVP) aus dem Jahre 1996.
 \cite{modelViewPresenterTheTaligentMikePotel1996, modelViewPresenterMartinFowler2006}
+Es kann als die erste Iteration von MVC betrachtet werden, birgt dabei allerdings ein paar wesentliche 
+Unterschiede. Genau wie sei Vorreiter wird es aus drei Komponenten zusammengesetzt:
 
-\subsubsection{Model-View-ViewModel}
+\begin{itemize}
+	\item \textbf{Model}: Es beinhaltet die Business Objekte und Logik die für die Ansicht von Relevanz sind. Sie kann zuständig sein für Zugriffe auf die Datenbank, das Dateisystem und Netzwerk (oft Rest API). Es hat keine direkten Zugriff auf den 'Presenter' oder due 'View'.
+	\item \textbf{View}: Sie ist ausschließlich für die Darstellung des UI und für die Interaktion mit dem Nutzer zuständig. Sie hat keine direkten Zugriff auf den 'Presenter' oder das 'Model'.
+	\item \textbf{Presenter}: Er beinhaltet die Business Logik der Anwendung und steht mit der 'View' und dem 'Model' im Austausch. Als Bindeglied steuert er die Abläufe zwischen den Beiden.
+\end{itemize}
+Der gravierende Unterschied zu MVC besteht darin, dass das 'Model' nichts von der 'View' weiß und andersrum genauso. Der 'Presenter' kontrolliert die 'View', welche jegliche Ereignisse an den 'Presenter' weiterleitet. Erreicht wird diese durch die Verwendung von Interfaces bzw. Verträgen zwischen den Schichten. Damit erhält keine der Komponenten die konkrete Implementation dieser, sonder eine Abstraktion. Dies führt zu einer verbesserten Modularität, da die Komponenten zu jeder Zeit ausgetauscht werden können, solange der Vertrag 'erfüllt' wird.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[height=0.45\textwidth]{./images/mvp-vs-mvc.png}
+	\caption{MVC vs. MVP}
+	\caption*{Source: https://i.imgur.com/xbeB5.png}
+	\label{fig:mvc}
+\end{figure}
+\clearpage
 
 \subsection{Historie \& Grundlegendes}
 Model-View-Intent (MVI) ist eine weiteres Entfursmuster, welches der Feder von André (Medeiros) Staltz entstammt. Er stellte dieses auf einer Javascript Konferenz im Jahre 2015 vor
@@ -139,7 +155,10 @@ Schaut man sich die Model-Funktion in Beispiel \ref{lst:pseudo-reactive-mvi} und
 	\item Die Funktion erzeugt ein neues Model
 	\item Die Funktion gibt das neue Model zurück
 \end{enumerate}
-Der einzige Schritt der Fehlt, ist die Bereitstellung des derzeitigen oder des vorherigen Models. Hier kommt eine Komponente ins Spiel, die bereits in Kapitel \ref{subsec:redux} angesprochen wurde: der Reducer.
+Der einzige Schritt der Fehlt, ist die Bereitstellung des derzeitigen oder des vorherigen Models. Hier kommt eine Komponente ins Spiel, die bereits in Kapitel
+\ref{subsec:redux} 
+angesprochen wurde: der Reducer. Er ist für genau den oben aufgeführten Prozess zuständig und der Platz, an dem das Model verändert wird.
+
 \subsection{Endlicher Automat}
 Wenn der in der Model-Funktion ausgeführte Code eine neues Model hervorbringt, so bleibt der Zustand entweder der Gleiche oder er verändert sich. Unabhängig davon geht der Zustand in den selbigen oder in einen neuen Zustand über: es kommt zu einem sogenannten Zustandsübergang. Aber nicht nur das lässt sich aus dem gezeigten Beispiel ableiten; es sind noch weitere Schlussfolgerungen zulässig:
 \\

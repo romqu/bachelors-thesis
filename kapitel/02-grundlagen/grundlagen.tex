@@ -135,6 +135,7 @@ Insgesamt kann gesagt werden, dass das Anwenden von funktionalen Konzepten auch 
 Zuletzt sollte noch erwähnt werden, dass am Ende immer imperativer Code steht. Funktionale Programmierung stellt eine Abstraktion dar und ist intern imperativ.
 
 \subsection{Reaktive Programmierung}
+\label{subsec:reaktive-programmierung}
 Heutige Anwendungen müssen viele Ereignisse in scheinbar willkürlicher Reihenfolge verarbeiten: Ein Klick eines Nutzer, eine Fehlermeldung, Speichern im Dateisystem, Kommunikation mit dem Netzwerk, aktualisieren der Benutzeroberfläche usw. Auf jedes dieser Ereignisse muss das Programm reagieren, und dabei immer Ansprechbar bleiben. Hierfür ist es Notwendig den Code asynchron zu schreiben, d.h. ohne das andere Prozeduren blockiert werden.
 \\\\
 Ein bekannte Methode stellt hierbei die Verwendungen von sogenannten Rückruffunktion ('Callbacks') dar, welches ein gern genutztes Mittel in der imperativen Welt ist. Leider führt diese Variante meist zu einer 'Callback Hell' und tief verschachtelten, unübersichtlichen Code. Dazu existieren vielfältige Verbesserungen, die alle eins Gemeinsam haben: sie reagieren (auf etwas).

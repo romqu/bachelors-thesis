@@ -1,9 +1,9 @@
 \section{Prototypische Implementierung}
 \label{sec:prototypische-implementierungt}
-In diesem Kapitel ...
+In diesem Kapitel findet auf Basis des zuvor angefertigten Konzepts eine prototypische Implementierung statt. Zu Beginn wird dabei auf Entscheidungen eingegangen, die globalen Einfluss auf die Umsetzungen haben.
 
 \subsection{Grundlegende Entscheidungen}
-Bevor auf Entscheidungen eingegangen wird ...
+In diesem Teil werden Themen besprochen, die Auswirkungen auf den weiteren Verlauf der Implementation haben.
 
 \subsubsection{Android als Plattform}
 Das Framework richtet sich ausschließlich an Entwickler die Applikationen für die Plattform Android entwickeln. Es ist damit nicht kompatibel zu iOS, dem Web oder serverseitigen Anwendungen. Die Spezialisierung lässt es jedoch zu, besser auf mögliche Eigenheiten der Plattform einzugehen. Ein weiterer Grund für diese Entscheidung stellt die Tatsache dar, dass MVI seinen Anfang in der Entwicklung von Webseiten fand und erst später seinen Einzug in Android erhielt.
@@ -249,7 +249,7 @@ for ((key, value) in map) {
 	// .... 
 }
 \end{lstlisting}
-Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen von jedem Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es - entsprechend Listing 
+Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen jeden Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es - entsprechend Listing 
 \ref{lst:filtern}
 - aus der Liste gelöscht.
 \begin{lstlisting}[caption={Filtern}, label={lst:filtern}, language=Kotlin] 
@@ -258,9 +258,58 @@ members.filter { property ->
 }
 \end{lstlisting}
 \bigskip
-Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Mit der Reflexion API wird dies über die 'KMutableProperty<*>' Klasse signalisiert. Diesem schließt sich die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine 'MutableList' in Kotlin, welcher Elemente direkt hinzugefügt oder entfernt werden können.
+im weiteren Verlauf herausgefiltert. 
 \\\\
-Die beide Funktionen 'findMutableProperties' und 'isSubtypeMutable' werden gemeinsam in der Klasse 'KClassUtil' untergebracht.
+Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Mit der Reflexion API wird dies über die 'KMutableProperty<*>' Klasse signalisiert. Diesem schließt sich die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine 'MutableList' in Kotlin, welcher Elemente direkt hinzugefügt oder entfernt werden können. Für jeden Fund wird eine Fehlermeldung erzeugt, die angibt welches Attribut betroffen ist. Diese wird an die vorherige Fehlermeldung angeheftet und zum Schluss im Gesamten als 'String' zurückgegeben.
+Hierfür muss die Liste in einer Schleife durchlaufen werden und in jedem Durchlauf die bisherigen Fehlermeldung in Form eines 'String' bereitstellen. 
+\\\\
+Eine Möglichkeit wäre die Standard 'for' Schleife in Kombinationen mit einer veränderlichen String Variable. Dies ist jedoch nicht dem Ziel der Fokussierung auf funktionale Konzepte vereinbar und ist daher keine Option. Zur Hilfe kommt die 'fold' Methode: Sie summiert den Wert, welcher mit einem Anfangswert festgelegt wird, und führt auf Basis einer Funkion und dem letzten Wert eine Operationen aus, die immer als Rückgabewert den Typ des Anfangswert hat. Zuletzt gibt sie den summierten Wert zurück.
+\\\\
+In diesem Fall ist der anfängliche Wert einer leerer 'String', an den Fehlermeldungen angehängt werden können. Dabei wird nicht der String selbst verändert, sonder es wird eine Kopie erzeugt. 'String' ist von Haus aus 'Unveränderlich'. Darauf folgt die Funktionen, die die oben aufgeführten Schritte umsetzt. Ihr erster Parameter ist 'errorMessage' und entspricht dem Typ des Anfangswert (hier: String). Der zweite, 'property', ist vom Typ 'KCallable<*>' und bezeichnet einen Wert aus der Liste 'members'. Es ist ein Attribut des Zustands das überprüft werden soll.
+\\\\
+Im Funktionskörper befindet sich eine 'when' Expression die ist zu erst abfragt, inwiefern es sich um eine 'KMutableProperty' Klasse handelt. Trifft dies zum, so wird eine temporäre Fehlerbeschreibung erstellt und mitsamt des Attributs an die nächste Funktion weitergereicht. Diese schaut mittels 'property.isSubtypeOf(MutableList::class)' bspw. ob es sich um eine ''MutableList' handelt. 'isSubtypeOf' entstammt nach Listing
+\ref{lst:kcallableutil}
+der 'KCallableUtil' Klasse und nimmt die Überprüfung des Subtypen vor.
+\begin{lstlisting}[caption={KCallableUti}, label={lst:kcallableutil}, language=Kotlin]
+internal fun KCallable<*>.isSubtypeOf(clazz: KClass<*>)
+	: Boolean = returnType.isSubtypeOf(clazz.starProjectedType)
+\end{lstlisting}
+\bigskip
+Der Zugriffsmodifikator 'internal' beschränkt den Anwendungsbereich der Funkion auf das Framework selbst und kann nicht vom Entwickler in Anspruch genommen werden.
+\\\\
+Finde auch diese Funktionen ein veränderliches Attribut, so wird die überreichte temporäre Fehlerbeschreibung um eine weitere erweitert und der 'fold' Methode zurückgegeben. Dieser wird dann wieder im nächsten Durchlauf bereitgestellt bis die Liste abgearbeitet wurde.
+\begin{lstlisting}[caption={fold}, label={lst:fold}, language=Kotlin]
+
+.fold("") { errorMessage: String, property: KCallable<*> ->
+	when (property) {
+		is KMutableProperty<*> -> {
+			val tmpErrorMessage = "$errorMessage\n${property.name} 
+				is not allowed to be 'var'"
+			isSubtypeMutable(property, tmpErrorMessage)
+		}
+		
+		else -> isSubtypeMutable(property, errorMessage)
+	}
+}
+
+fun isSubtypeMutable(property: KCallable<*>, 
+					errorMessage: String)
+	 =	when {
+		property.isSubtypeOf(MutableList::class) ->
+			"$errorMessage\n${property.name} is 
+			 not allowed to be mutable"
+	
+		property.isSubtypeOf(Function::class) ->
+			"$errorMessage\n${property.name} 
+			is not allowed to be a function"
+	
+		else -> errorMessage
+}
+
+\end{lstlisting}
+\bigskip
+Aufgrund der Tatsache, dass der Subtyp in beiden Fällen im 'when' Ausdruck verifiziert wird, wurde diese Logik in eine Methode mit dem Name 'isSubtypeMutable' ausgelagert.
+\\\\ 
 \subsubsection{StateManager}
 \label{subsubsec:state-manager}
 Die oben aufgeführte Implementierung für die Überprüfung der Klasse für den Zustand findet ihren Platz in der in der in Kapitel
@@ -283,6 +332,8 @@ class StateManager<S : MviState>(
 }
 \end{lstlisting}
 Dabei beschreibt das 'S' den generischen Part und der Doppelpunkt Notation sagt aus, dass das Objekt, welches für 'S' eingesetzt wird 'MviState' implementieren muss. Die 'state' Variable ist aufgrund des vorangestellten 'private' nur innerhalb Klasse selbst sichtbar. Um die geforderte Eigenschaft der Mutation zu entsprechen, wird 'var' verwendet. 
+\\\\
+Im 'init' Block des 'StateManager' kommt die 'findMutableProperties' Erweiterungsmethode dann zum Zuge. Ist der erhaltende 'String' nicht leer, so wird eine 'IllegalStateException', mit dem 'String' als Inhalt, geworfen und das Programm beendet.
 \\\\
 Für die Umsetzung der 'setNewState' Methode ist zu beachten, dass diese die Eigenschaft der 'Threadsicherheit' erfüllen muss. Um das zu erreichen, wird auf die 'synchronized' Funktion gesetzt, welche ein Objekt als 'Lock' nutzt. Jeglicher Code der sich innerhalb dieses Blocks befindet, kann nur von einem 'Thread' zurzeit ausgeführt werden. Bevor der 'Thread' diesen Bereich betritt, muss er vom zugehörigen Objekt einen 'Lock' anfordern. Sollte dieser in Verwendung sein, so muss der 'Thread' warten bis der 'Lock' wieder frei ist. 
 \\\\
@@ -377,10 +428,11 @@ Von diesem 'ObservableTransformer' erbt die 'MviActionTransformer' Klasse und mu
 \ref{lst:mvi-transformer-def}
 \begin{lstlisting}[caption={MviActionTransformer Definition}, label={lst:mvi-transformer-def},
 language=Kotlin]
-abstract class MviActionTransformer<S : MviState, A : MviAction, R : MviResult> 
+abstract class MviActionTransformer<S : MviState, A : MviAction, 
+	R : MviResult> 
 \end{lstlisting}
 \bigskip
-wird vom dem zudem vom'abstract' Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der 'apply' Methode von Nöten. Dies wird erst in den vom 'MviActionTransformer' abstammenden Klassen verlangt.
+wird vom dem zudem vom 'abstract' Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der 'apply' Methode von Nöten. Dies wird erst in den vom 'MviActionTransformer' abstammenden Klassen verlangt.
 \\\\
 Im nächsten Schritt wird genau wie im 'StateManager' zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein 'Observable' verwendet wird. Im ersten Anlauf ergeben sich dafür zwei Optionen:
 \begin{enumerate}
@@ -801,6 +853,6 @@ eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer beg
 aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der 
 Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur 
 einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies 
-einen Zustand enthalten kann.
-Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss.
-\\
+einen Zustand enthalten kann. Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss und nicht über mehrere verstreut sein darf.
+\\\\
+Der hier aufgeführte Ansatz kann dabeu ebenfalls für alle Actions und Results verwendet werden.

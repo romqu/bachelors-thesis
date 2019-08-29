@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
+In diesem Kapitel werden die einzelnen Anforderungen betrachte und auf die Vollständigkeit ihrer Implementation untersucht.
 
-\\\\
 \subsection{Verwalten des Zustands}
 Durch den 'StateManager' Klasse ist diese Anforderung zu großen Teilen abgedeckt. Ein neuer Zustand kann ausschließlich indirekt unter sicheren Bedingungen gesetzt werden. Des weiteren steht Funktionalität für den Zugriff auf den Zustand zur Verfügung, ohne dabei eine Änderung am Original vornehmen zu können. Ein interessanter Zusatz wäre die Option den Zustand observieren lassen zu können und jedem Beobachter über eine Änderung zu informieren. Damit bestände die Möglichkeit, durch eine Modifikation am Zustand ohne größeren Aufwand anderweitige Logik ausführen zu lassen. Dadurch würde das Framework ebenfalls zusätzlich an Reaktivität gewinnen.  
 
@@ -38,7 +38,7 @@ Damit ist die Anforderung zwar erfüllt, bietet aber dennoch Potential für eine
 \subsection{Trennung von Business und Ansicht Logik}
 Durch die Kombination aus 'MviActionTransformer', 'MviController' und 'MviView' erfolgt die Implementierung und Ausführung der Business Logik strikt von der Ansicht Logik getrennt. Zudem ist der Zugriff auf den Zustand nur innerhalb des 'MviActionTransformer' gestattet, in welchem auch die Business Logik residiert. 
 \\\\
-Das Konzept bietet eine guten Ansatz, verliert durch die Anwendung von Reflexion jedoch an Robustheit. Auch in diesem Fall kann über den Einsatz von Code Generierung nachgedacht werden.
+Das Konzept bietet eine guten Ansatz, verliert durch die Anwendung von Reflexion jedoch an Robustheit. Auch in diesem Fall kann über den Einsatz von Code Generierung nachgedacht werden. Des weiteren wird nicht überprüft, inwieweit 'Action' und 'Result' im 'MviActionTransformer' übereinstimmen.
 
 \subsection{Handhabung von Seiteneffekten}
 Seiteneffekte werden im Framework nicht als solche gekennzeichnet oder gar besonders behandelt, sondern stellen die Standardmäßige Erwartung der Ausführung dar. In vielen Fällen findet eine Operation asynchron statt, in der Zugleich meist eine Form von I/O involviert ist. Das Framework nimmt dafür die 'Observable' Klasse und den Operator 'flatMap' zur Hand.
@@ -64,3 +64,5 @@ Das Framework macht Gebrauch von reaktiven und funktionalen Konzepten: Observer 
 
 \subsection{Kotlin spezifische Implementierung}
 Das Framework ist in Kotlin geschrieben und nutzt eine Vielzahl der bereitgestellten Konzepte, darunter Erweiterungsfunktionen, 'inline' für Funktionen und natürlich Funktionen höherer Ordnung. Diese Art der Implementierung wäre in Java nicht möglich gewesen und ist damit Kotlin spezifisch.
+
+
