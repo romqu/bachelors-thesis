@@ -15,13 +15,13 @@ entwickelt, die untere anderem die Entwicklungsumgebung Intellij für Java produ
 Kotlin hat in den letzten Jahren an Bodenhaftung gewonnen und findet auch intern bei Google Verwendung.
 \\
 Die Sprache wird als statisch typisierte, objektorientierte Programmiersprache bezeichnet und verfügt über eine hohe Interoperabilität zu Java. Dies bedeutet, dass innerhalb eines in Java geschriebenen Programms ohne viel Aufwand Kotlin genutzt werden kann. Dies ist ein wichtiger Faktor für die immer weiter ansteigende Beliebtheit, da es eine einfache Integration für bisherige Projekte gestattet. 
-Kotlin bringt eine verbesserte Syntax mit und macht beispielsweise die Verwendung von 'null' explizit.
+Kotlin bringt eine verbesserte Syntax mit und macht beispielsweise die Verwendung von »null« explizit.
 Zu den Verbesserungen gehören dabei auch:
 \\
 \begin{itemize}
 	\item Ableitung von Typen
 	\item Alles ist eine Expression 
-	\item Funktionen sind 'First-Class-Objekte' und bilden eine funktionale Grundlage
+	\item Funktionen sind »First-Class-Objekte« und bilden eine funktionale Grundlage
 	\item Datenklassen machen den Umgang mit unveränderliche Datenstrukturen einfach
 	\item Erweiterungsfunktionen
 	\item Kovarianz und Kontravarianz werden explizit anwendet
@@ -68,18 +68,18 @@ newExample.extensionFunction { "Hello" }
 \bigskip
 Insgesamt is anhand Listing
 \ref{lst:kotlin-beispiel}
-zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen 'Boilerplate-Codes' und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten 'Nullpointer-Exception' retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bswp. Listen zum Einsatz kommen.
+zu erkennen, das Kotlin eine deutlich prägnantere und schlankere Syntax besitzt. Sie vermeidet damit einen großen Teil des mit Java verbundenen »Boilerplate-Codes« und kann für eine höheren Grad an Produktivität sorgen. Besonders der Umgang von Null als Teil des Typsystems kann vor der berühmten »Nullpointer-Exception« retten. Des weiteren besteht ein größerer Fokus auf dem Einsatz von Konzepten aus der funktionalen Programmierung, welche durch Erweiterungsfunktionen für bspw.. Listen zum Einsatz kommen.
 
 \subsection{Funktionale reaktive Programmierung mit RxJava und RxKotlin}
 Die Implementierung des Obervers und Iterator Patterns mit dazugehörigen Operatoren, die Einhaltung von funktionalen Paradigmen und die Berücksichtigung von asynchroner als auch paralleler Ausführung von Funktionalität (und deren Synchronisierung) ist eine äußerst komplexe Herausforderung, die viel Erfahrung und Zeit erfordert. Deshalb wird in diesem Fall auf eine bereits bestehende Implementierung zurückgegriffen, die in der Android Entwicklung oft zur Anwendung kommt: RxJava.
 \\\\
-Diese Bibliothek ist eine Implementierung der 'Reactive Extension' API, welche für viele Plattformen und Programmiersprachen verfügbar ist. Sie hat ihrem Ursprung in '.NET/C\#' aus dem Hause Microsoft. Sie arbeitet genau wie die Java Stream API auf der Basis von Datenströmen und stellt dafür ein Fülle an Operatoren zur Verfügung.
+Diese Bibliothek ist eine Implementierung der »Reactive Extension« API, welche für viele Plattformen und Programmiersprachen verfügbar ist. Sie hat ihrem Ursprung in ».NET/C\#« aus dem Hause Microsoft. Sie arbeitet genau wie die Java Stream API auf der Basis von Datenströmen und stellt dafür ein Fülle an Operatoren zur Verfügung.
 \\\\
-Zusätzlich zu 'RxJava' existiert eine 'DSL' die Kotlin agnostisch ist: RxKotlin.
+Zusätzlich zu »RxJava« existiert eine DSL (»Domain Specific Language«) die Kotlin agnostisch ist: »RxKotlin«.
 Anhand Listing
 \ref{lst:rx-beispiel}
 soll der Umgang mit dieser Bibliothek in einem für den weiteren Verlaufen relevanten Umfang dargelegt werden.
-\begin{lstlisting}[caption={'RxJava/Kotlin Beispiel}, label={lst:rx-beispiel}, language=Kotlin]
+\begin{lstlisting}[caption={RxJava/Kotlin Beispiel}, label={lst:rx-beispiel}, language=Kotlin]
 // Erstellung eines Observables
 val observable = Observable.just("Hello")
 
@@ -89,14 +89,14 @@ observavble
 	}.subscribe(::println)
 \end{lstlisting}
 
-\subsection{Zustand (State) und der 'StateManager'}
+\subsection{Zustand (State) und der StateManager}
 Ähnlich wie bei Redux nimmt das Model in MVI und somit der Zustand die zentral Rolle innerhalb der Anwendung ein. Es diktiert das User Interface (UI) und hat wesentlichen Einfluss auf die ausführende Business-Logik.
 \\
 \\
 Für die Repräsentation des Models gibt MVI vor, das dieses unveränderlich sein muss. Dies wiederum hat zur Folge, dass für jede Zustandsüberführung ein neues Model auf Basis des alten bzw. derzeitigen erzeugt werden muss. Hierfür wird der Zustand kopiert und während diesem optionalem Vorgang mit neuen Werten versehen. 
 \\
 \\
-Für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess stark vereinfacht: Die 'data' Klasse. Sie generiert unterschiedliche Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem die Methode 'copy'. Wie der Name vermuten lässt, erzeugt sie eine Kopie der Klasse. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor der Klasse inne hat. Dies macht es möglich einzelne Attribute neu zu besetzten und bei den übrigen den derzeitigen Wert beizubehalten. Wie Listing
+Für dieses Szenario stellt Kotlin eine Struktur zur Verfügung, welche den Prozess stark vereinfacht: Die »data« Klasse. Sie generiert unterschiedliche Methoden welche dem Nutzer ohne weiteres Zutun zur Verfügung stehen. Darunter befindet sich unter anderem die Methode »copy«. Wie der Name vermuten lässt, erzeugt sie eine Kopie der Klasse. Dabei können der Methode die Parameter übergeben werden, welche der Konstruktor der Klasse inne hat. Dies macht es möglich einzelne Attribute neu zu besetzten und bei den übrigen den derzeitigen Wert beizubehalten. Wie Listing
 \ref{lst:data-class}
 aufzeigt, gestaltet das den Umgang mit unveränderlichen Klassen verhältnismäßig einfach.
 \begin{lstlisting}[caption={data class}, label={lst:data-class}, language=Kotlin]
@@ -109,9 +109,9 @@ val myClass = MyClass("text", "anotherText")
 val newMyClass = myClass.copy(text = "newText")
 \end{lstlisting}
 \bigskip
-Eine Problematik die herbei jedoch besteht ist, dass bei der 'data' Klasse unveränderliche Attribute (= val) keine Pflicht darstellen. Somit wäre es dem Entwickler ohne weiteres Möglich, die Instanz direkt zu modifizieren, ohne ein neue zu erzeugen müssen. Um das zu verhindern gilt es sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen der Unveränderlichkeit entspricht. Für diesen Zweck kann aus zwei 'Werkzeugen' gewählt werden: Der Reflexion (oder Introspektion) und dem Generieren von Code.  
+Eine Problematik die herbei jedoch besteht ist, dass bei der »data« Klasse unveränderliche Attribute (= val) keine Pflicht darstellen. Somit wäre es dem Entwickler ohne weiteres Möglich, die Instanz direkt zu modifizieren, ohne ein neue zu erzeugen müssen. Um das zu verhindern gilt es sicherzustellen, dass das vom Entwickler angedachte Model den Anforderungen der Unveränderlichkeit entspricht. Für diesen Zweck kann aus zwei »Werkzeugen« gewählt werden: Der Reflexion (oder Introspektion) und dem Generieren von Code.  
 \subsubsection{Reflexion (Introspektion)}
-Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschrankungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Modifier, Variablen, Konstruktoren, Methoden, Annotationen (= reflektive Informationen) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
+Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struktur - zur Laufzeit - zu analysieren oder auch zu verändern (und Sichtbarkeitseinschränkungen zu umgehen). Es gestattet einem, Informationen über Klassen dynamisch auszulesen. Das beinhaltet Zugriffsmodifikatoren, Variablen, Konstruktoren, Methoden, Annotationen (= Metadaten) usw. Reflexion hat dabei vielfältige Anwendungszwecke:
 \begin{enumerate}
 	\item Debugger
 	\item Interpreter
@@ -120,10 +120,10 @@ Bei dieser Variante ist es dem ausführenden Programm erlaubt seine eigene Struk
 	\item Java Beans
 \end{enumerate}
 \bigskip
-In Kotlin muss beachtet werden, dass zwei Schnittstellen für den Einstieg in die Reflexion existieren. Einmal die Standard Schnittstelle für Java, und einmal jene für Kotlin. Erstere erlaubt die Arbeit mit allen Java Konstrukten und zweitere die, die Kotlin exklusiv sind. Für jede Klasse existiert zur Laufzeit ein Objekt des Typs 'Class<T>' oder KClass<T>. T ist dabei der Typ der zu untersuchenden Klasse.
+In Kotlin muss beachtet werden, dass zwei Schnittstellen für den Einstieg in die Reflexion existieren. Einmal die Standard Schnittstelle für Java, und einmal jene für Kotlin. Erstere erlaubt die Arbeit mit allen Java Konstrukten und zweitere die, die Kotlin exklusiv sind. Für jede Klasse existiert zur Laufzeit ein Objekt des Typs »Class<T>« oder KClass<T>. T ist dabei der Typ der zu untersuchenden Klasse.
 \\
 \\
-Für den Zugriff auf die Java Reflexion muss auf die '.java' Endung zurückgegriffen werden, wie folgendes Beispiel verdeutlicht:
+Für den Zugriff auf die Java Reflexion muss auf die ».java« Endung zurückgegriffen werden, wie folgendes Beispiel verdeutlicht:
 \begin{lstlisting}[caption={Java Reflexion}, label={lst:data-class}, language=Kotlin]
 
 val myClass: Class<MyClass> = MyClass::class.java
@@ -132,7 +132,7 @@ val myClass: Class<MyClass> = MyClass::class.java
 myClass.methods.forEach(::println)
 \end{lstlisting}
 \bigskip
-In Kotlin wird über den 'double-colon' Operator auf die Reflexion zugegriffen:
+In Kotlin wird über den »double-colon« Operator auf die Reflexion zugegriffen:
 \begin{lstlisting}[caption={Kotlin Reflexion}, label={lst:data-class}, language=Kotlin]
 
 val myClass: KClass<MyClass> = MyClass::class
@@ -144,7 +144,7 @@ println(myClass.qualifiedName)
 println(myClass::text.isConst)
 \end{lstlisting}
 \bigskip
-Eine weiterer, durchweg interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit '@' eingeleitet werden. So wird mit der 'override' Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
+Eine weiterer, durchweg interessanter Ansatz ist die Arbeit mit sogenannten Metadaten. Sie stellen Information über Informationen dar. Ein häufiger Anwendungsfall ist die Arbeit mit Annotationen, welche mit »@« eingeleitet werden. So wird mit der »override« Annotation dem Compiler in Java mitgeteilt, dass diese Methode überschrieben wurde:
 \begin{lstlisting}[caption={Override Annotation}, label={lst:data-class}, language=Kotlin]
 
 class MyClassJava {
@@ -176,7 +176,7 @@ Anhand der Beispiele lässt sich erahnen, dass Reflexion beträchtlichen Einflus
 Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Reflexion auf das notwendige Maß beschränkt werden sollte, da es grundlegende Prinzipien der typisierten Programmierung verletzt.
 
 \subsubsection{Code Generation}
-Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt. Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf '.json' Dateien.
+Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt. Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf ».json« Dateien.
 \\
 \\
 Mithilfe der Bibliothek "KotlinPoet" kann durch folgenden Code...
@@ -196,43 +196,43 @@ fun add(a: Int, b: Int = 0) {
 	print("a + b = ${ a + b }")
 }
 \end{lstlisting}
-welcher in einer '.kt' abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
+welcher in einer ».kt« abgelegt wird. Auf diese Funktion haben sämtliche Klassen zugriff.
 \subsubsection{Überprüfung durch Reflexion}
 Um die Wartung von generiertem Code, den Aufwand der Implementierung und damit einhergehenden Zeitaufwand zu umgehen, fällt die Entscheidung auf Reflexion. 
 \\\\
-Im ersten Schritt muss verifiziert werden, dass es sich bei der Klasse für den Zustand um eine 'data' Klasse handelt. Hierfür bietet die Kotlin Reflexion API ein Attribut:
-\begin{lstlisting}[caption={Kotlin 'isData' Attribut}, label={lst:data-class}, language=Kotlin]
+Im ersten Schritt muss verifiziert werden, dass es sich bei der Klasse für den Zustand um eine »data« Klasse handelt. Hierfür bietet die Kotlin Reflexion API ein Attribut:
+\begin{lstlisting}[caption={Kotlin »isData« Attribut}, label={lst:data-class}, language=Kotlin]
 data class DataClass
 
 println(DataClass()::class.isData) // true
 \end{lstlisting}
 \bigskip
-Sollte diese Auswertung negativ ausfallen, so wird eine 'IllegalStateException' geworfen und dem Entwickler mitteilt, dass ohne eine 'data' Klasse nicht fortgefahren werden kann.
+Sollte diese Auswertung negativ ausfallen, so wird eine »IllegalStateException« geworfen und dem Entwickler mitteilt, dass ohne eine »data« Klasse nicht fortgefahren werden kann.
 \\\\ 
 Ist die Überprüfung jedoch erfolgreich, so muss im weiteren Vorgehen die einzelnen Attribute der Klasse auf ihre Unveränderlichkeit überprüft werden. Um dies zu erreichen, kann auf Basis folgender Schritte eine Implementierung stattfinden:
 \begin{enumerate}[label*=\arabic*.]
 	\item Liste sämtlicher Attribute der zu prüfenden Klasse erstellen
 	\item Filtern von nicht benötigten Attributen
-	\item In einer 'Schleife' 
+	\item In einer »Schleife« 
 	\begin{enumerate}[label*=\arabic*.]
-		\item Prüfen, inwiefern das Attribut 'var' als Zugriffsmodifikator verwendet wird
+		\item Prüfen, inwiefern das Attribut »var« als Zugriffsmodifikator verwendet wird
 			\subitem Bei Gebrauch zusätzlich den Typen auf Unveränderlichkeit prüfen
 		\item Typen auf Unveränderlichkeit prüfen
 		\item Eine Fehlernachricht generieren, mit den veränderlichen Attributsnamen
 	\end{enumerate}
 	\item Eine Fehlernachricht mit allen veränderlichen Attributen oder einen leeren Text zurückgeben
 \end{enumerate}
-Die Funktion zu Überprüfung wird dabei als Erweiterungsfunktion auf der Klasse 'KClass', Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte 'Wildcard' und sagt aus, das beliebige Typen möglich sind.
+Die Funktion zu Überprüfung wird dabei als Erweiterungsfunktion auf der Klasse »KClass«, Kotlins Klasse für Metadaten, realisiert. Diese besitzt einen generischen Parameter und erwartet einen Typ. Damit sie für alle Typen gültig ist, wird als Typ das Sternzeichen hinterlegt. Es handelt sich dabei um einen sogenannte »Wildcard« und sagt aus, das beliebige Typen möglich sind.
 \\\\
 Innerhalb der Erweiterungsfunktion erfolgt der Zugriff auf die Liste aller Attribute der Klasse (Listing
 \ref{lst:erweiterungsfunktion-kclass-01}).
-\begin{lstlisting}[caption={Erweiterungsfunktion 'KClass' mit Liste aller Attribute}, label={lst:erweiterungsfunktion-kclass-01}, language=Kotlin]
+\begin{lstlisting}[caption={Erweiterungsfunktion »KClass« mit Liste aller Attribute}, label={lst:erweiterungsfunktion-kclass-01}, language=Kotlin]
 internal fun KClass<*>.findMutableProperties(): String =
 	members // Liste mit allen Attributen
 	// ...
 \end{lstlisting}
 \bigskip
-Zu beachten ist dabei, dass bei der 'data' Klasse für jedes Attribut ein zusätzliches generiert wird, welches mit dem Wort 'component' beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Durch dieses kann das Verfahren der destrukturierenden Zuweisung angewandt werden. Hierbei können aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt werden. Dies ist z.B. nützlich, wenn eine Funktion zwei Werte zurückgeben, oder eine 'Map' mit Schlüssel und zugehörigem Wert gleichzeitig durchlaufen werden soll. Listing
+Zu beachten ist dabei, dass bei der »data« Klasse für jedes Attribut ein zusätzliches generiert wird, welches mit dem Wort »component« beginnt und am Ende eine Zahl von eins bis n (= Anzahl der Attribute) stehen hat. Durch dieses kann das Verfahren der destrukturierenden Zuweisung angewandt werden. Hierbei können aus dem Objekt Daten extrahiert und in (mehreren) Variablen abgelegt werden. Dies ist z.B. nützlich, wenn eine Funktion zwei Werte zurückgeben, oder eine »Map« mit Schlüssel und zugehörigem Wert gleichzeitig durchlaufen werden soll. Listing
 \ref{lst:destrukturierende-zuweisung}
 zeigt beide Anwendungsfälle.
 \begin{lstlisting}[caption={Destrukturierende Zuweisung}, label={lst:destrukturierende-zuweisung}, language=Kotlin]
@@ -249,7 +249,7 @@ for ((key, value) in map) {
 	// .... 
 }
 \end{lstlisting}
-Damit keine doppelte Überprüfung eines Attributs durch die 'componentN' Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen jeden Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es - entsprechend Listing 
+Damit keine doppelte Überprüfung eines Attributs durch die »componentN« Variable erfolgt, müssen diese vorher aus der Liste entfernt werden. Zu diesem Zweck wird eine Filter Methode angewandt, die den Namen jeden Attributs daraufhin untersucht. Entspricht es dem Suchmuster, so wird es - entsprechend Listing 
 \ref{lst:filtern}
 - aus der Liste gelöscht.
 \begin{lstlisting}[caption={Filtern}, label={lst:filtern}, language=Kotlin] 
@@ -260,24 +260,24 @@ members.filter { property ->
 \bigskip
 im weiteren Verlauf herausgefiltert. 
 \\\\
-Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort 'var' vorausgeht. Mit der Reflexion API wird dies über die 'KMutableProperty<*>' Klasse signalisiert. Diesem schließt sich die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine 'MutableList' in Kotlin, welcher Elemente direkt hinzugefügt oder entfernt werden können. Für jeden Fund wird eine Fehlermeldung erzeugt, die angibt welches Attribut betroffen ist. Diese wird an die vorherige Fehlermeldung angeheftet und zum Schluss im Gesamten als 'String' zurückgegeben.
-Hierfür muss die Liste in einer Schleife durchlaufen werden und in jedem Durchlauf die bisherigen Fehlermeldung in Form eines 'String' bereitstellen. 
+Daraufhin soll geschaut werden, inwiefern eine Variable vorliegt, welcher ein neuer Wert zugewiesen werden kann. Dies ist der Fall, wenn dem Namen der Variable das Schlüsselwort »var« vorausgeht. Mit der Reflexion API wird dies über die »KMutableProperty<*>« Klasse signalisiert. Diesem schließt sich die Überprüfung auf Unveränderlichkeit des Subtyps an. Darunter fällt beispielsweise eine »MutableList« in Kotlin, welcher Elemente direkt hinzugefügt oder entfernt werden können. Für jeden Fund wird eine Fehlermeldung erzeugt, die angibt welches Attribut betroffen ist. Diese wird an die vorherige Fehlermeldung angeheftet und zum Schluss im Gesamten als »String« zurückgegeben.
+Hierfür muss die Liste in einer Schleife durchlaufen werden und in jedem Durchlauf die bisherigen Fehlermeldung in Form eines »String« bereitstellen. 
 \\\\
-Eine Möglichkeit wäre die Standard 'for' Schleife in Kombinationen mit einer veränderlichen String Variable. Dies ist jedoch nicht dem Ziel der Fokussierung auf funktionale Konzepte vereinbar und ist daher keine Option. Zur Hilfe kommt die 'fold' Methode: Sie summiert den Wert, welcher mit einem Anfangswert festgelegt wird, und führt auf Basis einer Funkion und dem letzten Wert eine Operationen aus, die immer als Rückgabewert den Typ des Anfangswert hat. Zuletzt gibt sie den summierten Wert zurück.
+Eine Möglichkeit wäre die Standard »for« Schleife in Kombinationen mit einer veränderlichen String Variable. Dies ist jedoch nicht dem Ziel der Fokussierung auf funktionale Konzepte vereinbar und ist daher keine Option. Zur Hilfe kommt die »fold« Methode: Sie summiert den Wert, welcher mit einem Anfangswert festgelegt wird, und führt auf Basis einer Funkion und dem letzten Wert eine Operationen aus, die immer als Rückgabewert den Typ des Anfangswert hat. Zuletzt gibt sie den summierten Wert zurück.
 \\\\
-In diesem Fall ist der anfängliche Wert einer leerer 'String', an den Fehlermeldungen angehängt werden können. Dabei wird nicht der String selbst verändert, sonder es wird eine Kopie erzeugt. 'String' ist von Haus aus 'Unveränderlich'. Darauf folgt die Funktionen, die die oben aufgeführten Schritte umsetzt. Ihr erster Parameter ist 'errorMessage' und entspricht dem Typ des Anfangswert (hier: String). Der zweite, 'property', ist vom Typ 'KCallable<*>' und bezeichnet einen Wert aus der Liste 'members'. Es ist ein Attribut des Zustands das überprüft werden soll.
+In diesem Fall ist der anfängliche Wert einer leerer »String«, an den Fehlermeldungen angehängt werden können. Dabei wird nicht der String selbst verändert, sonder es wird eine Kopie erzeugt. »String« ist von Haus aus »Unveränderlich«. Darauf folgt die Funktionen, die die oben aufgeführten Schritte umsetzt. Ihr erster Parameter ist »errorMessage« und entspricht dem Typ des Anfangswert (hier: String). Der zweite, »property«, ist vom Typ »KCallable<*>« und bezeichnet einen Wert aus der Liste »members«. Es ist ein Attribut des Zustands das überprüft werden soll.
 \\\\
-Im Funktionskörper befindet sich eine 'when' Expression die ist zu erst abfragt, inwiefern es sich um eine 'KMutableProperty' Klasse handelt. Trifft dies zum, so wird eine temporäre Fehlerbeschreibung erstellt und mitsamt des Attributs an die nächste Funktion weitergereicht. Diese schaut mittels 'property.isSubtypeOf(MutableList::class)' bspw. ob es sich um eine ''MutableList' handelt. 'isSubtypeOf' entstammt nach Listing
+Im Funktionskörper befindet sich eine »when« Expression die ist zu erst abfragt, inwiefern es sich um eine »KMutableProperty« Klasse handelt. Trifft dies zum, so wird eine temporäre Fehlerbeschreibung erstellt und mitsamt des Attributs an die nächste Funktion weitergereicht. Diese schaut mittels »property.isSubtypeOf(MutableList::class)« bspw. ob es sich um eine »MutableList« handelt. »isSubtypeOf« entstammt nach Listing
 \ref{lst:kcallableutil}
-der 'KCallableUtil' Klasse und nimmt die Überprüfung des Subtypen vor.
+der »KCallableUtil« Klasse und nimmt die Überprüfung des Subtypen vor.
 \begin{lstlisting}[caption={KCallableUti}, label={lst:kcallableutil}, language=Kotlin]
 internal fun KCallable<*>.isSubtypeOf(clazz: KClass<*>)
 	: Boolean = returnType.isSubtypeOf(clazz.starProjectedType)
 \end{lstlisting}
 \bigskip
-Der Zugriffsmodifikator 'internal' beschränkt den Anwendungsbereich der Funkion auf das Framework selbst und kann nicht vom Entwickler in Anspruch genommen werden.
+Der Zugriffsmodifikator »internal« beschränkt den Anwendungsbereich der Funkion auf das Framework selbst und kann nicht vom Entwickler in Anspruch genommen werden.
 \\\\
-Finde auch diese Funktionen ein veränderliches Attribut, so wird die überreichte temporäre Fehlerbeschreibung um eine weitere erweitert und der 'fold' Methode zurückgegeben. Dieser wird dann wieder im nächsten Durchlauf bereitgestellt bis die Liste abgearbeitet wurde.
+Finde auch diese Funktionen ein veränderliches Attribut, so wird die überreichte temporäre Fehlerbeschreibung um eine weitere erweitert und der »fold« Methode zurückgegeben. Dieser wird dann wieder im nächsten Durchlauf bereitgestellt bis die Liste abgearbeitet wurde.
 \begin{lstlisting}[caption={fold}, label={lst:fold}, language=Kotlin]
 
 .fold("") { errorMessage: String, property: KCallable<*> ->
@@ -308,39 +308,39 @@ fun isSubtypeMutable(property: KCallable<*>,
 
 \end{lstlisting}
 \bigskip
-Aufgrund der Tatsache, dass der Subtyp in beiden Fällen im 'when' Ausdruck verifiziert wird, wurde diese Logik in eine Methode mit dem Name 'isSubtypeMutable' ausgelagert.
+Aufgrund der Tatsache, dass der Subtyp in beiden Fällen im »when« Ausdruck verifiziert wird, wurde diese Logik in eine Methode mit dem Name »isSubtypeMutable« ausgelagert.
 \\\\ 
 \subsubsection{StateManager}
 \label{subsubsec:state-manager}
 Die oben aufgeführte Implementierung für die Überprüfung der Klasse für den Zustand findet ihren Platz in der in der in Kapitel
 \ref{subsec:zustand-und-statemanager}
-vorgestellten 'StateManager' Klasse.
+vorgestellten »StateManager« Klasse.
 \\\\
-Bevor die Klasse implementiert werden kann, muss das 'MviState' Marker Interface wie in Listing
+Bevor die Klasse implementiert werden kann, muss das »MviState« Marker Interface wie in Listing
 \ref{lst:mvi-state-interface}
 definiert werden.
-\begin{lstlisting}[caption={'MviState' Interface}, label={lst:mvi-state-interface}, language=Kotlin]
+\begin{lstlisting}[caption={»MviState« Interface}, label={lst:mvi-state-interface}, language=Kotlin]
 interface MviState
 \end{lstlisting}
 \bigskip
-Nun erfolgt die Nutzung von diesem in der Definition des 'StateManager' und seinem Konstruktor mit dem 'state' Attribut:
-\begin{lstlisting}[caption={ 'StateManager' mit 'MviState'}, label={lst:state-manger-definiton}, language=Kotlin]
+Nun erfolgt die Nutzung von diesem in der Definition des »StateManager« und seinem Konstruktor mit dem »state« Attribut:
+\begin{lstlisting}[caption={ »StateManager« mit »MviState«}, label={lst:state-manger-definiton}, language=Kotlin]
 class StateManager<S : MviState>(
 	private var state: S
 ) {
 	// ....
 }
 \end{lstlisting}
-Dabei beschreibt das 'S' den generischen Part und der Doppelpunkt Notation sagt aus, dass das Objekt, welches für 'S' eingesetzt wird 'MviState' implementieren muss. Die 'state' Variable ist aufgrund des vorangestellten 'private' nur innerhalb Klasse selbst sichtbar. Um die geforderte Eigenschaft der Mutation zu entsprechen, wird 'var' verwendet. 
+Dabei beschreibt das »S« den generischen Part und der Doppelpunkt Notation sagt aus, dass das Objekt, welches für »S« eingesetzt wird »MviState« implementieren muss. Die »state« Variable ist aufgrund des vorangestellten »private« nur innerhalb Klasse selbst sichtbar. Um die geforderte Eigenschaft der Mutation zu entsprechen, wird »var« verwendet. 
 \\\\
-Im 'init' Block des 'StateManager' kommt die 'findMutableProperties' Erweiterungsmethode dann zum Zuge. Ist der erhaltende 'String' nicht leer, so wird eine 'IllegalStateException', mit dem 'String' als Inhalt, geworfen und das Programm beendet.
+Im »init« Block des »StateManager« kommt die »findMutableProperties« Erweiterungsmethode dann zum Zuge. Ist der erhaltende »String« nicht leer, so wird eine »IllegalStateException«, mit dem »String« als Inhalt, geworfen und das Programm beendet.
 \\\\
-Für die Umsetzung der 'setNewState' Methode ist zu beachten, dass diese die Eigenschaft der 'Threadsicherheit' erfüllen muss. Um das zu erreichen, wird auf die 'synchronized' Funktion gesetzt, welche ein Objekt als 'Lock' nutzt. Jeglicher Code der sich innerhalb dieses Blocks befindet, kann nur von einem 'Thread' zurzeit ausgeführt werden. Bevor der 'Thread' diesen Bereich betritt, muss er vom zugehörigen Objekt einen 'Lock' anfordern. Sollte dieser in Verwendung sein, so muss der 'Thread' warten bis der 'Lock' wieder frei ist. 
+Für die Umsetzung der »setNewState« Methode ist zu beachten, dass diese die Eigenschaft der »Threadsicherheit« erfüllen muss. Um das zu erreichen, wird auf die »synchronized« Funktion gesetzt, welche ein Objekt als »Lock« nutzt. Jeglicher Code der sich innerhalb dieses Blocks befindet, kann nur von einem »Thread« zurzeit ausgeführt werden. Bevor der »Thread« diesen Bereich betritt, muss er vom zugehörigen Objekt einen »Lock« anfordern. Sollte dieser in Verwendung sein, so muss der »Thread« warten bis der »Lock« wieder frei ist. 
 \\\\
-Um keine unnötige Zuweisung durchführen zu müssen, wird in einer 'if' Abfrage der neue mit dem aktuellen Zustand verglichen. Nur wenn ein Unterschied entdeckt besteht findet eine Zuweisung statt.
+Um keine unnötige Zuweisung durchführen zu müssen, wird in einer »if« Abfrage der neue mit dem aktuellen Zustand verglichen. Nur wenn ein Unterschied entdeckt besteht findet eine Zuweisung statt.
 Mit Listing
 \ref{lst:set-new-state}
-\begin{lstlisting}[caption={ 'setNewState' Methode}, label={lst:set-new-state}, language=Kotlin]
+\begin{lstlisting}[caption={ »setNewState« Methode}, label={lst:set-new-state}, language=Kotlin]
 private fun setNewState(newState: S) {
 
 	// "this" ist die aktuelle Instanz des "StateManager"
@@ -350,21 +350,21 @@ private fun setNewState(newState: S) {
 }
 \end{lstlisting}
 \bigskip
-kann darauf die 'reduce' Methode in den 'StateManager' integriert werden. Sie macht von Kotlins 'First-Class-Objekt' Eigenschaft Gebrauch, die es erlaubt, Funktionen als Übergabeparameter zu definieren. Listing
+kann darauf die »reduce« Methode in den »StateManager« integriert werden. Sie macht von Kotlins »First-Class-Objekt« Eigenschaft Gebrauch, die es erlaubt, Funktionen als Übergabeparameter zu definieren. Listing
 \ref{lst:reduce}
 macht dies Sichtbar.
-\begin{lstlisting}[caption={ 'reduce' Methode}, label={lst:reduce}, language=Kotlin]
+\begin{lstlisting}[caption={ »reduce« Methode}, label={lst:reduce}, language=Kotlin]
 fun reduce(reducer: (currentState: S) -> S) {
 	setNewState(reducer(state))
 }
 \end{lstlisting}
 \bigskip
-Die letzte Methode die zu Implementieren gilt ist 'map'. Im Gegensatz zu 'reduce' benötigt sie eine zweiten generischen Parameter '<R>', welcher im Zuge der Methoden Definition hinterlegt wird. Ihn zeichnet aus, das ihm mit 'T : Any' eine 'Upper-bounded wildcard' zugrunde liegt. Dies bestimmt, das jedes Objekt von 'Any' ('Object' in Java) abstammen muss und, viel wichtiger, nicht 'null' sein darf.
-Genau wie 'reduce' wird auch hier eine Funktion als Parameter genutzt.
-Letztendlich wird durch 'R' der Rückgabewert festgelegt, wie Listing
+Die letzte Methode die zu Implementieren gilt ist »map«. Im Gegensatz zu »reduce« benötigt sie eine zweiten generischen Parameter »<R>«, welcher im Zuge der Methoden Definition hinterlegt wird. Ihn zeichnet aus, das ihm mit »T : Any« eine »Upper-bounded wildcard« zugrunde liegt. Dies bestimmt, das jedes Objekt von »Any« (»Object« in Java) abstammen muss und, viel wichtiger, nicht »null« sein darf.
+Genau wie »reduce« wird auch hier eine Funktion als Parameter genutzt.
+Letztendlich wird durch »R« der Rückgabewert festgelegt, wie Listing
 \ref{lst:map}
 beweist.
-\begin{lstlisting}[caption={ 'map' Methode}, label={lst:map}, language=Kotlin]
+\begin{lstlisting}[caption={ »map« Methode}, label={lst:map}, language=Kotlin]
 fun <R : Any> map(mapper: (currentState: S) -> R): R {
 	return mapper(state)
 }
@@ -373,10 +373,10 @@ fun <R : Any> map(mapper: (currentState: S) -> R): R {
 Damit erfüllt diese Komponente alle Anforderung und ist vollends implementiert.
 
 \subsection{Intent, Action und das Result als Interfaces}
-Bevor die nächst größeren Klassen in Angriff genommen werden können, müssen ergänzend 'Marker' Interfaces für die im Titel stehenden Komponenten erstellt werden. Das einzige Interface, welches von einer einfachen 'Interface" Definition abweicht ist 'MviIntent'. Genau wie in Kapitel
+Bevor die nächst größeren Klassen in Angriff genommen werden können, müssen ergänzend »Marker« Interfaces für die im Titel stehenden Komponenten erstellt werden. Das einzige Interface, welches von einer einfachen »Interface« Definition abweicht ist »MviIntent«. Genau wie in Kapitel
 \ref{subsubsec:state-manager}
-wird ein generischer Typ mit einem 'Upper Bound' benutzt. In diesem Fall wird 'MviAction' angegeben.
-\begin{lstlisting}[caption={'Marker' Interfaces}, label={lst:marker-interfaces}, language=Kotlin]
+wird ein generischer Typ mit einem »Upper Bound« benutzt. In diesem Fall wird »MviAction« angegeben.
+\begin{lstlisting}[caption={»Marker« Interfaces}, label={lst:marker-interfaces}, language=Kotlin]
 interface MviAction
 
 interface MviIntent<A : MviAction> {
@@ -388,9 +388,9 @@ interface MviResult
 \end{lstlisting}
 
 \subsection{MviActionTransformer}
-Für diese Komponente wird etwas gesucht, dass sich in den Kreislauf auf Basis von 'RxJava' und 'Observables' einfügt, einen Wert erwartet und einen (anderen) zurückliefert. Außerdem soll es dafür dienen, die Busniess Logik 'sichtbar' zu trennen. Das Ziel ist daher die Transformation von Werten mittels Komposition von Funktionen.
+Für diese Komponente wird etwas gesucht, dass sich in den Kreislauf auf Basis von »RxJava« und »Observables« einfügt, einen Wert erwartet und einen (anderen) zurückliefert. Außerdem soll es dafür dienen, die Busniess Logik »sichtbar« zu trennen. Das Ziel ist daher die Transformation von Werten mittels Komposition von Funktionen.
 \\\\
-Hierfür bietet sich ein Interface namens 'ObservableTransformer' an, das die 'RxJava' Bibliothek zur bereitstellt. Dieses wird wie folgt definiert:
+Hierfür bietet sich ein Interface namens »ObservableTransformer« an, das die »RxJava« Bibliothek zur bereitstellt. Dieses wird wie folgt definiert:
 \begin{lstlisting}[caption={ObservableTransformer}, label={lst:observable-transformer}, language=Kotlin]
 public interface ObservableTransformer<Upstream, Downstream> {
 	/**
@@ -405,7 +405,7 @@ public interface ObservableTransformer<Upstream, Downstream> {
 		@NonNull Observable<Upstream> upstream);
 }
 \end{lstlisting}
-'Upstream' steht für den Wert, der am Anfang vorliegt und 'Downstream' für den, der am Ende herauskommen muss. Listing
+»Upstream« steht für den Wert, der am Anfang vorliegt und »Downstream« für den, der am Ende herauskommen muss. Listing
 \ref{lst:observable-transformer-usage}
 demonstriert, wie es die beschriebenen Anforderungen erfüllt.
 \begin{lstlisting}[caption={ObservableTransformer Anwendung}, label={lst:observable-transformer-usage}, language=Kotlin]
@@ -422,9 +422,9 @@ Observable.fromIterable([1,2,3])
 	.subscribe(::println)
 \end{lstlisting}
 \bigskip
-Die 'intToStringTransformer' Variable findet ihren Einsatz im Verbund mit dem 'compose' Operator und verwandelt jeden 'Integer' in einen 'String'. Hierzu ruft dieser die 'apply' Methode im 'ObservableTransfer' auf.
+Die »intToStringTransformer« Variable findet ihren Einsatz im Verbund mit dem »compose« Operator und verwandelt jeden »Integer« in einen »String«. Hierzu ruft dieser die »apply« Methode im »ObservableTransfer« auf.
 \\\\
-Von diesem 'ObservableTransformer' erbt die 'MviActionTransformer' Klasse und muss dementsprechenden die generischen Parameter übernehmen. Hinzu kommt, das der benötigte 'StateManger' für seine Vollständigkeit ebenfalls einem bedarf. In der Klassen Definition von Listing
+Von diesem »ObservableTransformer« erbt die »MviActionTransformer« Klasse und muss dementsprechenden die generischen Parameter übernehmen. Hinzu kommt, das der benötigte »StateManger« für seine Vollständigkeit ebenfalls einem bedarf. In der Klassen Definition von Listing
 \ref{lst:mvi-transformer-def}
 \begin{lstlisting}[caption={MviActionTransformer Definition}, label={lst:mvi-transformer-def},
 language=Kotlin]
@@ -432,12 +432,12 @@ abstract class MviActionTransformer<S : MviState, A : MviAction,
 	R : MviResult> 
 \end{lstlisting}
 \bigskip
-wird vom dem zudem vom 'abstract' Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der 'apply' Methode von Nöten. Dies wird erst in den vom 'MviActionTransformer' abstammenden Klassen verlangt.
+wird vom dem zudem vom »abstract« Schlüsselwort Gebrauch gemacht. Dies führt dazu, dass von dieser Klasse keine Instanz erstellt werden kann, da sie als Basisklassen herhalten soll. Somit ist auch keine Implementation der »apply« Methode von Nöten. Dies wird erst in den vom »MviActionTransformer« abstammenden Klassen verlangt.
 \\\\
-Im nächsten Schritt wird genau wie im 'StateManager' zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein 'Observable' verwendet wird. Im ersten Anlauf ergeben sich dafür zwei Optionen:
+Im nächsten Schritt wird genau wie im »StateManager« zu Beginn die Methode implementiert, welche den derzeitigen Zustand verändern darf. Im Unterschied zur der dort ansässigen muss dieser hier dem reaktiven Aspekt Genüge tun, indem als Rückgabetyp ein »Observable« verwendet wird. Im ersten Anlauf ergeben sich dafür zwei Optionen:
 \begin{enumerate}
-	\item Eine Funktion, die einen generischen Parameter  (Wert in Arbeit) sowie eine 'reducer' Funktion erhält und intern ein 'Observable' generiert
-	\item Eine Funktion, die eine 'reducer' Funktion erhält und den bereits vorgestellten 'ObservableTransformer' nutzt
+	\item Eine Funktion, die einen generischen Parameter  (Wert in Arbeit) sowie eine »reducer« Funktion erhält und intern ein »Observable« generiert
+	\item Eine Funktion, die eine »reducer« Funktion erhält und den bereits vorgestellten »ObservableTransformer« nutzt
 \end{enumerate}
 Für Nummer eins kann folgende Implementation in Listing
 \ref{lst:versuch-1}
@@ -456,9 +456,9 @@ protected fun <T : Any> reduceState(
 	}
 }
 \end{lstlisting}
-Hier wird mithilfe von 'Observable.fromCallable' ein 'Observable' erzeugt, in dessen Funktionsrumpf die 'reduce' Methode vom 'StateManager'  mit der bereitgestellten 'reducer' Funktion aufgerufen wird. Damit der derzeitige Wert im weiteren Verlauft nicht verloren geht, wird dieser am Ende zurückbegeben.
+Hier wird mithilfe von »Observable.fromCallable« ein »Observable« erzeugt, in dessen Funktionsrumpf die »reduce« Methode vom »StateManager«  mit der bereitgestellten »reducer« Funktion aufgerufen wird. Damit der derzeitige Wert im weiteren Verlauft nicht verloren geht, wird dieser am Ende zurückbegeben.
 \\\\
-Bei Nummer zwei kann der 'value' Parameter gespart werden, da dieser über 'upstream' mitgeliefert wird:
+Bei Nummer zwei kann der »value« Parameter gespart werden, da dieser über »upstream« mitgeliefert wird:
 \begin{lstlisting}[caption={2. Versuch}, label={lst:versuch-2},language=Kotlin]
 protected fun <T : Any> reduceState(
 	reducer: (currentState: S) -> S) =
@@ -488,11 +488,11 @@ upstream.map { TestMviResult.TestResult }
 })
 \end{lstlisting}
 \bigskip
-Ein andere Alternative stellt die Entwicklung eines Operators eigens für 'RxJava' dar, jedoch gestaltet sich dies als durchaus komplex.
+Ein andere Alternative stellt die Entwicklung eines Operators eigens für »RxJava« dar, jedoch gestaltet sich dies als durchaus komplex.
 \cite{rxjavaCustomOperator}
-Damit dem aus den Weg gegangen und auch die Einfachheit der Methode verbessert werden kann, ist der Einsatz einer Erweiterungsfunktion naheliegend. Bevor sich diesem allerdings gewidmet wird, muss ein Konzept der Kotlin Programmiersprache behandelt werden: 'inline' Funktionen.
+Damit dem aus den Weg gegangen und auch die Einfachheit der Methode verbessert werden kann, ist der Einsatz einer Erweiterungsfunktion naheliegend. Bevor sich diesem allerdings gewidmet wird, muss ein Konzept der Kotlin Programmiersprache behandelt werden: »inline« Funktionen.
 \\\\
-Infolge der Tatsache, das Kotlin zu JVM Bytecode kompiliert wird und Java von Haus aus keine Funktionen höherer Ordnung unterstützt, muss für jedes dieser eine Klasse bzw. ein Objekt erstellt werden. Besonders wen, dies innerhalb einer Schleife passiert, geht es einher mit der zusätzlichen Zuweisung von (Arbeits-)Speicher und kostet damit auch Performanz hinsichtlich des Leistungsverhalten. Um dem Vorzubeugen existiert die Möglichkeit, den Inhalt einer Funktionen an die Stelle zu kopieren an der sie aufgerufen wird. Für diesen Zweck stellt Kotlin das Schlüsselwort 'inline' bereit, dass wie in Listing 
+Infolge der Tatsache, das Kotlin zu JVM Bytecode kompiliert wird und Java von Haus aus keine Funktionen höherer Ordnung unterstützt, muss für jedes dieser eine Klasse bzw. ein Objekt erstellt werden. Besonders wen, dies innerhalb einer Schleife passiert, geht es einher mit der zusätzlichen Zuweisung von (Arbeits-)Speicher und kostet damit auch Performanz hinsichtlich des Leistungsverhalten. Um dem Vorzubeugen existiert die Möglichkeit, den Inhalt einer Funktionen an die Stelle zu kopieren an der sie aufgerufen wird. Für diesen Zweck stellt Kotlin das Schlüsselwort »inline« bereit, dass wie in Listing 
 \ref{lst:inline}
 in der Methodendefinition platziert wird.
 \begin{lstlisting}[caption={inline}, label={lst:inline},language=Kotlin]
@@ -523,12 +523,12 @@ public static final void main(@NotNull String[] args) {
 \bigskip
 Listing
 \ref{lst:inline-compiled}
-zeigt, dass die 'multiplyByTwo' Methode nicht aufgerufen wird.
+zeigt, dass die »multiplyByTwo« Methode nicht aufgerufen wird.
 \\\\
-Eine Gefahr die in Betracht gezogen werden muss ist, dass sich innerhalb der übergebenen, anonymen Funktionen ein 'return' Statement befinden kann. Dies mag dazu führen, dass die umschließende (Aufrufer-) Funktion eventuell früher verlassen wird als gewollt. Listing
+Eine Gefahr die in Betracht gezogen werden muss ist, dass sich innerhalb der übergebenen, anonymen Funktionen ein »return« Statement befinden kann. Dies mag dazu führen, dass die umschließende (Aufrufer-) Funktion eventuell früher verlassen wird als gewollt. Listing
 \ref{lst:inline-return}
 verdeutlicht die Problematik.
-\begin{lstlisting}[caption={inline mit 'return'}, label={lst:inline-compiled},language=Kotlin]
+\begin{lstlisting}[caption={inline mit »return«}, label={lst:inline-compiled},language=Kotlin]
 // Kotlin
 fun main() {
 	println("Start")
@@ -552,12 +552,12 @@ public static final void main(@NotNull String[] args) {
 }
 \end{lstlisting}
 \bigskip
-Wie zu erkennen ist nach 'System.out.println(var4);' Schluss und 'println("Ende");' wurde nicht übernommen. Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: 'crossinline'. Dies besagt ganz einfach, dass ein 'return' Statement in der übergebenen Funktion nicht gestattet ist.
+Wie zu erkennen ist nach »System.out.println(var4);« Schluss und »println("Ende");« wurde nicht übernommen. Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: »crossinline«. Dies besagt ganz einfach, dass ein »return« Statement in der übergebenen Funktion nicht gestattet ist.
 \\\\
-Unter mithilfe der soeben vorgestellten Konzepten und Schlüsselwörter lässt sich die 'reduceState' Methode nach Listing
+Unter mithilfe der soeben vorgestellten Konzepten und Schlüsselwörter lässt sich die »reduceState« Methode nach Listing
 \ref{lst:reduce-state}
 effizient und elegant umsetzen.
-\begin{lstlisting}[caption={'reduceState' Methode}, label={lst:reduce-state},language=Kotlin]
+\begin{lstlisting}[caption={»reduceState« Methode}, label={lst:reduce-state},language=Kotlin]
 typealias Reducer<S, T> = (value: T, currentState: S) -> S
 
 protected inline fun <T : Any> Observable<T>.reduceState(
@@ -578,11 +578,11 @@ someObservable
 	.map { newValue -> \\... }
 \end{lstlisting}
 \bigskip
-Wie zusehen ist, wird die durch 'currentState.copy(...)' erzeugte Zustands Klasse mit dem neuen Wert nicht an die nächste Methode weitergereicht. Dies sorgt dafür, dass den vordefinierten Methoden ein Zugriff auf den Zustand vorbehalten ist.
+Wie zusehen ist, wird die durch »currentState.copy(...)« erzeugte Zustands Klasse mit dem neuen Wert nicht an die nächste Methode weitergereicht. Dies sorgt dafür, dass den vordefinierten Methoden ein Zugriff auf den Zustand vorbehalten ist.
 \\\\
-Als Ergänzung wird ein weitere Eigenschaft von Kotlin herangezogenen: Die Möglichkeit 'Aliase' unter Einsatz vom Schlüsselwort 'typealias' zu bestimmen. Diese sind besonders hilfreich wenn verschachtelte Typen ('Observable<Result<List<String>>>') oder Funktionen als Parameter vorliegen und häufiger gebraucht werden.
+Als Ergänzung wird ein weitere Eigenschaft von Kotlin herangezogenen: Die Möglichkeit »Aliase« unter Einsatz vom Schlüsselwort »typealias« zu bestimmen. Diese sind besonders hilfreich wenn verschachtelte Typen (»Observable<Result<List<String>>>«) oder Funktionen als Parameter vorliegen und häufiger gebraucht werden.
 \\\\
-Ein Vorteil dieser Lösung ist, dass die Erweiterungsfunktion nur innerhalb einer Klasse sichtbar ist, die von 'MviActionTransformer' abstammt. Unter diesen Voraussetzungen findet auch die Implementierung der anderen Methoden 'mapWithState' und 'flatMapWithState' statt. Am Ende lässt sich damit ein wie in Listing
+Ein Vorteil dieser Lösung ist, dass die Erweiterungsfunktion nur innerhalb einer Klasse sichtbar ist, die von »MviActionTransformer« abstammt. Unter diesen Voraussetzungen findet auch die Implementierung der anderen Methoden »mapWithState« und »flatMapWithState« statt. Am Ende lässt sich damit ein wie in Listing
 \ref{lst:example-transformer}
 Beispielhafte Implementierung erzielen. 
 \begin{lstlisting}[caption={Beispiel Implementation}, label={lst:example-transformer},language=Kotlin]
@@ -612,10 +612,10 @@ class SomeTransformer(
 \end{lstlisting}
 
 \subsection{MviController}
-Ähnlich wie der 'MviTransformer' erhält auch diese Komponente mehrere generische Parameter, sowie den geforderten initialen Zustand und eine Liste mit allen zugehörigen 'MviActionTransormer' Klassen. Beide sind hierbei durch 'val' an ihren anfänglichen Wert gebunden. Dies verhindert jedoch nicht, das Daten innerhalb einer Klasse verändert werden können. So kann in Java beispielsweise einer Liste ein Wert hinzugefügt oder aus dieser entfernt werden.
+Ähnlich wie der »MviTransformer« erhält auch diese Komponente mehrere generische Parameter, sowie den geforderten initialen Zustand und eine Liste mit allen zugehörigen »MviActionTransormer« Klassen. Beide sind hierbei durch »val« an ihren anfänglichen Wert gebunden. Dies verhindert jedoch nicht, das Daten innerhalb einer Klasse verändert werden können. So kann in Java beispielsweise einer Liste ein Wert hinzugefügt oder aus dieser entfernt werden.
 \\\\
-Um auch in diesem Fall die Unveränderlichkeit zu wahren, ist der Griff zu Drittanbieter-Software (3rd Party Libraries zu Englisch) eine gern genutzte Option. Mit Kotlin ist dies aber nicht zwingend nötig, denn es unterscheidet zwischen veränderlichen und unveränderlichen Listen. Ersteres wird durch 'MutableList' und zweites durch 'List' erreicht. Hierbei ist allerdings wichtig zu wissen, dass beide keine Implementierungen sondern lediglich ein Interface darstellen, in dem  Methoden für Schreiboperation präsent sind oder nicht. Dafür wird eine Liste auf Basis der Java 'Collection' erzeugt und in das jeweilige Interface (implizit) umgewandelt. Dies hat zur Folge, dass ein 'List' zu jederzeit in eine 'MutableList' verwandelt ('casted') werden kann:
-\begin{lstlisting}[caption={'List' und 'MutableList'}, label={lst:list-and-mutable-list},language=Kotlin]
+Um auch in diesem Fall die Unveränderlichkeit zu wahren, ist der Griff zu Drittanbieter-Software (3rd Party Libraries zu Englisch) eine gern genutzte Option. Mit Kotlin ist dies aber nicht zwingend nötig, denn es unterscheidet zwischen veränderlichen und unveränderlichen Listen. Ersteres wird durch »MutableList« und zweites durch »List« erreicht. Hierbei ist allerdings wichtig zu wissen, dass beide keine Implementierungen sondern lediglich ein Interface darstellen, in dem  Methoden für Schreiboperation präsent sind oder nicht. Dafür wird eine Liste auf Basis der Java »Collection« erzeugt und in das jeweilige Interface (implizit) umgewandelt. Dies hat zur Folge, dass ein »List« zu jederzeit in eine »MutableList« verwandelt (»casted«) werden kann:
+\begin{lstlisting}[caption={»List« und »MutableList«}, label={lst:list-and-mutable-list},language=Kotlin]
 val list = listOf(1,2,3)
 val mutableList = mutableListOf(1,2,3)
 
@@ -635,11 +635,11 @@ abstract class MviController<S : MviState, I : MviIntent<A>,
 	private val actionTransformerKClassList: List<KClass<*>>)
 \end{lstlisting}
 \bigskip
-Um die 'actionTransformerMap' in Form einer 'HashMap<String, ObservableTransformer<A, R>>' zu füllen, muss ersten Schritt aus der 'KClass' eine Instanz vom Typ 'ObservableTransformer' erstellt werden. Hierzu kann auf ein Attribut namens 'primaryConstructor' zurückgegriffen werden, welches - wie der Name vermuten lässt - den primären Konstruktor als 'KFunction' bereitstellt. Der Tatsache geschuldet, das der Rückgabewert 'null' sein kann, muss diesem ein doppeltes Ausrufezeichen angestellt werden um dem Compiler mitzuteilen, dass dem nicht so ist.
+Um die »actionTransformerMap« in Form einer »HashMap<String, ObservableTransformer<A, R>>« zu füllen, muss ersten Schritt aus der »KClass« eine Instanz vom Typ »ObservableTransformer« erstellt werden. Hierzu kann auf ein Attribut namens »primaryConstructor« zurückgegriffen werden, welches - wie der Name vermuten lässt - den primären Konstruktor als »KFunction« bereitstellt. Der Tatsache geschuldet, das der Rückgabewert »null« sein kann, muss diesem ein doppeltes Ausrufezeichen angestellt werden um dem Compiler mitzuteilen, dass dem nicht so ist.
 \\\\
-'KFunction' wiederum birgt eine Funktion, die es erlaubt den Konstruktor aufzurufen. Infolge der Tatsache das dieser Argumente beinhalten kann bietet die Funktion 'call' einen Parameter mit dem Schlüsselwort 'vararg' und dem Typ 'Any?. Damit können beliebig viele Argumente mit unterschiedlichen Werten übergeben werden. Überdies muss darauf geachtet werden, dass die Reihenfolge genau der entsprechen muss, wie sie im Konstruktor des zu erstellenden Objekts anzutreffen ist. Zuletzt erfolgt über einen expliziten 'cast' die Umwandlung von 'Any' zum 'ObservableTransformer'. 
+»KFunction« wiederum birgt eine Funktion, die es erlaubt den Konstruktor aufzurufen. Infolge der Tatsache das dieser Argumente beinhalten kann bietet die Funktion »call« einen Parameter mit dem Schlüsselwort »vararg« und dem Typ »Any«. Damit können beliebig viele Argumente mit unterschiedlichen Werten übergeben werden. Überdies muss darauf geachtet werden, dass die Reihenfolge genau der entsprechen muss, wie sie im Konstruktor des zu erstellenden Objekts anzutreffen ist. Zuletzt erfolgt über einen expliziten »cast« die Umwandlung von »Any« zum »ObservableTransformer«. 
 \\\\
-Hier macht sich der angesprochene Verlust der Typsicherheit bei der Verwendung von Reflexion bemerkbar: Wird die Reihenfolge nicht beachtet, so erfolgt kein Hinweis des Compiler - stattdessen kommt es zu einem Fehler zur Laufzeit des Programms. Und wird nach 'as' nicht der korrekte Typ angegeben, so führt dies ebenfalls zu einem Laufzeitfehler. Nach Listing
+Hier macht sich der angesprochene Verlust der Typsicherheit bei der Verwendung von Reflexion bemerkbar: Wird die Reihenfolge nicht beachtet, so erfolgt kein Hinweis des Compiler - stattdessen kommt es zu einem Fehler zur Laufzeit des Programms. Und wird nach »as« nicht der korrekte Typ angegeben, so führt dies ebenfalls zu einem Laufzeitfehler. Nach Listing
 \ref{lst:transfomer-create}
 \begin{lstlisting}[caption={Konsruktor}, label={lst:transfomer-create},language=Kotlin]
 val transformer = kClass
@@ -647,12 +647,12 @@ val transformer = kClass
 			.call(StateManager(initialState)) 
 				as ObservableTransformer<A, R>
 \end{lstlisting}
-ist der 'ObservableTransformer' erzeugt wurden, welcher als Wert in der 'HashMap' platz nehmen wird.
+ist der »ObservableTransformer« erzeugt wurden, welcher als Wert in der »HashMap« platz nehmen wird.
 \\\\
-Als nächstes gilt es den Schlüssel zum gerade erstellten 'ObservableTransformer' in Form des Namens seiner 'MviAction' abstammenden Klasse zu finden. Dieser lässt sich aus der Liste der Supertypen der jeweiligen  'MviController' Klasse entnehmen. Dafür gibt es das Attribut 'superTypes', welches diese als Liste in der Reihenfolge in der sie angegeben wurden enthält. Der 'MviController' befindet sich an erster Stelle und kann daher über den Index Null angesprochen werden. An diesem selbst liegt das Argument der 'MviAction' an zweiter Position und kann mittels des Attribut 'arguments' über den Index eins angesprochen werden. Zuletzt ist mit dem 'type' Attribut und der Methode 'toString' der Klassenname der 'MviAction' verfügbar. Listing
+Als nächstes gilt es den Schlüssel zum gerade erstellten »ObservableTransformer« in Form des Namens seiner »MviAction« abstammenden Klasse zu finden. Dieser lässt sich aus der Liste der Supertypen der jeweiligen  »MviController« Klasse entnehmen. Dafür gibt es das Attribut »superTypes«, welches diese als Liste in der Reihenfolge in der sie angegeben wurden enthält. Der »MviController« befindet sich an erster Stelle und kann daher über den Index Null angesprochen werden. An diesem selbst liegt das Argument der »MviAction« an zweiter Position und kann mittels des Attribut »arguments« über den Index eins angesprochen werden. Zuletzt ist mit dem »type« Attribut und der Methode »toString« der Klassenname der »MviAction« verfügbar. Listing
 \ref{lst:mviaction-name}
 zeigt die durch die Beschreibung erhaltene Implementation. 
-\begin{lstlisting}[caption={'MviAction' Name }, label={lst:mviaction-name},language=Kotlin]
+\begin{lstlisting}[caption={»MviAction« Name }, label={lst:mviaction-name},language=Kotlin]
 val actionName = kClass
 	.supertypes[0]
 	.arguments[1]
@@ -660,14 +660,14 @@ val actionName = kClass
 	.toString()
 \end{lstlisting}
 \bigskip
-Da es sich um eine Liste von 'MviActionTransfromer' handelt, muss dies für jedes Element vorgenommen werden. Um dem funktionalem Paradigma treu zu bleiben wird auf die 'Collections' API zurückgegriffen die, ähnlich der Java 'Stream' API, Methoden anbieten welche auf Basis von anonymen Funktion arbeiten.
-Gesucht wird eine Methode, die über die Liste iteriert und einen neuen Wert zurückgeben kann. Dafür eignet sich die 'map' Methode. In ihr wird der Code aus Listing
+Da es sich um eine Liste von »MviActionTransfromer« handelt, muss dies für jedes Element vorgenommen werden. Um dem funktionalem Paradigma treu zu bleiben wird auf die »Collections« API zurückgegriffen die, ähnlich der Java »Stream« API, Methoden anbieten welche auf Basis von anonymen Funktion arbeiten.
+Gesucht wird eine Methode, die über die Liste iteriert und einen neuen Wert zurückgeben kann. Dafür eignet sich die »map« Methode. In ihr wird der Code aus Listing
 \ref{lst:transfomer-create}
 und
 \ref{lst:mviaction-name}
-angewandt, wobei die Klasse und der Name als Paar zurückkommen. Ist die ganze Liste durchlaufen wurden, so ist das Ergebnis eine Liste von Paaren mit 'ObservableTransformer' und 'String' (Name der 'MviAction') als Inhalt.
+angewandt, wobei die Klasse und der Name als Paar zurückkommen. Ist die ganze Liste durchlaufen wurden, so ist das Ergebnis eine Liste von Paaren mit »ObservableTransformer« und »String« (Name der »MviAction«) als Inhalt.
 \\\\
-Im letzten Schritt muss aus der Liste eine 'HashMap' werden. Um den Fluss mit an aneinandergereihten Funktionen aufrecht zu erhalten und keine temporären Variablen anlegen zu müssen, wird erneut in Kotlins Trickkiste gegriffen. Im Zusammenspiel aus Funktionen höherer Ordnung und Erweiterungsfunktionen lassen sich sogenannte Funktionsliterale mit Empfängern bilden. Listing
+Im letzten Schritt muss aus der Liste eine »HashMap« werden. Um den Fluss mit an aneinandergereihten Funktionen aufrecht zu erhalten und keine temporären Variablen anlegen zu müssen, wird erneut in Kotlins Trickkiste gegriffen. Im Zusammenspiel aus Funktionen höherer Ordnung und Erweiterungsfunktionen lassen sich sogenannte Funktionsliterale mit Empfängern bilden. Listing
 \ref{lst:function-literal-with-receiver}
 gibt ein Beispiel.
 \begin{lstlisting}[caption={Funktionsliteral mit Empfänger}, label={lst:function-literal-with-receiver},language=Kotlin]
@@ -684,9 +684,9 @@ fun <T> buildList(block: MutableList<T>.() -> Unit): List<T> {
 }
 \end{lstlisting}
 \bigskip
-In dieser Methode wird 'MutableList<T>' als Empfängern festgelegt und eine temporäre, anonyme Funktionen erweitert. Die in der 'buildList<Int>' anonymen Funktion spezifizierten Operation werden im Folge des Aufrufs auf der Liste angewandt. Anders ausgedrückt handelt es sich hierbei schlicht um temporäre Erdweiterfunktionen die für den Zeitraum des Aufrufs der Funktionen existieren.
+In dieser Methode wird »MutableList<T>« als Empfängern festgelegt und eine temporäre, anonyme Funktionen erweitert. Die in der »buildList<Int>« anonymen Funktion spezifizierten Operation werden im Folge des Aufrufs auf der Liste angewandt. Anders ausgedrückt handelt es sich hierbei schlicht um temporäre Erdweiterfunktionen die für den Zeitraum des Aufrufs der Funktionen existieren.
 \\\\
-Kotlin geht noch einen Schritt weiter und bietet dies Art von Funktionen auf generischen Typen an, genannt 'scope functions'. Eine Methode ist 'apply', die obiges Beispiel weiter vereinfacht:
+Kotlin geht noch einen Schritt weiter und bietet dies Art von Funktionen auf generischen Typen an, genannt »scope functions«. Eine Methode ist »apply«, die obiges Beispiel weiter vereinfacht:
 \begin{lstlisting}[caption={apply Funktion}, label={lst:apply-function},language=Kotlin]
 public inline fun <T> T.apply(block: T.() -> Unit): T {
 	block()
@@ -698,7 +698,7 @@ mutableList<Int>().apply{
 }
 \end{lstlisting}
 \bigskip
-Hiermit lässt sich der Rest Implementieren und eine 'HashMap' erzeugen:
+Hiermit lässt sich der Rest Implementieren und eine »HashMap« erzeugen:
 \begin{lstlisting}[caption={apply Funktion}, label={lst:apply-function},language=Kotlin]
 val actionTransformerMap = actionTransformerKClassList
 	.map { \\ ...}
@@ -710,7 +710,7 @@ val actionTransformerMap = actionTransformerKClassList
 }
 \end{lstlisting}
 \bigskip
-Mit der 'actionTransformerMap' im Rücken erfolgt die Umsetzung der Model-Funktion. Sie wird als eine auf dem Observable<A>' fungierende Erweiterungsfunktion definiert und entnimmt der 'actionTransformerMap' auf Basis des vorliegenden 'MviAction' Namens  ein 'ObservableTransformer'. Dieser wird mit 'compose' innerhalb der 'flatMap' Methode ausgeführt.
+Mit der »actionTransformerMap« im Rücken erfolgt die Umsetzung der Model-Funktion. Sie wird als eine auf dem »Observable<A>« fungierende Erweiterungsfunktion definiert und entnimmt der  »actionTransformerMap« auf Basis des vorliegenden »MviAction« Namens  ein »ObservableTransformer«. Dieser wird mit »compose« innerhalb der »flatMap« Methode ausgeführt.
 \\\\
 Damit lassen auch die letzten beiden Methoden implementieren, wobei Listing
 \ref{lst:controller-final}
@@ -733,7 +733,7 @@ private fun Observable<A>.model(): Observable<R> =
 \end{lstlisting}
 
 \subsection{MviView}
-Die letzte Komponente kommt in den Klassen zum Einsatz, die für Darstellung des UI zuständig sind: 'Activty', 'Fragment' und 'Custom Views'.
+Die letzte Komponente kommt in den Klassen zum Einsatz, die für Darstellung des UI zuständig sind: »Activty«, »Fragment« und »Custom Views«.
 
 \begin{lstlisting}[caption={MviView}, label={lst:mvi-view},language=Kotlin]
 interface MviView<C : MviController<*, *, *, *>, R : MviResult>{
@@ -744,25 +744,25 @@ interface MviView<C : MviController<*, *, *, *>, R : MviResult>{
 }
 \end{lstlisting}
 \bigskip
-Bevor ein Beispiel für eine Anwendung gegeben werden kann, muss geklärt werden, wie man 'Intent', 'Action' und 'Result' in Kotlin Implementiert. 
+Bevor ein Beispiel für eine Anwendung gegeben werden kann, muss geklärt werden, wie man »Intent«, »Action« und »Result« in Kotlin Implementiert. 
 \subsection{Intent, Action, Result - Mögliche Anwendung}
 Jeder Intention geht ein Ereignis voraus, das entweder vom Nutzer oder der Anwendung selbst initiiert wurde. Es stellt dabei den Einstieg in den von MVI definierten Kreislauf (aus Abbildung) dar. 
 \\
-Klickt der Nutzer in einer Anwendung auf einen 'Zurück' Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.
+Klickt der Nutzer in einer Anwendung auf einen »Zurück« Knopf, so ist seine Intention zum vorherigen Bildschirm zurückzukehren oder die Anwendung zu beenden. Dieses Ereignis kann ohne weitere Informationen stattfinden. Anders ist es, wenn seitens des Nutzers innerhalb eine Liste ein Item ausgewählt wird und dessen Details gelistet werden sollen. Hierfür muss zusätzlich zu der eigentlichen Intention das ausgewählte Item (oder seine ID) übermittelt werden.
 \\
-Daraus ergeben sich zwei Arten von 'Intents': Eines ohne und eines mit zusätzlichen Nutzdaten (Englisch payload). Dies bedeutet, dass eine Struktur existieren muss, die entweder Daten beinhaltet oder nur eine semantische Bedeutung hat.
+Daraus ergeben sich zwei Arten von »Intents«: Eines ohne und eines mit zusätzlichen Nutzdaten (Englisch payload). Dies bedeutet, dass eine Struktur existieren muss, die entweder Daten beinhaltet oder nur eine semantische Bedeutung hat.
 \begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse}, language=Kotlin]
 class Intent<T> (val payload: T)
 \end{lstlisting}
 \bigskip
 Für diesen Fall eignet sich eine Klasse mit einem generischen Typ als Attribut, wie Listing
 \ref{lst:intent-klasse}
-zeigt. Das '<T>' in der Klassen Deklaration dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein 'Item' aus dem obigen Beispiel.
+zeigt. Das »<T>« in der Klassen Deklaration dient dabei als Platzhalter für den eigentlich Typ, z.B. für ein »Item« aus dem obigen Beispiel.
 \\
 Die aufgezeigte Option weißt jedoch gewisse Mängel auf:
 \begin{enumerate}
-	\item Der 'Payload' darf niemals 'null' sein
-	\item Der Name 'Intent' transportiert die eigentliche Absicht nicht
+	\item Der »Payload« darf niemals »null« sein
+	\item Der Name »Intent« transportiert die eigentliche Absicht nicht
 \end{enumerate}
 \bigskip
 Mangel Nr. 1 lässt sich mit einer einfachen Abwandlung von Listing
@@ -772,7 +772,7 @@ behoben werden.
 class Intent<T> (val payload: T? = null)
 \end{lstlisting}
 \bigskip
-Hierfür muss lediglich von Kotlins Notation für 'null'-Typen gebraucht gemacht werden: Das Fragezeichen. Um zu vermeiden, das bei dem erstellen einer Klasse ohne Inhalt stets 'null' übergeben werden muss, wird ein Standardparameter verwendet. Listing
+Hierfür muss lediglich von Kotlins Notation für »null«-Typen gebraucht gemacht werden: Das Fragezeichen. Um zu vermeiden, das bei dem erstellen einer Klasse ohne Inhalt stets »null« übergeben werden muss, wird ein Standardparameter verwendet. Listing
 \ref{lst:intent-klasse-2}
 stellt die Anpassungen dar.
 \\
@@ -787,7 +787,7 @@ enum class IntentDescription {
 }
 \end{lstlisting}
 \bigskip
-Bei Ansatz Nummer Eins ist ein potenzieller Kandidat die Verwendung eines 'enum'. Diese kann durch Konstanten (Listing 
+Bei Ansatz Nummer Eins ist ein potenzieller Kandidat die Verwendung eines »enum«. Diese kann durch Konstanten (Listing 
 \ref{lst:intent-enum} gibt einen Eindruck
 ) zum Ausdruck bringen, um welche Intention es sich handelt. Im nächsten Schritt muss das Enum als Attribut in der Intent Klasse hinterlegt werden:
 \begin{lstlisting}[caption={Intent Klasse}, label={lst:intent-klasse-2}, language=Kotlin]
@@ -803,12 +803,12 @@ class Intent<T> (
 val intent = Intent(description = IntentDescription.GO_BACK)
 \end{lstlisting}
 \bigskip
-Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein 'payload' von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden 'null' Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der 'NullPointer Exception' über den Weg zu laufen.
+Aber auch diese Lösung ist suboptimal: Ungeachtet der Absicht ist immer ein »payload« von Nöten, selbst wenn dieser für das weitere Vorgehen nicht verwendet wird. Dies mag in wenigen Fälligen vertretbar sein, wird bei einer hören Anzahl an Intention unübersichtlich. Zusätzlich sollte immer versucht werden »null« Werten aus dem Weg zu gehen, wenn nicht zwingend erforderlich. Dies verringert die Gefahr unerwartet der »NullPointer Exception« über den Weg zu laufen.
 \\
 \\
-Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller für jede Intention eine Klasse zu kreieren. Bei dieser Variante ergeben sich zwei Eigenschaften: Jeder dieser Klassen stellt übergeordnet einen 'Intent' dar und enthält möglicherweise einen 'payload', welcher niemals 'null' ist.
+Ein besser Ansatz bildet dabei Nummer zwei. Anstatt mit einer Klasse sämtliche Intentionen abbilden zu wollen, erscheint es sinnvoller für jede Intention eine Klasse zu kreieren. Bei dieser Variante ergeben sich zwei Eigenschaften: Jeder dieser Klassen stellt übergeordnet einen »Intent« dar und enthält möglicherweise einen »payload«, welcher niemals »null« ist.
 \\
-Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen 'Produkt' und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
+Für dieses Szenario existiert ein Konzept das aus zwei Konstrukten hervorgehen kann. Das erste trägt den Namen »Produkt« und charakterisiert eine fundamentale Eigenschaft der Objekt Orientierten Programmierung. Es sagt aus, das mehrere unterschiedlichen Werte ein einzigen Wert bilden können. Darunter fällt bswp. eine Klasse in Java oder Kotlin.
 \\
 Das zweite Konstrukt, die Summe von Werten liegt vor, wenn anstatt von mehreren Werte zu einem entweder ein Typ oder ein anderer vorliegt. Es ist somit keine Kombination von Werten wie beim Produkt, sondern die Entscheidung für einen der Angegebenen. Das Enum wie in Listing
 \ref{lst:summen-typ}
@@ -829,11 +829,11 @@ print(color is GREEN) // false
 Vereint man beide Konstrukte, so ergibt sich die Idee eines algebraischen Daten Typen, der zusätzlich 
 auch primitive Werte umfassen kann. Das Ziel ist, Daten die zusammengehören und einen gemeinsamen Nenner 
 besitzen in einer übersichtlichen und transparenten Form darzustellen. Der Grund, warum diese Typen als 
-'algebraisch' bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die »Summe« oder das 
-'Produkt' bestehender Typen nimmt.
+»algebraisch« bezeichnet werden, ist, dass man neue Typen erschaffen kann, indem die »Summe« oder das 
+»Produkt« bestehender Typen nimmt.
 \\
 \\
-In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem 'sealed' Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
+In Kotlin existiert für diesen speziellen Fall eine bestimmte Form der Klasse, die ihn ihrer Deklaration mit dem »sealed« Schlüsselwort eingeleitet wird. Dies macht es möglich, Listing 
 \ref{lst:intent-klasse-2}
 funktionaler und eleganter zum implementieren:
 \begin{lstlisting}[caption={Intents als sealded class}, label={lst:intents-sealed-class}, language=Kotlin]
@@ -847,11 +847,11 @@ sealed class Intent {
 \end{lstlisting}
 \bigskip
 Mit diesem Ansatz verschwindet die Notwendigkeit für einen generischen Typ und das Vorhandensein von 
-'null' Werten. Des weiteren ist mit einem Blick erkennbar welche 'Intents' vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
+»null« Werten. Des weiteren ist mit einem Blick erkennbar welche »Intents« vorkommen, sowie ihre Bedeutung und, wenn definiert, ihr Inhalt. Anders ausgedrückt dienen versiegelte Klassen zur Darstellung 
 eingeschränkter Klassenhierarchien. Dann, wenn ein Wert einen Typ aus einer begrenzten Menge haben kann, 
 aber keinen anderen Typ haben darf. Sie sind in gewisser Weise eine Erweiterung der Enum-Klassen: Der 
 Wertebereich für einen Enum-Typ ist ebenfalls eingeschränkt, aber jede Enum-Konstante existiert nur 
 einmal. Eine Unterklasse einer versiegelten Klasse kann derweil mehrere Instanzen haben, die überdies 
 einen Zustand enthalten kann. Zu beachten gilt außerdem, das in Kotlin sich dieses Konstrukt innerhalb einer Datei befinden muss und nicht über mehrere verstreut sein darf.
 \\\\
-Der hier aufgeführte Ansatz kann dabei ebenfalls für alle 'Actions' und 'Results' verwendet werden.
+Der hier aufgeführte Ansatz kann dabei ebenfalls für alle »Actions« und »Results« verwendet werden.
