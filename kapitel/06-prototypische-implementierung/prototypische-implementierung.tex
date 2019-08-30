@@ -179,7 +179,7 @@ Angesichts dieser Auflistung lässt sich festhalten, dass der Gebrauch von Refle
 Ein andere Methodik besteht in der Generierung von Code. Hierbei wird ein Programm geschrieben, welches wiederum ein anderes Programm erzeugt. Ein Grund kann z.B. ein repetitiver Prozess sein, der somit automatisiert werden kann. Eine beliebtes Verfahren ist das Produzieren von Klassen basierend auf ».json« Dateien.
 \\
 \\
-Mithilfe der Bibliothek "KotlinPoet" kann durch folgenden Code...
+Mithilfe der Bibliothek »KotlinPoet« kann durch folgenden Code...
 \begin{lstlisting}[caption={Code zum erezugen einer Funktion}, label={lst:data-class}, language=Kotlin]
 FunSpec.builder("add")
 	.addParameter("a", Int::class)
@@ -476,7 +476,7 @@ protected fun <T : Any> reduceState(
 Beide Version erfüllen ihren Zweck, wirken allerdings wie Listing 
 \ref{lst:tranformer-reduce-usage}
 zeigt etwas umständlich in ihrer Anwendung, trotz der Verwendung von Anonymen bzw. Lambda-Funktionen.
-\begin{lstlisting}[caption={2. Versuch}, label={lst:versuch-2},language=Kotlin]
+\begin{lstlisting}[caption={2. Versuch}, label={tranformer-reduce-usage},language=Kotlin]
 upstream.map { TestMviResult.TestResult }
 // 1
 .flatMap { reduceState(it) { currentState ->
@@ -552,7 +552,7 @@ public static final void main(@NotNull String[] args) {
 }
 \end{lstlisting}
 \bigskip
-Wie zu erkennen ist nach »System.out.println(var4);« Schluss und »println("Ende");« wurde nicht übernommen. Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: »crossinline«. Dies besagt ganz einfach, dass ein »return« Statement in der übergebenen Funktion nicht gestattet ist.
+Wie zu erkennen ist nach »System.out.println(var4);« Schluss und »println('Ende');« wurde nicht übernommen. Auch in dieser Angelegenheit kann Kotlin mit einem weiteren Schlüsselwort aushelfen: »crossinline«. Dies besagt ganz einfach, dass ein »return« Statement in der übergebenen Funktion nicht gestattet ist.
 \\\\
 Unter mithilfe der soeben vorgestellten Konzepten und Schlüsselwörter lässt sich die »reduceState« Methode nach Listing
 \ref{lst:reduce-state}

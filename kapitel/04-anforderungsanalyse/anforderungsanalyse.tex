@@ -144,8 +144,19 @@ Für eine bessere Übersicht der funktionalen (fa) und nicht funktionalen (nfa) 
 In diesem Kapitel wird ein Blick auf bereits bestehende MVI-Frameworks/Bibliotheken geworfen.
 
 \subsubsection{MVICore}
+\label{subsubsec:mvicore}
 Hierbei handelt es sich um ein auf MVI ausgerichtet Framework dessen Entwicklung seit 2018 auf Github stattfindet.
 \cite{mviCoreGithub}
 Es bietet eine vollständige Abdeckung der von MVI verlangten Komponenten und stellt darüber hinaus weitere Eigenschaften wie »Time Travel Debuggig« und »Middlewares« zur Verfügung.
-
-\subsubsection{Roxie}
+\\\\
+Ähnlich wie im Konzept existiert hier eine Klasse, die den Zustand verwaltet: der 'Store'. Es besteht hierfür aber keine Überprüfung auf Unveränderlichkeit. 
+\\\\
+Eine erweitere Form des 'Store' ist das 'Feature' Interface. Es sind verschiedene »Feature« Implementationen für unterschiedliche Anforderungen vorhanden. Zu gibt es bspw. das »ActorReducerFeature« welches für asynchrone Logik gedacht ist und das arbeiten mit dem Typ »Observable« erlaubt. Darüber erfolgt die Realisierung des Unidirektionalen Datenflusses.
+\\\\
+Ein erstes großes Plus ist das Vorhandensein der automatischen Beendigung von Abonnements die im Zuge der Nutzung von 'Observable' entstehen. Die bedeutet, der Entwickler muss keine Sorge bezüglich eines Speicherlecks haben. Möglich ist dies durch die Bindung des 'Features' an den Lebenszyklus der »View« Komponente. Hierfür existiert eine »Binder« Klasse.
+\\\\
+Ein weiter und wichtiger Pluspunkt ist die automatische Speicher- und Wiederherstellung des Zustands. Damit ist garantiert, dass nach Drehung des Geräts sich der Nutzer in dem selben Zustand wie zuvor befindet.
+\\\\
+Des weiteren wird durch »Middleware« eine Möglichkeit geboten, »Cross-Cutting Concerns« wie z.B. das Loggen als generische Plugins zu implementieren und einem oder mehreren 'Feature' Klassen zuzuweisen.
+\\\\
+Insgesamt übersteigt dieses Framework den Funktionsumfang des hier niedergeschrieben Konzepts und erfüllt soweit alle Anforderungen.

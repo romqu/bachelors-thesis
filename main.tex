@@ -114,6 +114,9 @@
 	urlcolor={blue!70!black}
 }
 
+%\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage[nottoc]{tocbibind}  
+
 \usepackage{enumitem}
 \setlist[enumerate]{label*=\arabic*.}
 
@@ -180,14 +183,21 @@
 		\listoffigures
 	\end{appendix}
 
-	\printbibliography[type=book,title={Book References}]
+	\newpage
+	
+	\begin{thebibliography}
+		
+		\printbibliography[type=book,title={Bücher Referenzen}]
 
-	\printbibliography[type=report,title={Report References}]
-	
-	\printbibliography[type=article,title={Artikel Referenzen}]
-	
-	\printbibliography[type=thesis,title={Thesis References}]
-	
-	\printbibliography[type=online,title={Online References}]
+		\printbibliography[type=report,title={Report Referenzen}]
+		
+		\printbibliography[type=article,title={Artikel Referenzen}]
+		
+		\printbibliography[type=thesis,title={Thesis Referenzen}]
+		
+		\printbibliography[type=online,title={Online Referenzen}]	
+			
+	\end{thebibliography}
+
 	
 \end{document}
